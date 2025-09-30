@@ -1,0 +1,54 @@
+# -----------------------------------------------------------------------------
+# 1. DEPENDENCIES (Thư viện)
+# -----------------------------------------------------------------------------
+
+# Bỏ qua tất cả thư mục node_modules ở mọi cấp độ (apps, packages, gốc)
+node_modules/
+/apps/*/node_modules
+/packages/*/node_modules
+npm-debug.log
+yarn-error.log
+
+# -----------------------------------------------------------------------------
+# 2. BUILD ARTIFACTS (Tệp được tạo ra tự động)
+# -----------------------------------------------------------------------------
+
+# Output của các công cụ build
+/build
+/dist
+/out
+/release
+/temp
+
+# -----------------------------------------------------------------------------
+# 3. REACT NATIVE / ANDROID / IOS SPECIFIC
+# -----------------------------------------------------------------------------
+
+# Các thư mục build của Android và iOS
+/apps/mobile/android/build/
+/apps/mobile/android/app/build/
+/apps/mobile/ios/build/
+/apps/mobile/.expo/ # Cache của Expo
+
+# Tệp cache và log của Metro/React Native
+.rn-web-cache
+.react-native/
+.tmp/
+
+# -----------------------------------------------------------------------------
+# 4. ENVIRONMENT & IDE (Cài đặt cá nhân và Hệ thống)
+# -----------------------------------------------------------------------------
+
+# Windows
+Thumbs.db
+
+# macOS
+.DS_Store
+
+# Cài đặt của Visual Studio Code
+.vscode/
+
+# Tệp chứa biến môi trường (Secrets)
+.env
+.env.local
+.env.*.local
