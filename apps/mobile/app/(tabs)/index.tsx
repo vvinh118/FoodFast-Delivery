@@ -1,98 +1,125 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
-
+// Đây là Component Màn hình chính của ứng dụng
 export default function HomeScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    // SafeAreaView giúp nội dung không bị che bởi tai thỏ (notch) trên điện thoại
+    <SafeAreaView style={styles.container}>
+      
+      {/* 1. Phần Header/Thanh tìm kiếm */}
+      <View style={styles.header}>
+        <Text style={styles.appName}>FoodFast Delivery</Text>
+        <Text style={styles.location}>Giao hàng đến: 172.16.98.188</Text>
+      </View>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      {/* 2. Phần Nội dung có thể cuộn */}
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        
+        {/* Thanh tìm kiếm (Placeholder) */}
+        <View style={styles.searchBar}>
+          <Text style={{ color: '#aaa' }}>Nhấn để tìm kiếm món ăn...</Text>
+        </View>
+
+        {/* Khu vực Danh mục */}
+        <Text style={styles.sectionTitle}>Danh Mục Phổ Biến</Text>
+        <View style={styles.categoryRow}>
+          {/* Bạn sẽ thay thế bằng Component Category sau này */}
+          <Text style={styles.categoryItem}>🍔 Burger</Text>
+          <Text style={styles.categoryItem}>🍕 Pizza</Text>
+          <Text style={styles.categoryItem}>🍜 Mì</Text>
+        </View>
+
+        {/* Khu vực Danh sách Sản phẩm */}
+        <Text style={styles.sectionTitle}>Món Ngon Gần Bạn</Text>
+        {/* Thẻ sản phẩm mẫu (Placeholder) */}
+        <View style={styles.productCard}>
+            <Text style={styles.productName}>Món Ăn Số 1</Text>
+            <Text style={styles.productPrice}>69.000 VNĐ</Text>
+        </View>
+        <View style={styles.productCard}>
+            <Text style={styles.productName}>Món Ăn Số 2</Text>
+            <Text style={styles.productPrice}>45.000 VNĐ</Text>
+        </View>
+        {/* Thêm nhiều thẻ sản phẩm khác ở đây */}
+        <Text style={{ marginVertical: 20, textAlign: 'center', color: '#888' }}>-- Hết món ăn --</Text>
+
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
+// Định nghĩa các Stylesheet
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+  },
+  scrollContent: {
+    paddingHorizontal: 15,
+    paddingBottom: 20, // Khoảng trống dưới cùng
+  },
+  header: {
+    padding: 15,
+    backgroundColor: 'white',
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  appName: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#E53935', // Màu đỏ thương hiệu (ví dụ)
+  },
+  location: {
+    fontSize: 14,
+    color: '#777',
+    marginTop: 2,
+  },
+  searchBar: {
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 10,
+    marginTop: 15,
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 25,
+    marginBottom: 10,
+    color: '#333',
+  },
+  categoryRow: {
     flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 10,
+  },
+  categoryItem: {
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#E53935',
+  },
+  productCard: {
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 10,
+    marginBottom: 10,
+    borderLeftWidth: 5,
+    borderLeftColor: '#E53935',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    gap: 8,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  productName: {
+    fontSize: 16,
+    fontWeight: '600',
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
+  productPrice: {
+    fontSize: 16,
+    color: '#28a745',
+    fontWeight: 'bold',
+  }
 });
