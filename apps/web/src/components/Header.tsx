@@ -1,3 +1,4 @@
+import Button from "../components/Button";
 import { Link } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 import styled from "styled-components";
@@ -20,7 +21,7 @@ const Logo = styled.h1` //logo FOODFAST DELIVERY
 const Nav = styled.nav` //Trang chủ, Danh Mục
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 40px;
   font-size: large;
 `;
 
@@ -34,31 +35,23 @@ const NavLink = styled(Link)` //link điều hướng
   }
 `;
 
-const CartLink = styled(Link)` //icon giỏ hàng
-  color: #F72D57;
+const CartLink = styled(Link)`
   display: flex;
   align-items: center;
   cursor: pointer;
-
-  &:hover {
-    color: #ff5b7a;
-  }
-`;
-
-const SignUpButton = styled.button` //nút đăng ký
-  background-color: #ff2f5a;
-  border: none;
   color: white;
-  padding: 8px 20px;
-  border-radius: 6px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.3s;
 
-  &:hover {
-    background-color: #ff5b7a;
+  svg {
+    stroke: #F72D57;
+    stroke-width: 40;
+    fill: white;
+  }
+
+  &:hover svg {
+    stroke: #ff5b7a;
   }
 `;
+
 
 export default function Header() {
   return (
@@ -67,14 +60,13 @@ export default function Header() {
 
       <Nav>
         <NavLink to="/">Trang chủ</NavLink>
-        <NavLink to="/products">Danh Mục</NavLink>
-        <CartLink to="/cart">
-          <FaShoppingCart size={22} />
+        <NavLink to="/">Danh Mục</NavLink>
+        <CartLink to="/"> 
+          <FaShoppingCart size={22} /> 
         </CartLink>
-        <Link to="/signup">
-          <SignUpButton>Đăng Nhập</SignUpButton>
-        </Link>
+        <Button>Đăng Nhập</Button>
       </Nav>
+    
     </HeaderContainer>
   );
 }
