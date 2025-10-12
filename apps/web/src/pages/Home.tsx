@@ -27,7 +27,7 @@ const HeroTextWrap = styled.section`
 
 
 const Slogan = styled.h1`` 
-const HeroImage = styled.image``
+const HeroImage = styled.img``
 
 //Danh mục
 const CategorySection = styled.section`
@@ -46,7 +46,54 @@ const CategoryButtonContainer = styled.div`
 `
 const CategoryDescribe = styled.h2``
 
-const ProductSection = styled.section``
+//Khung Promo
+const PromoSection = styled.section`
+display: flex;
+justify-content: space-evenly;
+padding: 0 40px
+`
+//Khung chữ Promo
+const PromoTextWrap = styled.div`
+display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 800px
+`
+//Heading Promo
+const PromoHeading = styled.h2`
+width: 500px;`
+
+//Text Promo
+const PromoText = styled.text`
+width: 650px
+`
+
+
+//Hình Promo
+const PromoImg = styled.img`
+width: 500px;
+    height: auto;`
+
+//Deliver Section
+const DeliSection = styled.section`
+display: flex;
+justify-content: center;
+`
+//Khung chữ Deli
+const DeliTextWrap = styled.div`
+width: 800px;
+padding-left: 70px;
+align-content: center;
+`
+
+//Hình Deli
+const DeliImg = styled.img`
+width: 500px
+`
+const DeliHeading = styled.h2``
+const DeliText = styled.text``
+
+
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = React.useState<string>("Pizzas");
@@ -54,27 +101,7 @@ export default function Home() {
 
   
 
-  const products = [
-    {
-      name: "Pepperoni Pizza",
-      price: 11.99,
-      image: "https://www.freeiconspng.com/uploads/greek-salad-png-21.png",
-      category: "Pizzas", // Thêm thuộc tính này
-    },
-    {
-      name: "Vegetarian Pizza",
-      price: 15.99,
-      image: "https://www.freeiconspng.com/uploads/greek-salad-png-21.png",
-      category: "Pizzas", // Thêm thuộc tính này
-    },
-    {
-      name: "Cheeseburger",
-      price: 9.99,
-      image: "https://www.freeiconspng.com/uploads/greek-salad-png-21.png",
-      category: "Burgers", // Thêm sản phẩm mới
-    },
-    // Thêm các sản phẩm khác với các danh mục khác nhau
-  ];
+
 
   return (
     <HomeContainer>
@@ -90,7 +117,7 @@ export default function Home() {
           <Button>Đặt ngay</Button>
         </HeroTextWrap>
         
-        <HeroImage><img src="https://www.freeiconspng.com/uploads/greek-salad-png-21.png"></img></HeroImage>
+        <HeroImage src="https://www.freeiconspng.com/uploads/greek-salad-png-21.png"></HeroImage>
       
       </HeroSection>
 
@@ -114,19 +141,36 @@ export default function Home() {
       
       </CategorySection>
 
+      <PromoSection>
+        <PromoImg src="https://pngimg.com/d/burger_sandwich_PNG4135.png"></PromoImg>
+        <PromoTextWrap>
+        <PromoHeading>
+          <h2>Đừng bỏ lỡ ưu đãi cực khủng cho món bạn yêu thích.</h2>
+        </PromoHeading>
+        <PromoText>
+          <text>Đăng ký liền tay để tận hưởng món khoái khẩu ở bất cứ đâu, bất cứ khi nào bạn muốn. Nhanh chóng, đơn giản và dành cho tất cả mọi người. Miễn phí! Thưởng thức ngay - giải pháp hoàn hảo cho mỗi bữa ăn của bạn.</text>
+        </PromoText>
+        </PromoTextWrap>
+      </PromoSection>
+
+      <DeliSection>
+        <DeliTextWrap>
+          <DeliHeading>
+            <h2>Giao Hàng Hoả Tốc</h2>
+          </DeliHeading>
+          <DeliText>
+            <text>Thèm là có, đói là giao! Khám phá vô vàn món ngon quanh bạn và đặt hàng chỉ với vài thao tác đơn giản. Chúng tôi sẽ mang bữa ăn nóng hổi, trọn vị đến tận tay bạn một cách nhanh nhất. Mở app và chọn món ngay thôi!</text>
+          </DeliText>
+        </DeliTextWrap>
+
+        <DeliImg src="https://cdn.dribbble.com/userupload/38938526/file/original-1e0eb25709a880af5627b8decb29b138.png?resize=752x&vertical=center">
+        </DeliImg>
+
+
+      </DeliSection>
+
       
-      {/* Product Section */}
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-8 pb-20 max-w-6xl mx-auto">
-        {products.map((p, i) => (
-          <ProductCard
-            key={i}
-            name={p.name}
-            price={p.price}
-            image={p.image}
-            onAddToCart={() => {}}
-          />
-        ))}
-      </section>
+      
     </HomeContainer>
 
   );
