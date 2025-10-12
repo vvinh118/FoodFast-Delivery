@@ -1,39 +1,28 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
-interface ProductProps {
-  product: {
-    id: number;
-    name: string;
-    price: number;
-    img: string;
-  };
+interface ProductCardProps {
+  name: string;
+  price: number;
+  image: string;
+  onAddToCart: () => void;
 }
 
-function ProductCard({ product }: ProductProps) {
-  const navigate = useNavigate();
-
+export default function ProductCard({ name, price, image, onAddToCart }: ProductCardProps) {
   return (
-    <div
-      style={{
-        border: "1px solid #ddd",
-        borderRadius: "8px",
-        padding: "10px",
-        width: "200px",
-        textAlign: "center",
-        cursor: "pointer",
-      }}
-      onClick={() => navigate(`/product/${product.id}`)}
-    >
+    <div className="bg-white shadow-lg rounded-2xl p-4 hover:scale-105 transition">
       <img
-        src={product.img}
-        alt={product.name}
-        style={{ width: "100%", borderRadius: "8px" }}
+        src={image}
+        alt={name}
+        className="w-full h-40 object-cover rounded-xl mb-3"
       />
-      <h4>{product.name}</h4>
-      <p>{product.price.toLocaleString()}₫</p>
+      <h2 className="text-lg font-semibold text-gray-800">{name}</h2>
+      <p className="text-gray-500 text-sm mt-1">${price.toFixed(2)}</p>
+      <button
+        onClick={onAddToCart}
+        className="mt-3 w-full bg-pink-500 text-white py-2 rounded-lg hover:bg-pink-600 transition"
+      >
+        Add to cart
+      </button>
     </div>
   );
 }
-
-export default ProductCard;
