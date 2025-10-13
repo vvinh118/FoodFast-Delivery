@@ -1,4 +1,5 @@
-import React from "react";
+import React from 'react';
+import styled from 'styled-components';
 
 interface ProductCardProps {
   name: string;
@@ -7,22 +8,73 @@ interface ProductCardProps {
   onAddToCart: () => void;
 }
 
+const CardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e5e7eb; /* Border nhẹ */
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+  background-color: white;
+  transition: transform 0.2s;
+  
+  &:hover {
+    transform: translateY(-5px); /* Hiệu ứng nổi lên khi hover */
+  }
+`;
+
+const ProductImage = styled.img`
+  width: 100%;
+  height: 200px; /* Chiều cao cố định cho ảnh */
+  object-fit: cover; /* Đảm bảo ảnh không bị méo */
+`;
+
+const CardContent = styled.div`
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+`;
+
+const ProductName = styled.h3`
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+`;
+
+const ProductPrice = styled.p`
+  font-size: 1.2rem;
+  color: #f72d57; /* Màu giá tiền nổi bật */
+  font-weight: 700;
+  margin-top: auto; /* Đẩy giá và nút xuống dưới cùng */
+  margin-bottom: 15px;
+`;
+
+const AddToCartButton = styled.button`
+  background-color: #f72d57;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  
+  &:hover {
+    background-color: #e31b45;
+  }
+`;
+
 export default function ProductCard({ name, price, image, onAddToCart }: ProductCardProps) {
   return (
-    <div className="bg-white shadow-lg rounded-2xl p-4 hover:scale-105 transition">
-      <img
-        src={image}
-        alt={name}
-        className="w-full h-40 object-cover rounded-xl mb-3"
-      />
-      <h2 className="text-lg font-semibold text-gray-800">{name}</h2>
-      <p className="text-gray-500 text-sm mt-1">${price.toFixed(2)}</p>
-      <button
-        onClick={onAddToCart}
-        className="mt-3 w-full bg-pink-500 text-white py-2 rounded-lg hover:bg-pink-600 transition"
-      >
-        Add to cart
-      </button>
-    </div>
+    <CardContainer>
+      <ProductImage src={image} alt={name} />
+      <CardContent>
+        <ProductName>{name}</ProductName>
+        <ProductPrice>${price.toFixed(2)}</ProductPrice>
+        <AddToCartButton onClick={onAddToCart}>
+          Add to cart
+        </AddToCartButton>
+      </CardContent>
+    </CardContainer>
   );
 }
