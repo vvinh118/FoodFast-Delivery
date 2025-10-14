@@ -4,7 +4,6 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ProductCard from "../components/ProductCard";
 import CategoryButton from "../components/CategoryButton";
-// Tạm thời dùng placeholder cho ảnh để code chạy ổn định
 import HomeHeroImg from "../assets/img/HomeHeroImg.png" 
 import HomePromoImg from "../assets/img/HomePromoImg.png"
 import HomeDeliImg from "../assets/img/HomeDeliImg.png"
@@ -22,10 +21,13 @@ interface Product {
 
 // === STYLED COMPONENTS ===
 
-const HomeContainer = styled.div`/* toàn trang */
+//toàn trang
+const HomeContainer = styled.div` 
   min-height: 100vh;
-  background-color: #f9fafb;
+  background-color: #ffff;
 ` 
+
+//Hero Section
 const HeroSection = styled.section` 
   display: flex;
   justify-content: space-evenly;
@@ -37,7 +39,7 @@ const HeroTextWrap = styled.section`
   align-content:center;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   padding-right: 20px;
 `
 const HeroHeading = styled.h1`
@@ -49,12 +51,14 @@ const HeroImg = styled.img`
   height: auto;
 `
 
+//Category Section
 const CategorySection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 80px 0;
+  padding: 10px 0 30px;
   background-color: pink;
+  margin: 0 100px 0 100px;
 `
 const CategoryHeading = styled.h1`
   font-size: 2rem;
@@ -67,12 +71,13 @@ const CategoryButtonContainer = styled.div`
   gap: 15px;
 `
 
+//Product Section
 const ProductSection = styled.section`
   max-width: 1200px;
   margin: 0 auto;
-  padding: 40px 20px 80px;
+  padding: 40px 20px;
   position: relative; 
-`;
+`
 
 const ProductGrid = styled.div`
   display: flex;
@@ -91,7 +96,7 @@ const ProductGrid = styled.div`
   &::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
   &::-webkit-scrollbar-thumb { background: #f72d57; border-radius: 10px; border: 2px solid #f1f1f1; }
   &::-webkit-scrollbar-thumb:hover { background: #e31b45; }
-`;
+`
 
 const NavButton = styled.button`
   position: absolute;
@@ -111,7 +116,7 @@ const NavButton = styled.button`
     background: #f72d57;
     color: white;
   }
-`;
+`
 
 const PrevButton = styled(NavButton)` left: 0; `;
 const NextButton = styled(NavButton)` right: 0; `;
@@ -122,7 +127,7 @@ const DotsContainer = styled.div`
   align-items: center;
   gap: 8px;
   margin-top: 20px;
-`;
+`
 
 const Dot = styled.div<{ $isActive: boolean }>`
   width: 10px;
@@ -131,20 +136,27 @@ const Dot = styled.div<{ $isActive: boolean }>`
   background-color: ${props => props.$isActive ? '#f72d57' : '#ccc'};
   cursor: pointer;
   transition: background-color 0.3s;
-`;
+`
 
+//Promo Section
 const PromoSection = styled.section`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  padding: 80px 40px;
-  background-color: #fff;
+  padding: 0 40px;
+  background-color: #F72D57;
+  border-style: solid;
+    border-color: #ffff;
+    border-width: 50px 0;
+    //overflow: hidden;
+    position: relative;
 `
 const PromoTextWrap = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   max-width: 600px;
+  
 `
 const PromoHeading = styled.h1`
   font-size: 2rem;
@@ -157,7 +169,15 @@ const PromoText = styled.p`
 const PromoImg = styled.img`
   max-width: 400px;
   height: auto;
+  width: 1000px; 
+position: absolute;
+  /* Đẩy hình ảnh sang trái 500px */
+  left: -20px;
+  top: 50%;
+  transform: translateY(-50%); 
 `
+
+//Deli Section
 const DeliSection = styled.section`
   display: flex;
   justify-content: center;
@@ -181,6 +201,7 @@ const DeliText = styled.p`
   margin-bottom: 20px;
   color: #333;
 `
+
 // === PRODUCTS DATA ===
 const products: Product[] = [
     { name: "Pepperoni Pizza", price: 11.99, image: HomeProductCategory, category: "Pizzas", },
@@ -195,10 +216,12 @@ const products: Product[] = [
     { name: "Combo Pizza & Coke", price: 19.99, image: HomeProductCategory, category: "Combos", },
     { name: "Combo Burger & Fries", price: 14.99, image: HomeProductCategory, category: "Combos", },
 ];
+
+
+
 // =========================================================================================
 
 export default function Home() {
-    // === KHAI BÁO STATE VÀ REF CHỈ MỘT LẦN ===
     const [activeCategory, setActiveCategory] = React.useState<string>("Pizzas");
     const [activeIndex, setActiveIndex] = React.useState(0);
     const categories = ["Pizzas", "Burgers", "Salads", "Combos"];
@@ -211,10 +234,10 @@ export default function Home() {
         product => product.category === activeCategory
     );
     
-    // Tính toán tổng số trang
+    // Tính tổng số trang
     const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE); 
 
-    // === HÀM XỬ LÝ CLICK ===
+    // Hàm xử lý click
     const handleCategoryClick = (category: string) => {
         setActiveCategory(category);
         setActiveIndex(0); // Reset index khi đổi danh mục
@@ -246,11 +269,13 @@ export default function Home() {
             setActiveIndex(index);
         }
     };
+    
     // ===================================
 
     return (
         <HomeContainer>
             <Header />
+
 
             {/* Hero Section */}
             <HeroSection>
@@ -260,7 +285,6 @@ export default function Home() {
                     </HeroHeading>
                     <Button>Đặt ngay</Button>
                 </HeroTextWrap>
-                
                 <HeroImg src={HomeHeroImg} alt="Hero Image" /> 
             </HeroSection>
             
@@ -279,7 +303,7 @@ export default function Home() {
                 </CategoryButtonContainer>
             </CategorySection>
 
-            {/* Product Section: Slider/Scroll ngang */}
+            {/* Product Section */}
             <ProductSection>
                 {/* JSX cho nút Prev/Next */}
                 {filteredProducts.length > ITEMS_PER_PAGE && (
@@ -338,13 +362,11 @@ export default function Home() {
                     <DeliText>
                         Thèm là có, đói là giao! Khám phá vô vàn món ngon quanh bạn và đặt hàng chỉ với vài thao tác đơn giản. Chúng tôi sẽ mang bữa ăn nóng hổi, trọn vị đến tận tay bạn một cách nhanh nhất. Mở app và chọn món ngay thôi!
                     </DeliText>
-                    <Button>Alo 123</Button>
                 </DeliTextWrap>
-
                 <DeliImg src={HomeDeliImg} alt="Delivery Moto" />
             </DeliSection>
 
-            {/* Footer */}
+
             <Footer />
         </HomeContainer>
     );
