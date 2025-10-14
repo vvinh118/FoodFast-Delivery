@@ -154,27 +154,26 @@ const PromoSection = styled.section`
 const PromoTextWrap = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   max-width: 600px;
-  
+  padding: 30px 0 50px 300px;
 `
 const PromoHeading = styled.h1`
   font-size: 2rem;
   margin-bottom: 15px;
+  color: white;
+  width: 500px;
 `
 const PromoText = styled.p`
   font-size: 1.1rem;
-  color: #555;
+  color: #ede0e0;
 `
 const PromoImg = styled.img`
-  max-width: 400px;
+  max-width: 500px;
   height: auto;
-  width: 1000px; 
-position: absolute;
-  /* Đẩy hình ảnh sang trái 500px */
-  left: -20px;
+  position: absolute;
+  left: 100px;
   top: 50%;
-  transform: translateY(-50%); 
+  transform: translateY(-50%);
 `
 
 //Deli Section
@@ -348,7 +347,8 @@ export default function Home() {
                         Đừng bỏ lỡ ưu đãi cực khủng cho món bạn yêu thích.
                     </PromoHeading>
                     <PromoText>
-                        Đăng ký liền tay để tận hưởng món khoái khẩu ở bất cứ đâu, bất cứ khi nào bạn muốn. Nhanh chóng, đơn giản và dành cho tất cả mọi người. Miễn phí! Thưởng thức ngay - giải pháp hoàn hảo cho mỗi bữa ăn của bạn.
+                        Đăng ký liền tay để tận hưởng món khoái khẩu ở bất cứ đâu, bất cứ khi nào bạn muốn. Nhanh chóng, đơn giản và dành cho tất cả mọi người. Miễn phí! 
+                        <br />Thưởng thức ngay - giải pháp hoàn hảo cho mỗi bữa ăn của bạn.
                     </PromoText>
                 </PromoTextWrap>
             </PromoSection>
