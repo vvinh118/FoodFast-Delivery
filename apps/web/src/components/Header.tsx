@@ -1,7 +1,11 @@
 import Button from "../components/Button";
 import { Link } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
+import Login from "../pages/Login"
+
+
 import styled from "styled-components";
+
 
 // khung header
 const HeaderContainer = styled.header` 
@@ -66,7 +70,7 @@ export default function Header() {
         <CartLink to="/"> 
           <FaShoppingCart size={22} /> 
         </CartLink>
-        <Button>Đăng Nhập</Button>
+        <Button to="/login">Đăng Nhập</Button>
       </Nav>
     
     </HeaderContainer>
