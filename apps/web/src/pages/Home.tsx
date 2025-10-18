@@ -34,6 +34,19 @@ const HeroSection = styled.section`
   align-items: center;
   padding: 40px;
 `
+// === THÀNH PHẦN MỚI: HERO WRAPPER ===
+const HeroWrapper = styled.div`
+  background-color: white;
+    /* border-bottom-left-radius: 100% 50%; */
+    /* border-bottom-right-radius: 100% 50%; */
+    box-shadow: 0 30px 60px rgba(247, 45, 87, 0.15);
+    margin-bottom: 40px;
+    z-index: 10;
+    position: relative;
+    border-radius: 0 0 50% 50%;
+    padding-bottom: 40px;
+`;
+// ===================================
 const HeroTextWrap = styled.section`
   display: flex;
   align-content:center;
@@ -57,12 +70,13 @@ const CategorySection = styled.section`
   flex-direction: column;
   align-items: center;
   padding: 10px 0 30px;
-  background-color: pink;
-  margin: 0 100px 0 100px;
+  margin: 80px 100px 0 100px;
 `
 const CategoryHeading = styled.h1`
-  font-size: 2rem;
+  font-size: 40px;
   margin-bottom: 20px;
+  font-family: 'MilestoneScript', cursive;
+  font-weight: normal; /* Font viết tay thường không dùng bold */
 `
 const CategoryButtonContainer = styled.div`
   display: flex;    
@@ -74,7 +88,7 @@ const CategoryButtonContainer = styled.div`
 //Product Section
 const ProductSection = styled.section`
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 0 auto 30px;
   padding: 40px 20px;
   position: relative; 
 `
@@ -179,20 +193,18 @@ const PromoImg = styled.img`
 //Deli Section
 const DeliSection = styled.section`
   display: flex;
-  justify-content: center;
   align-items: center;
-  background-color: pink;
-  padding: 80px 40px;
+  justify-content: space-evenly;
 `
 const DeliTextWrap = styled.div`
-  max-width: 600px;
+  max-width: 700px;
   padding-left: 70px;
 `
 const DeliImg = styled.img`
-  max-width: 400px;
+  max-width: 450px;
 `
 const DeliHeading = styled.h1`
-  font-size: 2rem;
+  font-size: 40px;
   margin-bottom: 15px;
 `
 const DeliText = styled.p`
@@ -277,6 +289,7 @@ export default function Home() {
 
 
             {/* Hero Section */}
+            <HeroWrapper>
             <HeroSection>
                 <HeroTextWrap>
                     <HeroHeading>
@@ -286,6 +299,7 @@ export default function Home() {
                 </HeroTextWrap>
                 <HeroImg src={HomeHeroImg} alt="Hero Image" /> 
             </HeroSection>
+            </HeroWrapper>
             
             {/* Category Section */}
             <CategorySection>
