@@ -4,111 +4,9 @@ import Header from '../components/Header';
 import styled from 'styled-components';
 import RestaurantCard from '../components/RestaurantCard'; // Import component đã tạo
 import CategoryCard from '../components/CategoryCard'; 
-import chickenIcon from '../assets/icons/chicken.png';
-// Import các icon
 
+import { mockRestaurants, mockCategories } from '../data/mockData'; // <-- IMPORT mock data
 
-// ==========================================================
-// MOCK DATA (Dữ liệu giả để hiển thị giao diện)
-// ==========================================================
-
-const mockRestaurants = [
-  { 
-    id: 1, 
-    name: "Nem Nướng D'yan - Since 1968", 
-    address: "Lẩu & Nướng - Quay", 
-    rating: 4.7, 
-    distance: 2.9, 
-    deliveryTime: 25,
-    imageUrl: "https://trumfood.vn/wp-content/uploads/2023/01/nem-nuong-thom-ngon-Trum-Food.jpg",
-    isPromo: true 
-  },
-  { 
-    id: 2, 
-    name: "3 Râu - Gà Rán Pizza & Trà Sữa", 
-    address: "191 Nguyễn Tiểu La", 
-    rating: 4.5, 
-    distance: 2.2, 
-    deliveryTime: 20,
-    imageUrl: "https://tse3.mm.bing.net/th/id/OIP.4o98zuIor0zIGSloJFZ_DAHaEo?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
-    isPromo: true 
-  },
-  { 
-    id: 3, 
-    name: "Mì Trộn Indomie, Gà Rán", 
-    address: "Tráng miệng, Trà sữa", 
-    rating: 4.7, 
-    distance: 2.3, 
-    deliveryTime: 30,
-    imageUrl: "https://tse4.mm.bing.net/th/id/OIP.g349_sKPS2INyrS8vSgLlQHaE8?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
-    isPromo: false 
-  },
-  { 
-    id: 4, 
-    name: "Xôi Mặn - Bánh Bao Trường Sơn", 
-    address: "Bánh Mì, Xôi, Thức ăn nhanh", 
-    rating: 4.6, 
-    distance: 0.8, 
-    deliveryTime: 15,
-    imageUrl: "https://tse2.mm.bing.net/th/id/OIP.WnQXS6zgCF0nFxumjcgNXgHaFT?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
-    isPromo: true 
-  },
-  { 
-      id: 5, 
-      name: "Cơm Gà Xối Mỡ - Chú Tư", 
-      address: "Món Việt, Cơm trưa văn phòng", 
-      rating: 4.8, 
-      distance: 3.5, 
-      deliveryTime: 35,
-      imageUrl: "https://cdn.xanhsm.com/2025/01/735df340-com-ga-sai-gon-1.jpg",
-      isPromo: false 
-    },
-    { 
-      id: 6, 
-      name: "Trà Sữa Cheese Bông - Hot Trend", 
-      address: "Trà sữa, Đồ uống", 
-      rating: 4.9, 
-      distance: 1.1, 
-      deliveryTime: 15,
-      imageUrl: "https://tse4.mm.bing.net/th/id/OIP.71cGG9HIkYC_9s-FRLkwTQHaHa?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
-      isPromo: true 
-    },
-    { 
-      id: 7, 
-      name: "Bún Chả Hà Nội - 120 Năm", 
-      address: "Món Bắc, Bún Phở", 
-      rating: 4.4, 
-      distance: 5.1, 
-      deliveryTime: 40,
-      imageUrl: "https://th.bing.com/th/id/R.5f68ed218aa0a6e668bb92ce7a0360f2?rik=3RCuYcDLAO4MqQ&pid=ImgRaw&r=0",
-      isPromo: false 
-    },
-    { 
-      id: 8, 
-      name: "Pizza & Pasta Ý - VV", 
-      address: "Pizza, Món Tây", 
-      rating: 4.3, 
-      distance: 0.5, 
-      deliveryTime: 20,
-      imageUrl: "https://img1.wsimg.com/isteam/stock/2982",
-      isPromo: true 
-    },
-  // Thêm nhiều món ăn hơn để kiểm tra giao diện lưới
-];
-
-// DỮ LIỆU GIẢ CHO DANH MỤC MÓN ĂN
-const mockCategories = [
-    { name: "Gà", iconUrl: chickenIcon },
-    { name: "Cơm", iconUrl: "https://via.placeholder.com/50/00FF00?text=C" },
-    { name: "Trà Sữa", iconUrl: "https://via.placeholder.com/50/0000FF?text=T" },
-    { name: "Bún", iconUrl: "https://via.placeholder.com/50/FFA500?text=B" },
-    { name: "Mì", iconUrl: "https://via.placeholder.com/50/800080?text=M" },
-    { name: "Ăn vặt", iconUrl: "https://via.placeholder.com/50/00CED1?text=A" },
-    { name: "Đồ chay", iconUrl: "https://via.placeholder.com/50/F08080?text=DC" },
-    { name: "Bánh", iconUrl: "https://via.placeholder.com/50/4682B4?text=B" },
-    { name: "Lẩu", iconUrl: "https://via.placeholder.com/50/B8860B?text=L" },
-    { name: "Kem", iconUrl: "https://via.placeholder.com/50/CD5C5C?text=K" },
-];
 
 // ==========================================================
 // 2. STYLED COMPONENTS (Định kiểu cho Trang)
@@ -149,7 +47,7 @@ const ContentWrapper = styled.div`
   padding: 0 20px;
 `;
 
-// Container cho Tiêu đề và Context (Giống phần "Ưu đãi ở..." trong ảnh)
+// Container cho Tiêu đề và Context
 const ContextHeader = styled.div`
   padding: 20px 0;
 `;
@@ -182,9 +80,27 @@ const RestaurantGrid = styled.div`
 // ==========================================================
 
 const RestaurantList = () => {
-    // B2: STATE QUẢN LÝ DANH MỤC ĐANG HOẠT ĐỘNG
+    // 1. STATE QUẢN LÝ DANH MỤC ĐANG HOẠT ĐỘNG
     // Đặt mặc định là danh mục đầu tiên
     const [activeCategory, setActiveCategory] = React.useState(mockCategories[0].name);
+
+    // 2. Logic lọc quán ăn theo danh mục
+    // Sau này khi có dữ liệu thật, có thể dùng:
+    // const filteredRestaurants = mockRestaurants.filter(r => r.category === activeCategory);
+
+    const filteredRestaurants = React.useMemo(() => {
+        // KIỂM TRA TRƯỜNG HỢP "TẤT CẢ"
+        if (activeCategory === "All") {
+            return mockRestaurants; // Trả về toàn bộ danh sách
+        }
+        
+        // TRƯỜNG HỢP LỌC theo danh mục cụ thể
+        return mockRestaurants.filter(restaurant => {
+            // So sánh category của quán ăn với activeCategory
+            return restaurant.category.toLowerCase() === activeCategory.toLowerCase();
+        });
+    }, [activeCategory]); // Dependency Array: Chỉ chạy lại khi activeCategory thay đổi
+
   return (
      <ListPageContainer>
         < Header />
@@ -216,22 +132,26 @@ const RestaurantList = () => {
           </ListTitle>
         </ContextHeader>
         
-        {/* KHU VỰC DANH SÁCH QUÁN ĂN */}
+        {/* KHU VỰC DANH SÁCH QUÁN ĂN ĐÃ Lọc theo danh mục*/}
         <RestaurantGrid>
         
-          {mockRestaurants.map(restaurant => (
-            <RestaurantCard 
-              key={restaurant.id}
-              id={restaurant.id}
-              name={restaurant.name}
-              address={restaurant.address}
-              rating={restaurant.rating}
-              distance={restaurant.distance}
-              deliveryTime={restaurant.deliveryTime}
-              imageUrl={restaurant.imageUrl}
-              isPromo={restaurant.isPromo}
-            />
-          ))}
+          {filteredRestaurants.length > 0 ? (
+                        filteredRestaurants.map(restaurant => (
+                            <RestaurantCard 
+                                key={restaurant.id}
+                                id={restaurant.id}
+                                name={restaurant.name}
+                                address={restaurant.address}
+                                rating={restaurant.rating}
+                                distance={restaurant.distance}
+                                deliveryTime={restaurant.deliveryTime}
+                                imageUrl={restaurant.imageUrl}
+                                isPromo={restaurant.isPromo}
+                            />
+                        ))
+                    ) : (
+                        <p>Không tìm thấy quán ăn nào trong danh mục "{activeCategory}".</p>
+                    )}
         </RestaurantGrid>
       </ContentWrapper>
 
