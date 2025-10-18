@@ -9,6 +9,7 @@ import MenuItemList from "./pages/MenuItemList";
 import ShoppingCart from "./pages/ShoppingCart";
 import { CartProvider } from "./context/CartContext";
 import CartSidebar from "./components/CartSidebar";
+import Register from './pages/Register';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} /> 
+        <Route path="/register" element={<Register />} /> 
         <Route path="/restaurants" element={<RestaurantList />} />
         <Route path="/restaurant/:id" element={<MenuItemList />} />
         <Route path="/product" element={<Product />} />

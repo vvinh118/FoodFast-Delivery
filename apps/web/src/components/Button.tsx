@@ -1,34 +1,61 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import type { LinkProps } from 'react-router-dom'; 
+import styled from 'styled-components';
 
-interface ButtonProps {
-  children: React.ReactNode;
-  onClick?: () => void;
-  background?: string;
-  color?: string;
-  hoverBackground?: string;
-  borderRadius?: string;
-  padding?: string;
-}
+// === STYLED COMPONENTS ===
 
 const StyledButton = styled.button<ButtonProps>`
-  background-color: ${(props) => props.background || "#f72d57"};
-  color: ${(props) => props.color || "white"};
+  background-color: ${props => props.$background || "#f72d57"};
   border: none;
-  padding: ${(props) => props.padding || "10px 20px"};
-  border-radius: ${(props) => props.borderRadius || "8px"};
+  color: ${props => props.$color || "white"};
+  padding: ${props => props.$padding || "10px 20px"};
+  border-radius: ${props => props.$borderRadius || "8px"};
+  font-weight: 500;
   cursor: pointer;
-  font-size: 16px;
-  transition: background 0.3s ease;
-  box-shadow: 0px 8px 6px -1px rgba(0, 0, 0, 0.1), 0px 5px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: background 0.3s;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.06);
 
   &:hover {
-    background-color: ${(props) => props.hoverBackground || "#ff5b7a"};
+    background-color: ${props => props.$hoverBackground || "#ff5b7a"};
   }
 `;
 
-const Button: React.FC<ButtonProps> = (props) => {
-  return <StyledButton {...props}>{props.children}</StyledButton>;
-};
 
-export default Button;
+const StyledLink = styled(Link)<ButtonProps>`
+  background-color: ${props => props.$background || "#f72d57"};
+  border: none;
+  color: ${props => props.$color || "white"};
+  padding: ${props => props.$padding || "10px 20px"};
+  border-radius: ${props => props.$borderRadius || "8px"};
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.06);
+  text-decoration: none;
+
+  &:hover {
+    background-color: ${props => props.$hoverBackground || "#ff5b7a"};
+  }
+`;
+
+
+interface ButtonProps extends Omit<LinkProps, 'to'> { 
+  to?: LinkProps['to']; 
+  children: React.ReactNode;
+  onClick?: () => void;
+  $background?: string;
+  $hoverBackground?: string;
+  $padding?: string;
+  $borderRadius?: string;
+  $color?: string;
+}
+
+// === COMPONENT CHÍNH ===
+export default function Button({ to, children, onClick, ...props }: ButtonProps) {
+  if (to) {
+    return <StyledLink to={to} {...props}>{children}</StyledLink>;
+  }
+  
+  return <StyledButton onClick={onClick} {...props}>{children}</StyledButton>;
+}

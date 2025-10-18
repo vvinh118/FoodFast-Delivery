@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useCart } from '../context/CartContext'; // Import hook giỏ hàng
 import Button from "../components/Button";
 
+
 // khung header
 const HeaderContainer = styled.header` 
   display: flex;
@@ -103,7 +104,7 @@ export default function Header() {
                     )}
                 </CartContainer>
                 
-                <Button>Đăng Nhập</Button>
+                <Button to='/login'>Đăng Nhập</Button>
             </Nav>
         
         </HeaderContainer>
