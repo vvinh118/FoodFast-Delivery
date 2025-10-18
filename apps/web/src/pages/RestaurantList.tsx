@@ -1,8 +1,12 @@
 import React from 'react';
 import Footer from "../components/Footer";
+import Header from '../components/Header';
 import styled from 'styled-components';
 import RestaurantCard from '../components/RestaurantCard'; // Import component đã tạo
-// Bạn sẽ cần import Header và Footer của dự án nếu có
+import CategoryCard from '../components/CategoryCard'; 
+import chickenIcon from '../assets/icons/chicken.png';
+// Import các icon
+
 
 // ==========================================================
 // MOCK DATA (Dữ liệu giả để hiển thị giao diện)
@@ -92,9 +96,46 @@ const mockRestaurants = [
   // Thêm nhiều món ăn hơn để kiểm tra giao diện lưới
 ];
 
+// DỮ LIỆU GIẢ CHO DANH MỤC MÓN ĂN
+const mockCategories = [
+    { name: "Gà", iconUrl: chickenIcon },
+    { name: "Cơm", iconUrl: "https://via.placeholder.com/50/00FF00?text=C" },
+    { name: "Trà Sữa", iconUrl: "https://via.placeholder.com/50/0000FF?text=T" },
+    { name: "Bún", iconUrl: "https://via.placeholder.com/50/FFA500?text=B" },
+    { name: "Mì", iconUrl: "https://via.placeholder.com/50/800080?text=M" },
+    { name: "Ăn vặt", iconUrl: "https://via.placeholder.com/50/00CED1?text=A" },
+    { name: "Đồ chay", iconUrl: "https://via.placeholder.com/50/F08080?text=DC" },
+    { name: "Bánh", iconUrl: "https://via.placeholder.com/50/4682B4?text=B" },
+    { name: "Lẩu", iconUrl: "https://via.placeholder.com/50/B8860B?text=L" },
+    { name: "Kem", iconUrl: "https://via.placeholder.com/50/CD5C5C?text=K" },
+];
+
 // ==========================================================
 // 2. STYLED COMPONENTS (Định kiểu cho Trang)
 // ==========================================================
+
+// Container cho toàn bộ thanh danh mục (có thể bị tràn)
+const CategoryBarWrapper = styled.div`
+  max-width: 1200px; /* Chiều rộng tối đa giống ContentWrapper */
+  margin: 0 auto;
+  padding: 20px 0;
+  overflow-x: scroll; /* Kích hoạt cuộn ngang */
+  white-space: nowrap; /* Ngăn các item xuống dòng */
+  -ms-overflow-style: none; /* Ẩn scrollbar trên IE/Edge */
+  scrollbar-width: none; /* Ẩn scrollbar trên Firefox */
+  
+  /* Ẩn scrollbar trên Chrome/Safari/Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+// Container chứa các card danh mục
+const CategoryListContainer = styled.div`
+  display: flex;
+  gap: 15px; /* Khoảng cách giữa các card */
+  padding: 0 20px;
+`;
 
 const ListPageContainer = styled.div`
   min-height: 100vh;
@@ -141,21 +182,43 @@ const RestaurantGrid = styled.div`
 // ==========================================================
 
 const RestaurantList = () => {
+    // B2: STATE QUẢN LÝ DANH MỤC ĐANG HOẠT ĐỘNG
+    // Đặt mặc định là danh mục đầu tiên
+    const [activeCategory, setActiveCategory] = React.useState(mockCategories[0].name);
   return (
      <ListPageContainer>
-      {/* <Header /> */}
+        < Header />
       
+      {/* B3: KHU VỰC THANH DANH MỤC CUỘN NGANG */}
+            <CategoryBarWrapper>
+                <CategoryListContainer>
+                    {mockCategories.map((category) => (
+                        <CategoryCard
+                            key={category.name}
+                            name={category.name}
+                            iconUrl={category.iconUrl}
+                            $isActive={activeCategory === category.name}
+                            onClick={() => setActiveCategory(category.name)}
+                        />
+                    ))}
+                </CategoryListContainer>
+            </CategoryBarWrapper>
+            {/* KẾT THÚC KHU VỰC CATEGORY BAR */}
+
+
+
       <ContentWrapper>
         {/* KHU VỰC TIÊU ĐỀ/CONTEXT */}
         <ContextHeader>
-          <Breadcrumb>Trang chủ &gt; Ẩm thực</Breadcrumb>
+          <Breadcrumb>Trang chủ &gt; Nhà hàng</Breadcrumb>
           <ListTitle>
-            Gần bạn
+            Món ngon gần bạn (Danh mục: {activeCategory})
           </ListTitle>
         </ContextHeader>
         
         {/* KHU VỰC DANH SÁCH QUÁN ĂN */}
         <RestaurantGrid>
+        
           {mockRestaurants.map(restaurant => (
             <RestaurantCard 
               key={restaurant.id}
