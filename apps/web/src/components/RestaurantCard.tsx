@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom"; // Dùng để điều hướng trang
+
 // Bạn có thể import các icon (ví dụ: Star, Pin, Clock) từ một thư viện icon
 // import { Star, MapPin, Clock } from 'lucide-react'; 
 // (Giả sử bạn đang dùng lucide-react hoặc tương tự)
@@ -107,6 +109,7 @@ const DetailsRow = styled.div`
 // ==========================================================
 
 const RestaurantCard: React.FC<RestaurantCardProps> = ({
+  id,
   name,
   address,
   rating,
@@ -116,11 +119,11 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
   isPromo,
   // Thêm các props khác
 }) => {
+  const navigate = useNavigate(); // Khởi tạo hook navigate
+
   // Hàm xử lý khi click vào thẻ
   const handleClick = () => {
-    // Logic điều hướng đến trang RestaurantDetail.tsx
-    console.log(`Navigating to ${name} detail page`); 
-    // Thường dùng React Router: navigate(`/restaurant/${id}`)
+    navigate(`/restaurant/${id}`);
   };
 
   return (
