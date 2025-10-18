@@ -10,7 +10,7 @@ display: flex;
 `
 const Logo = styled.h1`
 font-size: 25px;
-  font-weight: bold;
+  //font-weight: bold;
   color: #FFFF;
 `
 const Founder = styled.h3``

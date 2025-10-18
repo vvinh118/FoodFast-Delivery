@@ -8,6 +8,7 @@ import HomeHeroImg from "../assets/img/HomeHeroImg.png"
 import HomePromoImg from "../assets/img/HomePromoImg.png"
 import HomeDeliImg from "../assets/img/HomeDeliImg.png"
 import HomeProductCategory from "../assets/img/HomeProductCategory.jpg" 
+import HomePayImg from "../assets/img/HomePayImg.png"
 
 import styled from "styled-components";
 
@@ -36,15 +37,13 @@ const HeroSection = styled.section`
 `
 // === THÀNH PHẦN MỚI: HERO WRAPPER ===
 const HeroWrapper = styled.div`
-  background-color: white;
-    /* border-bottom-left-radius: 100% 50%; */
-    /* border-bottom-right-radius: 100% 50%; */
+    background-color: white;
     box-shadow: 0 30px 60px rgba(247, 45, 87, 0.15);
-    margin-bottom: 40px;
+    margin: 50px 0 40px 0;
     z-index: 10;
     position: relative;
-    border-radius: 0 0 50% 50%;
-    padding-bottom: 40px;
+    border-radius: 60%;
+    padding: 50px;
 `;
 // ===================================
 const HeroTextWrap = styled.section`
@@ -73,11 +72,19 @@ const CategorySection = styled.section`
   margin: 80px 100px 0 100px;
 `
 const CategoryHeading = styled.h1`
-  font-size: 40px;
-  margin-bottom: 20px;
+  font-size: 80px;
+  letter-spacing: 4px;
+  color: #3F3F3F;
+  margin-bottom: 30px;
   font-family: 'MilestoneScript', cursive;
-  font-weight: normal; /* Font viết tay thường không dùng bold */
+  font-weight: normal;
 `
+const HighlightedText = styled.span<{ $color: string }>`
+    color: ${props => props.$color};
+    font-family: 'MilestoneScript', cursive; 
+    font-weight: normal; 
+`
+
 const CategoryButtonContainer = styled.div`
   display: flex;    
   justify-content: center;
@@ -88,7 +95,7 @@ const CategoryButtonContainer = styled.div`
 //Product Section
 const ProductSection = styled.section`
   max-width: 1200px;
-  margin: 0 auto 30px;
+  margin: 0 auto;
   padding: 40px 20px;
   position: relative; 
 `
@@ -164,6 +171,7 @@ const PromoSection = styled.section`
     border-width: 50px 0;
     //overflow: hidden;
     position: relative;
+  margin: 70px 0 70px 0;
 `
 const PromoTextWrap = styled.div`
   display: flex;
@@ -173,9 +181,12 @@ const PromoTextWrap = styled.div`
 `
 const PromoHeading = styled.h1`
   font-size: 2rem;
-  margin-bottom: 15px;
+  margin: 15px 0 15px 0;
   color: white;
-  width: 500px;
+  font-size: 65px;
+  letter-spacing: 4px;
+  font-family: 'MilestoneScript', cursive;
+  font-weight: normal;
 `
 const PromoText = styled.p`
   font-size: 1.1rem;
@@ -195,22 +206,47 @@ const DeliSection = styled.section`
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-`
+  margin: 70px 0 70px 0;
+  `
 const DeliTextWrap = styled.div`
   max-width: 700px;
-  padding-left: 70px;
 `
 const DeliImg = styled.img`
   max-width: 450px;
 `
 const DeliHeading = styled.h1`
-  font-size: 40px;
-  margin-bottom: 15px;
+  font-family: 'MilestoneScript', cursive; 
+  font-weight: normal; 
+  font-size: 65px;
+  letter-spacing: 4px;
+  color: #3F3F3F;
 `
 const DeliText = styled.p`
   font-size: 1.1rem;
   margin-bottom: 20px;
   color: #333;
+`
+
+//Payment Section
+const PaymentSection = styled.section`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 70px 0 70px 0;
+`
+const PayTextWrap = styled.div`
+  max-width: 700px
+`
+const PayHeading = styled.h1`
+  font-family: 'MilestoneScript', cursive; 
+  font-weight: normal; 
+  font-size: 65px;
+  letter-spacing: 4px;
+  color: #3F3F3F;
+`
+const PayText = styled.p``
+const PayImg = styled.img`
+  max-width: 450px;
 `
 
 // === PRODUCTS DATA ===
@@ -293,7 +329,7 @@ export default function Home() {
             <HeroSection>
                 <HeroTextWrap>
                     <HeroHeading>
-                        FoodFast: Nhanh như chớp, ngon bất ngờ.
+                        <HighlightedText $color="#f72d57">FoodFast: </HighlightedText> Nhanh như chớp, ngon bất ngờ.
                     </HeroHeading>
                     <Button>Đặt ngay</Button>
                 </HeroTextWrap>
@@ -303,7 +339,9 @@ export default function Home() {
             
             {/* Category Section */}
             <CategorySection>
-                <CategoryHeading>Món ngon cho bạn</CategoryHeading>
+                <CategoryHeading>
+                  <HighlightedText $color="#f72d57">Món ngon</HighlightedText> cho bạn
+                </CategoryHeading>
                 <CategoryButtonContainer>
                     {categories.map(cat => (
                         <CategoryButton
@@ -358,7 +396,7 @@ export default function Home() {
                 <PromoImg src={HomePromoImg} alt="Promo Burger" />
                 <PromoTextWrap>
                     <PromoHeading>
-                        Đừng bỏ lỡ ưu đãi cực khủng cho món bạn yêu thích.
+                        Ưu đãi cực khủng
                     </PromoHeading>
                     <PromoText>
                         Đăng ký liền tay để tận hưởng món khoái khẩu ở bất cứ đâu, bất cứ khi nào bạn muốn. Nhanh chóng, đơn giản và dành cho tất cả mọi người. Miễn phí! 
@@ -367,18 +405,35 @@ export default function Home() {
                 </PromoTextWrap>
             </PromoSection>
 
+           
+            {/* Payment Section */}
+            <PaymentSection>
+              <PayTextWrap>
+                <PayHeading>
+                  <HighlightedText $color="#f72d57">Thanh toán </HighlightedText> dễ dàng
+                </PayHeading>
+                <PayText>
+                  Đừng để việc thanh toán phức tạp làm gián đoạn trải nghiệm ẩm thực của bạn. Với quy trình được tối ưu hóa, bạn chỉ cần một vài cú chạm để hoàn tất đơn hàng. Nhanh chóng, mượt mà và không rườm rà – để bạn có thêm thời gian tận hưởng món ngon.
+                </PayText>
+              </PayTextWrap>
+              <PayImg src={HomePayImg}></PayImg>
+            </PaymentSection>
+            
+            
             {/* Deli Section */}
             <DeliSection>
+                <DeliImg src={HomeDeliImg} alt="Delivery Moto" />
                 <DeliTextWrap>
                     <DeliHeading>
-                        Giao Hàng Hoả Tốc
+                        Giao hàng <HighlightedText $color="#f72d57">hoả tốc</HighlightedText>
                     </DeliHeading>
                     <DeliText>
                         Thèm là có, đói là giao! Khám phá vô vàn món ngon quanh bạn và đặt hàng chỉ với vài thao tác đơn giản. Chúng tôi sẽ mang bữa ăn nóng hổi, trọn vị đến tận tay bạn một cách nhanh nhất. Mở app và chọn món ngay thôi!
                     </DeliText>
                 </DeliTextWrap>
-                <DeliImg src={HomeDeliImg} alt="Delivery Moto" />
             </DeliSection>
+
+            
 
 
             <Footer />

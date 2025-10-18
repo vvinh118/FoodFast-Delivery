@@ -13,12 +13,12 @@ const HeaderContainer = styled.header`
   background-color: #ffff;
   padding: 15px 40px;
   color: white;
-box-shadow: 0px 7px 7px -1px rgba(0, 0, 0, 0.06), 0px 1px 4px -1px rgba(0, 0, 0, 0.06);
+//box-shadow: 0px 7px 7px -1px rgba(0, 0, 0, 0.06), 0px 1px 4px -1px rgba(0, 0, 0, 0.06);
 `;
 
 const Logo = styled.h1` //logo FOODFAST DELIVERY
   font-size: 25px;
-  font-weight: bold;
+  //font-weight: bold;
   color: #F72D57;
 `;
 
