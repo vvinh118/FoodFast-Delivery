@@ -17,7 +17,7 @@ const GlobalStyle = createGlobalStyle`
         font-display: swap; 
     }
 
-    //body {
+    body {
         font-family: 'Poppins', sans-serif;
     }
   
