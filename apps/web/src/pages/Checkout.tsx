@@ -244,7 +244,9 @@ export default function Checkout() {
                         </div>
                         
                         {/* NÚT ĐẶT HÀNG CUỐI CÙNG */}
-                        <OrderButton $padding="15px 20px" type="submit">Đặt đơn</OrderButton>
+                        <Button to="/Order" $maxWidth='100%' $display='block' $padding='10px' $fontSize='20px' $margin='15px 0 0 0'>
+                            Đặt đơn
+                        </Button>
                     </SummaryCard>
                 </SummarySection>
 

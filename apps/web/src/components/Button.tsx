@@ -13,7 +13,8 @@ const StyledButton = styled.button<ButtonProps>`
   border-radius: ${props => props.$borderRadius || "8px"};
   max-width: ${props => props.$maxWidth || "fit-content"};
   display: ${props => props.$display || "block"};
-  font-size: ${props => props.$fontSize || "20px"};
+  font-size: ${props => props.$fontSize || "15px"};
+  margin: ${props => props.$margin || "0"};
   text-align: center;
   font-weight: 500;
   cursor: pointer;
@@ -34,7 +35,8 @@ const StyledLink = styled(Link)<ButtonProps>`
   border-radius: ${props => props.$borderRadius || "8px"};
   max-width: ${props => props.$maxWidth || "fit-content"};
   display: ${props => props.$display || "block"};
-  font-size: ${props => props.$fontSize || "20px"};
+  font-size: ${props => props.$fontSize || "15px"};
+  margin: ${props => props.$margin || "0"};
   text-align: center;
   font-weight: 500;
   cursor: pointer;
@@ -60,6 +62,7 @@ interface ButtonProps extends Omit<LinkProps, 'to'> {
   $maxWidth?: string;
   $display?: string;
   $fontSize?: string;
+  $margin?: string;
 }
 
 // === COMPONENT CHÍNH ===
