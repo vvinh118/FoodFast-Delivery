@@ -6,10 +6,10 @@ import RestaurantList from "./pages/RestaurantList";
 import Login from "./pages/Login"; 
 import GlobalStyle from "./GlobalStyles";
 import MenuItemList from "./pages/MenuItemList";
-import ShoppingCart from "./pages/ShoppingCart";
 import { CartProvider } from "./context/CartContext";
 import CartSidebar from "./components/CartSidebar";
 import Register from './pages/Register';
+import Checkout from './pages/Checkout'
 
 function App() {
   return (
@@ -25,6 +25,7 @@ function App() {
         <Route path="/restaurants" element={<RestaurantList />} />
         <Route path="/restaurant/:id" element={<MenuItemList />} />
         <Route path="/product" element={<Product />} />
+        <Route path="/checkout" element={<Checkout />} />
       </Routes>
     </div>
 

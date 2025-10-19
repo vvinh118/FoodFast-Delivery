@@ -11,6 +11,10 @@ const StyledButton = styled.button<ButtonProps>`
   color: ${props => props.$color || "white"};
   padding: ${props => props.$padding || "10px 20px"};
   border-radius: ${props => props.$borderRadius || "8px"};
+  max-width: ${props => props.$maxWidth || "fit-content"};
+  display: ${props => props.$display || "block"};
+  font-size: ${props => props.$fontSize || "20px"};
+  text-align: center;
   font-weight: 500;
   cursor: pointer;
   transition: background 0.3s;
@@ -28,6 +32,10 @@ const StyledLink = styled(Link)<ButtonProps>`
   color: ${props => props.$color || "white"};
   padding: ${props => props.$padding || "10px 20px"};
   border-radius: ${props => props.$borderRadius || "8px"};
+  max-width: ${props => props.$maxWidth || "fit-content"};
+  display: ${props => props.$display || "block"};
+  font-size: ${props => props.$fontSize || "20px"};
+  text-align: center;
   font-weight: 500;
   cursor: pointer;
   transition: background 0.3s;
@@ -49,6 +57,9 @@ interface ButtonProps extends Omit<LinkProps, 'to'> {
   $padding?: string;
   $borderRadius?: string;
   $color?: string;
+  $maxWidth?: string;
+  $display?: string;
+  $fontSize?: string;
 }
 
 // === COMPONENT CHÍNH ===
