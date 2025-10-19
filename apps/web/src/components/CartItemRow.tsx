@@ -39,8 +39,8 @@ const QuantityControllerWrapper = styled.div`
 
 const ControlButton = styled.button`
     background: none;
-    border: 1px solid #F72D57;
-    color: #F72D57;
+    border: 1px solid #f72d57;
+    color: #f72d57;
     border-radius: 50%; /* Nút hình tròn */
     width: 18px;
     height: 18px;

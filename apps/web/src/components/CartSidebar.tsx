@@ -4,6 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useCart } from '../context/CartContext';
 import CartItemRow from './CartItemRow';
+import Button from './Button';
 
 // ==========================================================
 // 1. STYLED COMPONENTS (ĐÃ SỬA WIDTH)
@@ -92,7 +93,7 @@ const MainContent = styled.div`
 `;
 
 const SummaryTotal = styled.div`
-    padding: 20px;
+    padding: 35px;
     border-top: 1px solid #eee;
     background: #fcfcfc;
 `;
@@ -109,26 +110,9 @@ const FinalTotal = styled.div`
     justify-content: space-between;
     font-size: 1.2rem;
     font-weight: 700;
-    margin: 15px 0;
+    margin: 35px 0;
 `;
 
-
-const CheckoutButton = styled.button`
-    width: 100%;
-    padding: 15px;
-    background-color: #00AA13; 
-    color: white;
-    font-size: 1.1rem;
-    font-weight: 700;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-
-    &:disabled {
-        background-color: #ccc;
-        cursor: not-allowed;
-    }
-`;
 
 
 // ==========================================================
@@ -197,7 +181,7 @@ const CartSidebar: React.FC = () => {
                                 <span>{formatCurrency(totalAmount)}</span>
                             </SummaryRow>
                             <SummaryRow style={{ color: '#666' }}>
-                                <span>Delivery Fee will be shown after you review order</span>
+                                <span>Phí giao hàng tạm tính</span>
                                 <span>{formatCurrency(deliveryFee)}</span>
                             </SummaryRow>
                             
@@ -206,9 +190,9 @@ const CartSidebar: React.FC = () => {
                                 <span>{formatCurrency(finalTotal)}</span>
                             </FinalTotal>
 
-                            <CheckoutButton disabled={!hasItems} onClick={() => alert("Chuyển đến trang thanh toán!")}>
+                            <Button to="/checkout" $maxWidth='100%' $display='block' $padding='15px' >
                                 Xem lại đơn hàng
-                            </CheckoutButton>
+                            </Button>
                         </>
                     )}
                 </SummaryTotal>
