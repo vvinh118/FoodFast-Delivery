@@ -81,7 +81,7 @@ const ItemPrice = styled.p`
 
 const AddButton = styled.button`
     /* Style cho nút (+) ban đầu */
-    background-color: #00AA13;
+    background-color: #F72D57;
     color: white;
     border: none;
     border-radius: 50%;

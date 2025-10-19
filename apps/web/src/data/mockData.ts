@@ -16,7 +16,7 @@ export const mockRestaurants = [
     { 
       id: 1, 
       name: "Nem Nướng D'yan - Since 1968", 
-      address: "Lẩu & Nướng - Quay", 
+      address: "183 Nguyễn Văn Đậu", 
       rating: 4.7, 
       distance: 2.9, 
       deliveryTime: 25,
@@ -38,7 +38,7 @@ export const mockRestaurants = [
     { 
       id: 3, 
       name: "Mì Trộn Indomie, Gà Rán", 
-      address: "Tráng miệng, Trà sữa", 
+      address: "155 Lê Văn Sỹ", 
       rating: 4.7, 
       distance: 2.3, 
       deliveryTime: 30,
@@ -49,7 +49,7 @@ export const mockRestaurants = [
     { 
       id: 4, 
       name: "Xôi Mặn - Bánh Bao Trường Sơn", 
-      address: "Bánh Mì, Xôi, Thức ăn nhanh", 
+      address: "36 Trường Sơn, P.4, Q.TB", 
       rating: 4.6, 
       distance: 0.8, 
       deliveryTime: 15,
@@ -60,7 +60,7 @@ export const mockRestaurants = [
     { 
         id: 5, 
         name: "Cơm Gà Xối Mỡ - Chú Tư", 
-        address: "Món Việt, Cơm trưa văn phòng", 
+        address: "18 Thành Thái, P.14, Q.10", 
         rating: 4.8, 
         distance: 3.5, 
         deliveryTime: 35,
@@ -71,7 +71,7 @@ export const mockRestaurants = [
     { 
         id: 6, 
         name: "Trà Sữa Cheese Bông - Hot Trend", 
-        address: "Trà sữa, Đồ uống", 
+        address: "212 Lý Thường Kiệt, P.15, Q.11", 
         rating: 4.9, 
         distance: 1.1, 
         deliveryTime: 15,
@@ -82,7 +82,7 @@ export const mockRestaurants = [
     { 
         id: 7, 
         name: "Bún Chả Hà Nội - 120 Năm", 
-        address: "Món Bắc, Bún Phở", 
+        address: "118 Cống Quỳnh, P. Phạm Ngũ Lão, Q.1", 
         rating: 4.4, 
         distance: 5.1, 
         deliveryTime: 40,
@@ -93,7 +93,7 @@ export const mockRestaurants = [
     { 
         id: 8, 
         name: "Pizza & Pasta Ý - VV", 
-        address: "Pizza, Món Tây", 
+        address: "339 Lê Văn Sỹ, P.1, Q. TB", 
         rating: 4.3, 
         distance: 0.5, 
         deliveryTime: 20,
@@ -101,6 +101,32 @@ export const mockRestaurants = [
         isPromo: true,
         category: "Thức ăn nhanh" 
     },
+
+    { 
+        id: 9,
+        name: "Kem Wall's - ST F-MART 24", 
+        address: "258 Phan Đình Phùng, P.2, Q. Phú Nhuận", 
+        rating: 4.6, 
+        distance: 0.5, 
+        deliveryTime: 20,
+        imageUrl: "https://bizweb.dktcdn.net/100/093/924/files/kem-hop-3-trong-1-triple-delight-vanilla-lemon-chocolate-walls-840ml-2.jpg?v=1619857283204",
+        isPromo: true,
+        category: "Kem" 
+    },
+
+    
+    { 
+        id: 10,
+        name: "Thế Giới Donut", 
+        address: "124 Hai Bà Trưng, P.6, Q.3", 
+        rating: 4.6, 
+        distance: 0.5, 
+        deliveryTime: 20,
+        imageUrl: "https://tse4.mm.bing.net/th/id/OIP._RHtf6pxnrUkhaWDxrmeKQHaHa?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
+        isPromo: true,
+        category: "Bánh" 
+    },
+
 ];
 
 
@@ -109,7 +135,15 @@ export const mockMenuItems = [
     // Quán ID 1: Nem Nướng D'yan
     { id: 101, restaurantId: 1, name: "Nem Nướng Cuốn Bánh Tráng", price: 65000, description: "Combo 2 phần nem nướng đầy đủ rau, dưa, bánh tráng.", imageUrl: "https://toplist.vn/images/800px/nem-nuong-bun-thit-nuong-quan-cua-ma-1143319.jpg" },
     { id: 102, restaurantId: 1, name: "Nem Nướng Lẻ", price: 35000, description: "10 que nem nướng nóng giòn.", imageUrl: "https://i.imgur.com/i9O3L6F.jpeg" },
-    
+    { id: 103, restaurantId: 1, name: "Bún Nem Nướng Chả Giò", price: 50000, description: "Bún tươi, nem nướng, chả giò và rau sống.", imageUrl: "https://i.imgur.com/rN2tMhY.jpeg" },
+    { id: 104, restaurantId: 1, name: "Gỏi Cuốn Nem Nướng (3 Cuốn)", price: 40000, description: "Gỏi cuốn nhân nem nướng, tôm, thịt.", imageUrl: "https://i.imgur.com/V7gZJ8w.jpeg" },
+    { id: 105, restaurantId: 1, name: "Trà Tắc Giải Nhiệt", price: 18000, description: "Trà tắc tươi mát, giải nhiệt.", imageUrl: "https://i.imgur.com/P5kQJ1o.jpeg" },
+    { id: 106, restaurantId: 1, name: "Nước Mía Lau", price: 15000, description: "Nước mía tươi ép với lá dứa.", imageUrl: "https://i.imgur.com/c1hJ2gJ.jpeg" },
+    { id: 107, restaurantId: 1, name: "Combo Đặc Biệt (2 Nem + 1 Nước)", price: 79000, description: "Nem nướng cuốn bánh tráng kèm nước giải khát.", imageUrl: "https://i.imgur.com/vH1WjYf.jpeg" },
+    { id: 108, restaurantId: 1, name: "Phần Rau Thêm", price: 10000, description: "Phần rau sống thêm cho món cuốn.", imageUrl: "https://i.imgur.com/wA0bX2e.jpeg" },
+    { id: 109, restaurantId: 1, name: "Bánh Hỏi Nem Nướng", price: 55000, description: "Bánh hỏi ăn kèm nem nướng và rau thơm.", imageUrl: "https://i.imgur.com/tYpZ9uB.jpeg" },
+
+
     // Quán ID 2: 3 Râu - Gà Rán Pizza & Trà Sữa
     { id: 201, restaurantId: 2, name: "Combo Gà Rán 2 Miếng + Pepsi", price: 59000, description: "2 miếng gà giòn tan kèm nước.", imageUrl: "https://i.imgur.com/7gK5xQf.jpeg" }, 
     { id: 202, restaurantId: 2, name: "Pizza Hải Sản (Size M)", price: 99000, description: "Pizza hải sản với đế mỏng giòn.", imageUrl: "https://i.imgur.com/8QjZzRj.jpeg" },
@@ -154,3 +188,4 @@ export const mockCategories = [
     { name: "Lẩu, Nướng", iconUrl: hotpotIcon },
     { name: "Kem", iconUrl: icecreamIcon },
 ];
+

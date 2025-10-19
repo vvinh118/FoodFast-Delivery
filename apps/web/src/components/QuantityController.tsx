@@ -4,15 +4,15 @@ import React from 'react';
 import styled from 'styled-components';
 import { useCart } from '../context/CartContext';
 
-// Styled Component đã được tối ưu cho giao diện GrabFood
+// Styled Components 
 const ControllerWrapper = styled.div`
     display: flex;
     align-items: center;
     background-color: white; 
-    border: 1px solid #00AA13; /* Viền xanh */
+    border: 1px solid #F72D57; /* Viền hồng */
     border-radius: 20px;
     height: 30px;
-    width: 90px; /* Độ rộng nhỏ gọn */
+    width: 90px;
     position: absolute;
     bottom: 10px;
     right: 10px;
@@ -21,9 +21,9 @@ const ControllerWrapper = styled.div`
 const Button = styled.button`
     background: none;
     border: none;
-    color: #00AA13;
+    color: #F72D57;
     font-size: 1.2rem;
-    font-weight: bold;
+    font-weight: bold;  
     cursor: pointer;
     width: 30px;
     height: 100%;

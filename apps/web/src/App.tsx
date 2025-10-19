@@ -14,7 +14,7 @@ function App() {
   return (
     <CartProvider>
     <div>
-      <GlobalStyle /> 
+     <GlobalStyle />  
 
       <Routes>
         <Route path="/" element={<Home />} />

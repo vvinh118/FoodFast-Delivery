@@ -1,6 +1,6 @@
 // apps/web/src/pages/MenuItemList.tsx
 
-import React from 'react';
+
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom'; // Dùng để lấy ID quán ăn từ URL
 import Header from '../components/Header';
@@ -50,6 +50,7 @@ const MenuGrid = styled.div`
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     margin-top: 20px;
+    margin-bottom: 80px;
 `;
 
 // ==========================================================

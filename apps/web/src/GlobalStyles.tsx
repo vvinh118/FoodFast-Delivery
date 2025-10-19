@@ -20,11 +20,8 @@ const GlobalStyle = createGlobalStyle`
     body {
         font-family: 'Poppins', sans-serif;
     }
+  
 
-    //h1, h2,  {
-        font-family: 'MilestoneScript', cursive; 
-        font-weight: normal; 
-    }
 `;
 
 export default GlobalStyle;

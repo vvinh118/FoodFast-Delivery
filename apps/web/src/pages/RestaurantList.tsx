@@ -37,7 +37,6 @@ const CategoryListContainer = styled.div`
 
 const ListPageContainer = styled.div`
   min-height: 100vh;
-  padding-bottom: 50px; /* Để Footer không che mất nội dung */
 `;
 
 const ContentWrapper = styled.div`
@@ -45,6 +44,7 @@ const ContentWrapper = styled.div`
   max-width: 1200px; 
   margin: 0 auto;
   padding: 0 20px;
+  
 `;
 
 // Container cho Tiêu đề và Context
@@ -72,6 +72,7 @@ const RestaurantGrid = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
   gap: 30px; /* Khoảng cách giữa các thẻ */
   margin-top: 20px;
+  margin-bottom: 80px;
 `;
 
 
