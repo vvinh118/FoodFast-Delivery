@@ -3,7 +3,6 @@ import Home from "./pages/Home";
 import Product from "./pages/Product";
 import RestaurantList from "./pages/RestaurantList";
 import MenuItemList from "./pages/MenuItemList";
-import ShoppingCart from "./pages/ShoppingCart";
 import { CartProvider } from "./context/CartContext";
 import CartSidebar from "./components/CartSidebar";
 
