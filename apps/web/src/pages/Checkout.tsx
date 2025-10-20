@@ -4,16 +4,11 @@ import Header from '../components/Header';
 import Footer from '../components/Footer'; 
 import Button from '../components/Button'; 
 import { Link } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 import { FaMapMarkerAlt, FaCreditCard, FaTicketAlt } from 'react-icons/fa';
 
-// === DỮ LIỆU MẪU GIỎ HÀNG (Sẽ được thay thế bằng API/Context) ===
-const sampleCart = [
-    { id: 1, name: 'Nem Nướng Cuộn Bánh Tráng', price: 65000, qty: 1 },
-    { id: 2, name: 'Nem Nướng Lá Lốt', price: 35000, qty: 1 },
-    { id: 3, name: 'Combo Đồ Uống', price: 40000, qty: 2 },
-];
+
 const DELIVERY_FEE = 20000;
-const INITIAL_SUBTOTAL = sampleCart.reduce((sum, item) => sum + item.price * item.qty, 0);
 
 // === 1. STYLED COMPONENTS (PHỤC HỒI) ===
 const PageWrapper = styled.div`
@@ -77,10 +72,10 @@ const InputWrapper = styled.div`
     margin-bottom: 10px
 `;
 
-const Input = styled.input`
+const Input = styled.input<{ $error?: string }>`
     width: 100%;
     padding: 10px 15px;
-    border: 1px solid #ddd;
+    border: 1px solid ${props => props.$error ? '#f72d57' : '#ddd'};
     border-radius: 6px;
     box-sizing: border-box;
     transition: border-color 0.2s;
@@ -101,10 +96,7 @@ const SummaryTitle = styled.h2`
     margin-bottom: 20px;
 `;
 
-// INTERFACE CHO SUMMARY ROW
-interface SummaryRowProps {
-    $total?: string; 
-}
+
 
 const SummaryRow = styled.div<SummaryRowProps>`
     display: flex;
@@ -125,26 +117,97 @@ const OrderButton = styled(Button)`
     padding: 15px;
 `;
 
+// COMPONENT ĐỂ HIỂN THỊ LIST SẢN PHẨM TRONG SUMMARY
+const ItemListContainer = styled.div`
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 10px;
+    margin-bottom: 20px;
+`;
+
+const ItemSummaryRow = styled.div`
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    padding: 10px 0;
+    border-bottom: 1px dotted #eee;
+    
+    &:last-child {
+        border-bottom: none;
+    }
+`;
+
+const Form = styled.form``
+
+interface SummaryRowProps {
+    $total?: string; 
+}
+
+interface CustomerInfoErrors {
+    name?: string;
+    phone?: string;
+    address?: string;
+    general?: string | null;
+}
+
 // === 2. CHECKOUT COMPONENT LOGIC VÀ JSX ===
 
 export default function Checkout() {
-    // === LOGIC VÀ STATE (PHỤC HỒI) ===
+    // Lấy dữ liệu động từ Cart Context
+    const { cartItems, getTotalPrice } = useCart(); 
+
+    // === LOGIC VÀ STATE (CHỈ KHAI BÁO STATE Ở ĐÂY) ===
     const [customerInfo, setCustomerInfo] = useState({ name: '', phone: '', address: '' });
     const [coupon, setCoupon] = useState('');
     const [discount, setDiscount] = useState(0); 
     const [paymentMethod, setPaymentMethod] = useState('cod');
+    const [validationErrors, setValidationErrors] = useState<CustomerInfoErrors>({});
 
-    const finalDiscount = discount > 0 ? INITIAL_SUBTOTAL * discount : 0;
-    const finalSubtotal = INITIAL_SUBTOTAL - finalDiscount;
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        setValidationErrors({});
+
+
+    const errors: CustomerInfoErrors = {};
+        if (!customerInfo.name) {
+            errors.name = 'Vui lòng nhập tên người nhận.';
+        }
+        if (!customerInfo.phone) {
+            errors.phone = 'Vui lòng nhập số điện thoại.';
+        }
+        if (!customerInfo.address) {
+            errors.address = 'Vui lòng nhập địa chỉ.';
+        }
+
+        if (Object.keys(errors).length > 0) {
+            setValidationErrors({ ...errors, general: 'Vui lòng điền đầy đủ thông tin giao hàng.' });
+            return;
+        }
+    };
+
+    // 1. TÍNH TOÁN TỔNG TIỀN TỪ GIỎ HÀNG (DỮ LIỆU ĐỘNG)
+    const totalAmount = getTotalPrice(); 
+
+    // 2. TÍNH TOÁN GIẢM GIÁ
+    const finalDiscount = discount > 0 ? totalAmount * discount : 0;
+    
+    // 3. TÍNH TOÁN CỘNG DỒN
+    const finalSubtotal = totalAmount - finalDiscount;
     const finalTotal = finalSubtotal + DELIVERY_FEE;
+    // ===================================
+
+    const formatCurrency = (amount: number) => {
+        return new Intl.NumberFormat('vi-VN', { 
+            style: 'currency', 
+            currency: 'VND' 
+        }).format(amount);
+    };
 
     const handleCouponApply = () => {
         if (coupon.toLowerCase() === 'foodfast') {
             setDiscount(0.1); 
-            alert('Áp dụng mã giảm giá 10% thành công!');
         } else {
             setDiscount(0);
-            alert('Mã giảm giá không hợp lệ.');
         }
     };
     // ===================================
@@ -153,6 +216,7 @@ export default function Checkout() {
         <PageWrapper>
             <Header />
 
+            <Form onSubmit={handleSubmit}>
             <CheckoutContainer>
                 {/* CỘT CHÍNH: THÔNG TIN VÀ FORM */}
                 <MainContent>
@@ -160,18 +224,36 @@ export default function Checkout() {
                     {/* SECTION 1: THÔNG TIN GIAO HÀNG */}
                     <SectionCard>
                         <Heading><FaMapMarkerAlt color="#F72D57" /> Thông tin giao hàng</Heading>
-                        <InputGroup>
+                        <InputGroup onSubmit={handleSubmit}>
                             <label style={{ marginBottom: '10px', display: 'block' }}>Tên người nhận</label>
-                            <Input placeholder="Nhập tên" value={customerInfo.name} onChange={e => setCustomerInfo({...customerInfo, name: e.target.value})} />
+                            <Input 
+                                placeholder="Nhập tên" 
+                                value={customerInfo.name} 
+                                onChange={e => setCustomerInfo({...customerInfo, name: e.target.value})} 
+                                $error={validationErrors.name ? 'true' : undefined}
+                                />
+                            {validationErrors.name && <p style={{color: '#F72D57', fontSize: '0.8rem', marginTop: '5px'}}>{validationErrors.name}</p>}
                         </InputGroup>
                         <InputGroup>
                             <label style={{ marginBottom: '10px', display: 'block' }}>Số điện thoại</label>
-                            <Input placeholder="Nhập SĐT" value={customerInfo.phone} onChange={e => setCustomerInfo({...customerInfo, phone: e.target.value})} />
+                            <Input 
+                                placeholder="Nhập SĐT" 
+                                value={customerInfo.phone} onChange={e => setCustomerInfo({...customerInfo, phone: e.target.value})} 
+                                $error={validationErrors.phone ? 'true' : undefined}
+                                />
+                            {validationErrors.name && <p style={{color: '#F72D57', fontSize: '0.8rem', marginTop: '5px'}}>{validationErrors.phone}</p>}
                         </InputGroup>
                         <InputGroup>
                             <label style={{ marginBottom: '10px', display: 'block' }}>Địa chỉ nhận hàng</label>
-                            <Input placeholder="Nhập địa chỉ" value={customerInfo.address} onChange={e => setCustomerInfo({...customerInfo, address: e.target.value})} />
+                            <Input 
+                                placeholder="Nhập địa chỉ" 
+                                value={customerInfo.address} 
+                                onChange={e => setCustomerInfo({...customerInfo, address: e.target.value})} 
+                                $error={validationErrors.address ? 'true' : undefined}
+                                />
+                            {validationErrors.name && <p style={{color: '#F72D57', fontSize: '0.8rem', marginTop: '5px'}}>{validationErrors.address}</p>}
                         </InputGroup>
+                        {validationErrors.general && <p style={{color: '#F72D57', fontSize: '0.9rem', textAlign: 'center', marginTop: '15px'}}>* {validationErrors.general}</p>}
                     </SectionCard>
 
                     {/* SECTION 2: MÃ KHUYẾN MÃI */}
@@ -214,43 +296,46 @@ export default function Checkout() {
                     </SectionCard>
 
                 </MainContent>
+                
 
                 {/* CỘT TÓM TẮT ĐƠN HÀNG */}
                 <SummarySection>
                     <SummaryCard>
                         <SummaryTitle>Tóm tắt đơn hàng</SummaryTitle>
                         
-                        {/* 1. CHI TIẾT SẢN PHẨM (Mẫu) */}
-                        <div style={{ maxHeight: '200px', overflowY: 'auto', paddingRight: '10px' }}>
-                            {sampleCart.map(item => (
-                                <SummaryRow key={item.id} style={{ borderBottom: '1px dotted #eee' }}>
-                                    <span>{item.name} x {item.qty}</span>
-                                    <span>{(item.price * item.qty).toLocaleString('vi-VN')} đ</span>
-                                </SummaryRow>
+                        {/* 1. HIỂN THỊ CHI TIẾT SẢN PHẨM */}
+                        <ItemListContainer>
+                            {cartItems.map(item => ( 
+                                <ItemSummaryRow key={item.id}>
+                                    <span>{item.name} x {item.quantity}</span> 
+                                    <span>{formatCurrency(item.price * item.quantity)}</span>
+                                </ItemSummaryRow>
                             ))}
-                        </div>
+                            {cartItems.length === 0 && <p style={{textAlign: 'center', color: '#999'}}>Giỏ hàng đang trống.</p>}
+                        </ItemListContainer>
 
                         <div style={{ marginTop: '20px' }}>
                             {/* 2. CHI TIẾT TÍNH TOÁN */}
-                            <SummaryRow><span>Tạm tính</span><span>{INITIAL_SUBTOTAL.toLocaleString('vi-VN')} đ</span></SummaryRow>
-                            <SummaryRow><span>Phí giao hàng</span><span>{DELIVERY_FEE.toLocaleString('vi-VN')} đ</span></SummaryRow>
-                            {finalDiscount > 0 && <SummaryRow><span>Mã khuyến mãi</span><span style={{ color: 'green' }}>- {finalDiscount.toLocaleString('vi-VN')} đ</span></SummaryRow>}
+                            <SummaryRow><span>Tạm tính</span><span>{formatCurrency(totalAmount)}</span></SummaryRow>
+                            <SummaryRow><span>Phí giao hàng</span><span>{formatCurrency(DELIVERY_FEE)}</span></SummaryRow>
+                            {finalDiscount > 0 && <SummaryRow><span>Giảm giá Mã KM</span><span style={{ color: 'green' }}>- {formatCurrency(finalDiscount)}</span></SummaryRow>}
 
                             {/* 3. TỔNG CỘNG */}
                             <SummaryRow $total="true">
                                 <span>TỔNG CỘNG</span>
-                                <span style={{ color: '#F72D57', fontSize: '1.4rem' }}>{finalTotal.toLocaleString('vi-VN')} đ</span>
+                                <span style={{ color: '#F72D57', fontSize: '1.4rem' }}>{formatCurrency(finalTotal)}</span>
                             </SummaryRow>
                         </div>
                         
-                        {/* NÚT ĐẶT HÀNG CUỐI CÙNG */}
-                        <Button to="/Order" $maxWidth='100%' $display='block' $padding='10px' $fontSize='20px' $margin='15px 0 0 0'>
+                        {/* NÚT ĐẶT HÀNG */}
+                        <Button to="/order-success" $maxWidth='100%' $display='block' $padding='10px' $fontSize='20px' $margin='15px 0 0 0'>
                             Đặt đơn
                         </Button>
                     </SummaryCard>
                 </SummarySection>
 
             </CheckoutContainer>
+            </Form>
 
             <Footer />
         </PageWrapper>

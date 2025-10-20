@@ -1,10 +1,23 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 import { FaArrowLeft, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc'; 
 import { FaFacebook } from 'react-icons/fa'; 
+
+
+interface AccountMap {
+    [key: string]: string; // Bất kỳ key nào là string, giá trị cũng là string
+}
+
+// Tài khoản giả lập để kiểm tra
+const MOCK_ACCOUNTS: AccountMap = {
+  'test@foodfast.vn': '123456', 
+  'user@demo.com': 'password',
+};
+
 
 // === STYLED COMPONENTS ===
 
@@ -204,6 +217,7 @@ const ActionRow = styled.div`
 
 // === REACT COMPONENT ===
 export default function Login() {
+  const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -211,13 +225,30 @@ export default function Login() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+
+    // Kiểm tra trống
     if (!email || !password) {
         setError('Vui lòng nhập đầy đủ Email và Mật khẩu.');
-    } else {
-        setError('Mật khẩu không chính xác!'); // Giả lập lỗi
-        console.log('Đăng nhập với:', { email, password });
+        return;
+    } 
+    
+
+  // Kiểm tra tài khoản và mật khẩu giả lập
+    if (MOCK_ACCOUNTS[email] && MOCK_ACCOUNTS[email] === password) {
+      console.log('Login successful: Redirecting...');
+      alert('Đăng nhập thành công!');
+      login(); 
+      return;
     }
-  };
+
+    else {
+      setError('Mật khẩu không chính xác');
+      return;
+    }
+
+}
+
 
   return (
     <LoginPageContainer>

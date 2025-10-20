@@ -9,16 +9,19 @@ import MenuItemList from "./pages/MenuItemList";
 import { CartProvider } from "./context/CartContext";
 import CartSidebar from "./components/CartSidebar";
 import Register from './pages/Register';
-import Checkout from './pages/Checkout'
+import Checkout from './pages/Checkout';
+import OrderSuccess from "./pages/OrderSuccess";
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
   return (
-    <CartProvider>
+    
     <div>
-     <GlobalStyle />  
-
-      <Routes>
-        <Route path="/" element={<Home />} />
+     <CartProvider>
+      <AuthProvider>
+        <GlobalStyle />
+        <Routes>
+        <Route path="/" element={<OrderSuccess />} />
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} /> 
         <Route path="/register" element={<Register />} /> 
@@ -26,11 +29,14 @@ function App() {
         <Route path="/restaurant/:id" element={<MenuItemList />} />
         <Route path="/product" element={<Product />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/order-success" element={<OrderSuccess />} />
       </Routes>
+      <CartSidebar />
+      </AuthProvider>
+     </CartProvider>
     </div>
 
-    <CartSidebar /> {/* Thêm CartSidebar vào App */}  
-    </CartProvider>
+
   );
 
 }

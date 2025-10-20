@@ -1,8 +1,9 @@
-import { Link } from 'react-router-dom';
-import { FaShoppingCart } from "react-icons/fa";
 import styled from "styled-components";
-import { useCart } from '../context/CartContext'; // Import hook giỏ hàng
 import Button from "../components/Button";
+import { Link } from 'react-router-dom';
+import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
+import { useCart } from '../context/CartContext'; // Import hook giỏ hàng
+import { useAuth } from '../context/AuthContext';
 
 
 // khung header
@@ -76,8 +77,20 @@ const CartBadge = styled.div`
     pointer-events: none; /* Đảm bảo click xuyên qua badge */
 `;
 
+// Icon Profile
+const ProfileIconLink = styled(Link)`
+    color: #F72D57;
+    font-size: 30px;  
+    transition: color 0.2s;
+    &:hover {
+        color: #ff5b7a;
+    }
+`;
+
 
 export default function Header() {
+    const { isLoggedIn } = useAuth();
+
     const { getTotalItems, toggleCart } = useCart();
     const totalItems = getTotalItems();
 
@@ -104,9 +117,17 @@ export default function Header() {
                     )}
                 </CartContainer>
                 
-                <Button to='/login'>Đăng Nhập</Button>
+                {isLoggedIn ? (
+                    // A. ĐÃ ĐĂNG NHẬP: HIỂN THỊ ICON PROFILE
+                    <ProfileIconLink to="/profile">
+                        <FaUserCircle />
+                    </ProfileIconLink>
+                ) : (
+                    // B. CHƯA ĐĂNG NHẬP: Hiển thị nút Đăng Nhập
+                    <Button to="/login">Đăng Nhập</Button>
+                )}
+
             </Nav>
-        
         </HeaderContainer>
     );
 }

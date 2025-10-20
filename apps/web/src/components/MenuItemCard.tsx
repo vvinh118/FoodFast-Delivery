@@ -3,6 +3,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import QuantityController from './QuantityController';
 
 interface MenuItemCardProps {
@@ -114,17 +116,28 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({ name, price, imageUrl, id }
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
     };
 
+    const { isLoggedIn } = useAuth();
+    const navigate = useNavigate();
+
     // Xử lý sự kiện nhấn (+) lần đầu tiên
     const handleAddToCart = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        // Thêm mới món ăn với số lượng 1
-        increaseItemQuantity({ 
-            id: id, 
-            name: name, 
-            price: price, 
-            imageUrl: imageUrl
-        });
+        if (!isLoggedIn) {
+            alert('Bạn cần đăng nhập để thêm món ăn vào giỏ');
+            navigate('/login');
+            return;
+            }
+        
+            e.stopPropagation();
+            // Thêm mới món ăn với số lượng 1
+            increaseItemQuantity({ 
+                id: id, 
+                name: name, 
+                price: price, 
+                imageUrl: imageUrl
+            });
     };
+
+    
 
     return (
         <ItemContainer>

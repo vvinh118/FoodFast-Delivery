@@ -72,7 +72,7 @@ export default function ProductCard({ name, price, image, onAddToCart }: Product
         <ProductName>{name}</ProductName>
         <ProductPrice>${price.toFixed(2)}</ProductPrice>
         <AddToCartButton onClick={onAddToCart}>
-          Add to cart
+          Thêm vào giỏ
         </AddToCartButton>
       </CardContent>
     </CardContainer>
