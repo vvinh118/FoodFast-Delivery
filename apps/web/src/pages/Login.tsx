@@ -274,7 +274,7 @@ export default function Login() {
                         value={email}
                         onChange={(e) => {setEmail(e.target.value); setError(null);}}
                     />
-                </InputGroup>
+                </InputGroup> 
 
                 <InputGroup>
                     <Label htmlFor="password">Mật khẩu</Label>

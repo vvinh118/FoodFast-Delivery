@@ -190,7 +190,7 @@ const CartSidebar: React.FC = () => {
                                 <span>{formatCurrency(finalTotal)}</span>
                             </FinalTotal>
 
-                            <Button to="/checkout" $maxWidth='100%' $display='block' $padding='15px' $fontSize='20px' >
+                            <Button to="/checkout" $width='100%' $display='block' $padding='15px' $fontSize='20px' >
                                 Xem lại đơn hàng
                             </Button>
                         </>

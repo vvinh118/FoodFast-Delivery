@@ -78,10 +78,14 @@ const CartBadge = styled.div`
 `;
 
 // Icon Profile
-const ProfileIconLink = styled(Link)`
+const ProfileIconButton = styled.div`
     color: #F72D57;
     font-size: 30px;  
     transition: color 0.2s;
+    cursor: pointer; // Thêm con trỏ
+    display: flex; // Đảm bảo icon căn giữa
+    align-items: center;
+
     &:hover {
         color: #ff5b7a;
     }
@@ -89,13 +93,17 @@ const ProfileIconLink = styled(Link)`
 
 
 export default function Header() {
-    const { isLoggedIn } = useAuth();
+    const { isLoggedIn, toggleProfileSidebar } = useAuth();
 
     const { getTotalItems, toggleCart } = useCart();
     const totalItems = getTotalItems();
 
     const handleCartClick = () => {
         toggleCart(); // gọi hàm này để mở sidebar giỏ hàng
+    };
+
+    const handleProfileClick = () => {
+        toggleProfileSidebar(); // Gọi hàm mở profile sidebar
     };
 
     return (
@@ -118,12 +126,12 @@ export default function Header() {
                 </CartContainer>
                 
                 {isLoggedIn ? (
-                    // A. ĐÃ ĐĂNG NHẬP: HIỂN THỊ ICON PROFILE
-                    <ProfileIconLink to="/profile">
+                    // ĐÃ ĐĂNG NHẬP: HIỂN THỊ ICON PROFILE
+                    <ProfileIconButton onClick={handleProfileClick}>
                         <FaUserCircle />
-                    </ProfileIconLink>
+                    </ProfileIconButton>
                 ) : (
-                    // B. CHƯA ĐĂNG NHẬP: Hiển thị nút Đăng Nhập
+                    // CHƯA ĐĂNG NHẬP: Hiển thị nút Đăng Nhập
                     <Button to="/login">Đăng Nhập</Button>
                 )}
 

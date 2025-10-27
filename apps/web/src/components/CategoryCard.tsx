@@ -39,8 +39,8 @@ const StyledCategoryCard = styled.div<StyledProps>`
   font-weight: 500;
   
   /* Style Động dựa trên prop $isActive */
-  background-color: ${(props) => (props.$isActive ? '#FFF8E1' : '#F5F5F5')};
-  border: 2px solid ${(props) => (props.$isActive ? '#FFC107' : 'transparent')};
+  background-color: ${(props) => (props.$isActive ? '#fddce2ff' : '#f5f5f5ff')};
+  border: 2px solid ${(props) => (props.$isActive ? '#f72d57' : 'transparent')};
   color: #333;
   transition: all 0.2s ease-in-out;
 

@@ -60,7 +60,7 @@ const PromoTag = styled.span`
   position: absolute;
   top: 10px;
   left: 0;
-  background-color: #00AA13; /* Màu xanh lá cây của GrabFood */
+  background-color: #F72D57; 
   color: white;
   padding: 4px 8px;
   border-radius: 0 4px 4px 0;

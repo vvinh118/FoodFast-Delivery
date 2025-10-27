@@ -11,10 +11,12 @@ const StyledButton = styled.button<ButtonProps>`
   color: ${props => props.$color || "white"};
   padding: ${props => props.$padding || "10px 20px"};
   border-radius: ${props => props.$borderRadius || "8px"};
-  max-width: ${props => props.$maxWidth || "fit-content"};
+  width: ${props => props.$width || "fit-content"};
   display: ${props => props.$display || "block"};
   font-size: ${props => props.$fontSize || "15px"};
   margin: ${props => props.$margin || "0"};
+  type: button;
+  box-sizing: border-box;
   text-align: center;
   font-weight: 500;
   cursor: pointer;
@@ -33,11 +35,12 @@ const StyledLink = styled(Link)<ButtonProps>`
   color: ${props => props.$color || "white"};
   padding: ${props => props.$padding || "10px 20px"};
   border-radius: ${props => props.$borderRadius || "8px"};
-  max-width: ${props => props.$maxWidth || "fit-content"};
+  width: ${props => props.$width || "fit-content"};
   display: ${props => props.$display || "block"};
   font-size: ${props => props.$fontSize || "15px"};
   margin: ${props => props.$margin || "0"};
   text-align: center;
+  box-sizing: border-box;
   font-weight: 500;
   cursor: pointer;
   transition: background 0.3s;
@@ -59,17 +62,18 @@ interface ButtonProps extends Omit<LinkProps, 'to'> {
   $padding?: string;
   $borderRadius?: string;
   $color?: string;
-  $maxWidth?: string;
+  $width?: string;
   $display?: string;
   $fontSize?: string;
   $margin?: string;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 // === COMPONENT CHÍNH ===
-export default function Button({ to, children, onClick, ...props }: ButtonProps) {
+export default function Button({ to, children, onClick, type = 'button', ...props }: ButtonProps) {
   if (to) {
     return <StyledLink to={to} {...props}>{children}</StyledLink>;
   }
   
-  return <StyledButton onClick={onClick} {...props}>{children}</StyledButton>;
+  return <StyledButton type={type} onClick={onClick} {...props}>{children}</StyledButton>;
 }

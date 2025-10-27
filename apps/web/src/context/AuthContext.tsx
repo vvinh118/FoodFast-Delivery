@@ -1,48 +1,64 @@
-import React, { createContext, useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom'; // Dùng để điều hướng sau khi đăng nhập/đăng xuất
+import React, { createContext, useContext, useState, type ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // 1. Định nghĩa kiểu dữ liệu (Interface) cho Context
 interface AuthContextType {
   isLoggedIn: boolean;
-  login: () => void;
+  user: any; // Thêm user (bạn nên thay 'any' bằng kiểu User cụ thể)
+  login: (userData: any) => void; // Sửa lại để nhận userData
   logout: () => void;
+  isProfileSidebarOpen: boolean;
+  toggleProfileSidebar: () => void;
 }
 
-// 2. Tạo Context Object (giá trị mặc định là undefined)
+// 2. Tạo Context Object
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// 3. Custom Hook để sử dụng Context (Giúp code sạch hơn)
+// 3. Custom Hook
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    // Ràng buộc: Đảm bảo hook chỉ được dùng trong Provider
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 };
 
 // 4. Component Provider chính
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Trạng thái đăng nhập (Giả lập: trong thực tế sẽ dùng token hoặc session)
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState<any>(null); // Thêm state cho user
   const navigate = useNavigate();
+  const [isProfileSidebarOpen, setIsProfileSidebarOpen] = useState(false);
 
-  const login = () => {
+  const login = (userData: any) => { 
     setIsLoggedIn(true);
-    // Điều hướng về trang chủ sau khi đăng nhập
+    setUser(userData); // Lưu thông tin user
+    
+    // Giả lập thông tin user nếu đăng nhập mà không có data
+    if (!userData) {
+      setUser({ name: "Võ Minh Thư", email: "test@foodfast.vn" });
+    }
+
     navigate('/'); 
   };
 
   const logout = () => {
     setIsLoggedIn(false);
-    // Điều hướng về trang đăng nhập sau khi đăng xuất
+    setUser(null); // Xóa thông tin user
     navigate('/login'); 
   };
 
+  const toggleProfileSidebar = () => {
+        setIsProfileSidebarOpen(prev => !prev);
+    };
+
   const value = {
     isLoggedIn,
+    user, 
     login,
     logout,
+    isProfileSidebarOpen,
+    toggleProfileSidebar,
   };
 
   return (

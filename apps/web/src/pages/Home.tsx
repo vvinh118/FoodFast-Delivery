@@ -55,8 +55,11 @@ const HeroTextWrap = styled.section`
   padding-right: 20px;
 `
 const HeroHeading = styled.h1`
-  font-size: 2.5rem;
+  font-size: 80px;
   margin-bottom: 20px;
+  font-family: 'MilestoneScript', cursive;
+  font-weight: normal;
+  //letter-spacing: 4px;
 ` 
 const HeroImg = styled.img`
   max-width: 400px; 
@@ -79,8 +82,9 @@ const CategoryHeading = styled.h1`
   font-family: 'MilestoneScript', cursive;
   font-weight: normal;
 `
-const HighlightedText = styled.span<{ $color: string }>`
+const HighlightedText = styled.span<{ $color: string, $fontSize: string }>`
     color: ${props => props.$color};
+    font-size: ${props => props.$fontSize};
     font-family: 'MilestoneScript', cursive; 
     font-weight: normal; 
 `
@@ -201,12 +205,34 @@ const PromoImg = styled.img`
   transform: translateY(-50%);
 `
 
+//Payment Section
+const PaymentSection = styled.section`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 100px 0 100px 0;
+`
+const PayTextWrap = styled.div`
+  max-width: 700px
+`
+const PayHeading = styled.h1`
+  font-family: 'MilestoneScript', cursive; 
+  font-weight: normal; 
+  font-size: 65px;
+  letter-spacing: 4px;
+  color: #3F3F3F;
+`
+const PayText = styled.p``
+const PayImg = styled.img`
+  max-width: 450px;
+`
+
 //Deli Section
 const DeliSection = styled.section`
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  margin: 70px 0 70px 0;
+  margin: 100px 0 100px 0;
   `
 const DeliTextWrap = styled.div`
   max-width: 700px;
@@ -225,28 +251,6 @@ const DeliText = styled.p`
   font-size: 1.1rem;
   margin-bottom: 20px;
   color: #333;
-`
-
-//Payment Section
-const PaymentSection = styled.section`
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  margin: 70px 0 70px 0;
-`
-const PayTextWrap = styled.div`
-  max-width: 700px
-`
-const PayHeading = styled.h1`
-  font-family: 'MilestoneScript', cursive; 
-  font-weight: normal; 
-  font-size: 65px;
-  letter-spacing: 4px;
-  color: #3F3F3F;
-`
-const PayText = styled.p``
-const PayImg = styled.img`
-  max-width: 450px;
 `
 
 // === PRODUCTS DATA ===
@@ -329,9 +333,10 @@ export default function Home() {
             <HeroSection>
                 <HeroTextWrap>
                     <HeroHeading>
-                        <HighlightedText $color="#f72d57">FoodFast: </HighlightedText> Nhanh như chớp, ngon bất ngờ.
+                        <HighlightedText $color="#f72d57" $fontSize="80px">Nhanh </HighlightedText> như chớp,
+                        <HighlightedText $color="#f72d57" $fontSize="80px"> ngon </HighlightedText> bất ngờ.
                     </HeroHeading>
-                    <Button>Đặt ngay</Button>
+                    <Button to='/restaurants' $fontSize="30px">Đặt ngay</Button>
                 </HeroTextWrap>
                 <HeroImg src={HomeHeroImg} alt="Hero Image" /> 
             </HeroSection>
@@ -340,7 +345,7 @@ export default function Home() {
             {/* Category Section */}
             <CategorySection>
                 <CategoryHeading>
-                  <HighlightedText $color="#f72d57">Món ngon</HighlightedText> cho bạn
+                  <HighlightedText $color="#f72d57" $fontSize="80px">Món ngon</HighlightedText> cho bạn
                 </CategoryHeading>
                 <CategoryButtonContainer>
                     {categories.map(cat => (
@@ -410,7 +415,7 @@ export default function Home() {
             <PaymentSection>
               <PayTextWrap>
                 <PayHeading>
-                  <HighlightedText $color="#f72d57">Thanh toán </HighlightedText> dễ dàng
+                  <HighlightedText $color="#f72d57" $fontSize="80px">Thanh toán </HighlightedText> dễ dàng
                 </PayHeading>
                 <PayText>
                   Đừng để việc thanh toán phức tạp làm gián đoạn trải nghiệm ẩm thực của bạn. Với quy trình được tối ưu hóa, bạn chỉ cần một vài cú chạm để hoàn tất đơn hàng. Nhanh chóng, mượt mà và không rườm rà – để bạn có thêm thời gian tận hưởng món ngon.
@@ -425,7 +430,7 @@ export default function Home() {
                 <DeliImg src={HomeDeliImg} alt="Delivery Moto" />
                 <DeliTextWrap>
                     <DeliHeading>
-                        Giao hàng <HighlightedText $color="#f72d57">hoả tốc</HighlightedText>
+                        Giao hàng <HighlightedText $color="#f72d57" $fontSize="80px">hoả tốc</HighlightedText>
                     </DeliHeading>
                     <DeliText>
                         Thèm là có, đói là giao! Khám phá vô vàn món ngon quanh bạn và đặt hàng chỉ với vài thao tác đơn giản. Chúng tôi sẽ mang bữa ăn nóng hổi, trọn vị đến tận tay bạn một cách nhanh nhất. Mở app và chọn món ngay thôi!
