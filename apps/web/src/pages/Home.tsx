@@ -210,10 +210,13 @@ const PaymentSection = styled.section`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  margin: 100px 0 100px 0;
+  margin: 80px 50px;
 `
 const PayTextWrap = styled.div`
-  max-width: 700px
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 `
 const PayHeading = styled.h1`
   font-family: 'MilestoneScript', cursive; 
@@ -232,7 +235,7 @@ const DeliSection = styled.section`
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  margin: 100px 0 100px 0;
+  margin: 80px 50px;
   `
 const DeliTextWrap = styled.div`
   max-width: 700px;
