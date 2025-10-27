@@ -20,7 +20,7 @@ import {
     SocialButtons,
     SocialButton,
     SignUpPrompt
-} from '../data/authStyle';
+} from '../components/AuthStyle';
 
 
 // === REACT COMPONENT ===
@@ -170,17 +170,6 @@ export default function Register() {
                 <MainButton type="submit" style={{ marginTop: '10px' }}>Đăng ký</MainButton>
 
             </Form>
-
-            <Divider>HOẶC</Divider>
-
-            <SocialButtons>
-                <SocialButton>
-                    <FcGoogle /> Google
-                </SocialButton>
-                <SocialButton>
-                    <FaFacebook color="#1877F2" /> Facebook
-                </SocialButton>
-            </SocialButtons>
 
             <SignUpPrompt>
                 Đã có tài khoản? <Link to="/login">Đăng nhập ngay.</Link>
