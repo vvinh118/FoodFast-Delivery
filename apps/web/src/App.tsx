@@ -12,6 +12,7 @@ import Checkout from './pages/Checkout';
 import OrderSuccess from "./pages/OrderSuccess";
 import { AuthProvider } from './context/AuthContext';
 import ProfileSidebar from './components/ProfileSideBar';
+import UserProfile from './pages/UserProfile';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/restaurant/:id" element={<MenuItemList />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/order-success" element={<OrderSuccess />} />
+        <Route path="/userProfile" element={<UserProfile />} />
       </Routes>
       <CartSidebar />
       <ProfileSidebar />
