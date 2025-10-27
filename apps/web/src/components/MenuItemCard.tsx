@@ -15,7 +15,7 @@ interface MenuItemCardProps {
 }
 
 // ==========================================================
-// 2. STYLED COMPONENTS (THIẾT KẾ CARD LƯỚI)
+// 2. STYLED COMPONENTS
 // ==========================================================
 
 const ItemContainer = styled.div`

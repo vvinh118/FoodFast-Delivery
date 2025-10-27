@@ -1,14 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom"; // Dùng để điều hướng trang
+import { useNavigate } from "react-router-dom";
 
-// Bạn có thể import các icon (ví dụ: Star, Pin, Clock) từ một thư viện icon
-// import { Star, MapPin, Clock } from 'lucide-react'; 
-// (Giả sử bạn đang dùng lucide-react hoặc tương tự)
 
 // Định nghĩa kiểu dữ liệu (Props) cho component
 interface RestaurantCardProps {
-  // Dữ liệu mẫu (sẽ được lấy từ API thực tế)
   id: number;
   name: string;
   address: string;
@@ -20,7 +16,7 @@ interface RestaurantCardProps {
 }
 
 // ==========================================================
-// 2. STYLED COMPONENTS (CSS-IN-JS)
+// 2. STYLED COMPONENTS
 // ==========================================================
 
 // Container chính của thẻ quán ăn
@@ -37,11 +33,11 @@ const CardContainer = styled.div`
   }
 `;
 
-// Container ảnh (chứa ảnh và thẻ promo tag)
+// Container ảnh 
 const ImageWrapper = styled.div`
   position: relative;
   width: 100%;
-  /* Tỉ lệ 3:2. Điều chỉnh nếu cần */
+  /* Tỉ lệ 3:2 */
   padding-top: 66.66%; 
   overflow: hidden;
 `;
@@ -55,7 +51,7 @@ const RestaurantImage = styled.img`
   object-fit: cover;
 `;
 
-// Thẻ Promo (Ví dụ: "Promo" hoặc "Miễn phí ship")
+// Thẻ Promo
 const PromoTag = styled.span`
   position: absolute;
   top: 10px;
@@ -117,7 +113,6 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
   deliveryTime,
   imageUrl,
   isPromo,
-  // Thêm các props khác
 }) => {
   const navigate = useNavigate(); // Khởi tạo hook navigate
 
@@ -140,17 +135,14 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
         <DetailsRow>
           {/* Đánh giá (Rating) */}
           <span>
-            {/* {Icon (Star)} */}
             {rating}
           </span>
           {/* Khoảng cách */}
           <span>
-            {/* {Icon (MapPin)} */}
             {distance} km
           </span>
           {/* Thời gian giao hàng */}
           <span>
-            {/* {Icon (Clock)} */}
             {deliveryTime} phút
           </span>
         </DetailsRow>

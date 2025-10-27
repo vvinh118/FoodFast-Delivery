@@ -22,7 +22,7 @@ export const mockRestaurants = [
       deliveryTime: 25,
       imageUrl: "https://trumfood.vn/wp-content/uploads/2023/01/nem-nuong-thom-ngon-Trum-Food.jpg",
       isPromo: true,
-      category: "Lẩu, Nướng" // Thêm category
+      category: "Lẩu, Nướng"
     },
     { 
       id: 2, 
@@ -33,7 +33,7 @@ export const mockRestaurants = [
       deliveryTime: 20,
       imageUrl: "https://tse3.mm.bing.net/th/id/OIP.4o98zuIor0zIGSloJFZ_DAHaEo?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
       isPromo: true,
-      category: "Gà" // Thêm category
+      category: "Gà" 
     },
     { 
       id: 3, 
@@ -44,7 +44,7 @@ export const mockRestaurants = [
       deliveryTime: 30,
       imageUrl: "https://tse4.mm.bing.net/th/id/OIP.g349_sKPS2INyrS8vSgLlQHaE8?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
       isPromo: false,
-      category: "Bún, Mì, Phở" // Thêm category
+      category: "Bún, Mì, Phở"
     },
     { 
       id: 4, 
@@ -55,7 +55,7 @@ export const mockRestaurants = [
       deliveryTime: 15,
       imageUrl: "https://tse2.mm.bing.net/th/id/OIP.WnQXS6zgCF0nFxumjcgNXgHaFT?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
       isPromo: true,
-      category: "Thức ăn nhanh" // Thêm category
+      category: "Thức ăn nhanh"
     },
     { 
         id: 5, 
@@ -66,7 +66,7 @@ export const mockRestaurants = [
         deliveryTime: 35,
         imageUrl: "https://cdn.xanhsm.com/2025/01/735df340-com-ga-sai-gon-1.jpg",
         isPromo: false,
-        category: "Cơm" // Thêm category
+        category: "Cơm"
     },
     { 
         id: 6, 
@@ -77,7 +77,7 @@ export const mockRestaurants = [
         deliveryTime: 15,
         imageUrl: "https://tse4.mm.bing.net/th/id/OIP.71cGG9HIkYC_9s-FRLkwTQHaHa?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
         isPromo: true,
-        category: "Trà Sữa" // Thêm category
+        category: "Trà Sữa"
     },
     { 
         id: 7, 

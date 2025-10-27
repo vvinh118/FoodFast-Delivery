@@ -20,7 +20,7 @@ import {
     SocialButtons,
     SocialButton,
     SignUpPrompt
-} from '../data/authStyle';
+} from '../data/AuthStyle';
 
 
 // === REACT COMPONENT ===

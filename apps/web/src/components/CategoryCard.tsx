@@ -3,8 +3,7 @@
 import React from "react";
 import styled from "styled-components";
 
-// 1. CHỈ định nghĩa các props cần thiết cho logic bên ngoài (onClick, name, iconUrl)
-// Dùng $isActive cho prop styling
+
 interface CategoryCardProps {
   name: string;
   iconUrl: string; 
@@ -12,16 +11,13 @@ interface CategoryCardProps {
   onClick: () => void;
 }
 
-// 2. Tạo một Interface riêng cho Styled Component (chỉ chứa props styling)
-// Styled Component chỉ cần biết về $isActive và onClick (vì onClick là thuộc tính HTML hợp lệ)
+
 interface StyledProps {
     $isActive: boolean;
     onClick: () => void;
 }
 
-// Container chính của thẻ danh mục
-// Styled Component KHÔNG nhận CategoryCardProps, mà nhận StyledProps
-// Điều này ngăn nó tìm kiếm name và iconUrl để truyền xuống thẻ div
+
 const StyledCategoryCard = styled.div<StyledProps>`
   /* Thiết kế thẻ danh mục */
   display: flex;
@@ -64,11 +60,9 @@ const CategoryName = styled.span`
 `;
 
 
-// Component chính nhận CategoryCardProps đầy đủ
+// Component chính
 const CategoryCard: React.FC<CategoryCardProps> = ({ name, iconUrl, $isActive, onClick }) => {
-  // 3. Chỉ truyền $isActive và onClick xuống Styled Component
   return (
-    // StyledCategoryCard bây giờ CHỈ yêu cầu $isActive và onClick (do định nghĩa StyledProps)
     <StyledCategoryCard $isActive={$isActive} onClick={onClick}>
       <CategoryIcon src={iconUrl} alt={name} />
       <CategoryName>{name}</CategoryName>

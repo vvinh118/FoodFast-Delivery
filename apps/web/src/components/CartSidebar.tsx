@@ -7,7 +7,7 @@ import CartItemRow from './CartItemRow';
 import Button from './Button';
 
 // ==========================================================
-// 1. STYLED COMPONENTS (ĐÃ SỬA WIDTH)
+// 1. STYLED COMPONENTS
 // ==========================================================
 
 const Overlay = styled.div<{ $isOpen: boolean }>`
@@ -139,7 +139,7 @@ const CartSidebar: React.FC = () => {
         <>
             <Overlay $isOpen={isCartOpen} onClick={toggleCart} />
             <Sidebar $isOpen={isCartOpen}>
-                {/* HEADER (NÚT X VÀ THÔNG TIN) */}
+                {/* HEADER */}
                 <Header>
                     <CloseButton onClick={toggleCart}>&times;</CloseButton>
                     <HeaderTitleRow>

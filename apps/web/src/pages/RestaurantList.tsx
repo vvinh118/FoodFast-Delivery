@@ -2,7 +2,7 @@ import React from 'react';
 import Footer from "../components/Footer";
 import Header from '../components/Header';
 import styled from 'styled-components';
-import RestaurantCard from '../components/RestaurantCard'; // Import component đã tạo
+import RestaurantCard from '../components/RestaurantCard';
 import CategoryCard from '../components/CategoryCard'; 
 
 import { mockRestaurants, mockCategories } from '../data/mockData'; // <-- IMPORT mock data
