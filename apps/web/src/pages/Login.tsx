@@ -22,7 +22,7 @@ import {
     SocialButton,
     SignUpPrompt,
     ActionRow
-} from '../data/AuthStyle';
+} from '../components/AuthStyle';
 
 
 interface AccountMap {
