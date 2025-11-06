@@ -5,7 +5,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 // === STYLED COMPONENTS ===
 
 const InputGroup = styled.div`
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 `;
 
 const Label = styled.label`

@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 const DELIVERY_FEE = 20000;
 
-// === 1. STYLED COMPONENTS (PHỤC HỒI) ===
+// === 1. STYLED COMPONENTS ===
 const PageWrapper = styled.div`
     background-color: #f9fafb;
     min-height: 100vh;

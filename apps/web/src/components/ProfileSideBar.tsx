@@ -122,13 +122,13 @@ const ProfileSidebar: React.FC = () => {
                 <ProfileMainContent>
                     <NavList>
                         <NavItem to="/userProfile" onClick={toggleProfileSidebar}>
-                            <FaUserCircle /> Hồ Sơ Của Tôi
+                            <FaUserCircle /> HỒ SƠ CỦA TÔI
                         </NavItem>
                         <NavItem to="/profile/orders" onClick={toggleProfileSidebar}>
-                            <FaHistory /> Đơn Hàng Của Tôi
+                            <FaHistory /> ĐƠN HÀNG CỦA TÔI
                         </NavItem>
                         <NavItem to="/profile/settings" onClick={toggleProfileSidebar}>
-                            <FaCog /> Hỗ Trợ
+                            <FaCog /> HỖ TRỢ
                         </NavItem>
                     </NavList>
                 </ProfileMainContent> 
