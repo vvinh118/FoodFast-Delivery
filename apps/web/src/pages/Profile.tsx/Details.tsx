@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useAuth } from '../../context/AuthContext'; 
-import { FaUserCircle } from 'react-icons/fa';
 import Button from '../../components/Button';
 import InputField from '../../components/InputField';
 

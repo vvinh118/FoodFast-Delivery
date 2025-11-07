@@ -15,11 +15,8 @@ import ProfileSidebar from './components/ProfileSideBar';
 import UserProfile from './pages/UserProfile';
 import GeneralInfo from './pages/Profile.tsx/GeneralInfo';
 import Details from './pages/Profile.tsx/Details';
-
-// (Tạo các file placeholder này trong 'src/pages/profile/' cho các link khác)
-const AccountDetails = () => <h2 style={{color: 'blue'}}>TRANG CHI TIẾT TÀI KHOẢN</h2>;
-const OrderHistory = () => <h2 style={{color: 'green'}}>TRANG LỊCH SỬ ĐƠN HÀNG</h2>;
-const Points = () => <h2 style={{color: 'orange'}}>TRANG ĐIỂM THƯỞNG</h2>;
+import RewardPoint from './pages/Profile.tsx/RewardPoint';
+import OrderHistory from './pages/Profile.tsx/OrderHistory';
 
 function App() {
   return (
@@ -38,15 +35,10 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/order-success" element={<OrderSuccess />} />
         <Route path="/userProfile" element={<UserProfile />}>
-            
-            {/* Trang con MẶC ĐỊNH (khi URL là /userProfile) */}
             <Route index element={<GeneralInfo />} /> 
-            
-            {/* Các trang con khác */}
             <Route path="details" element={<Details />} />
             <Route path="orders" element={<OrderHistory />} />
-            <Route path="points" element={<Points />} />
-            {/* Thêm các route cho "Điểm thưởng" v.v... */}
+            <Route path="reward-point" element={<RewardPoint />} />
             </Route>
       </Routes>
       <CartSidebar />

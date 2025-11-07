@@ -137,7 +137,7 @@ export default function UserProfile () {
                     <MenuLink to="/userProfile/orders" end>
                         <FaHistory /> Lịch sử đơn hàng
                         </MenuLink>
-                    <MenuLink to="/userProfile/vouchers" end> 
+                    <MenuLink to="/userProfile/reward-point" end> 
                         <FaGift /> Điểm thưởng
                         </MenuLink>
                 </NavMenu>

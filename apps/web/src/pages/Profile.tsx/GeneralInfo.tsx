@@ -6,7 +6,7 @@ import Button from '../../components/Button';
 
 //cột Main
 const ColMain = styled.div`
-    flex-grow: 1; // Lấp đầy không gian còn lại
+    flex-grow: 1; 
     background-color: #fff;
     padding: 30px 40px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
