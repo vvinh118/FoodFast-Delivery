@@ -26,24 +26,23 @@ const ColMenu = styled.div`
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    align-self: flex-start;
 `
 const HeaderMenu = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 30px;
+    margin: 30px 0 30px;
 `
 const UserAvatar = styled(FaUserCircle)`
     font-size: 80px;
     color: #504849;
-    margin-bottom: 15px;
 `
 const UserName = styled.h3`
     font-size: 1.5rem;
     font-weight: 700;
     color: #333;
-    margin-bottom: 5px;
+    margin-top: auto;
 `
 const NavTitle = styled.h3`
     display: flex;
