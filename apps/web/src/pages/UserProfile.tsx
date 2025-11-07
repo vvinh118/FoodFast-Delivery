@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
 import styled from 'styled-components';
-import Header from '../components/Header';
-import Footer from '../components/Footer'; 
 import Button from '../components/Button'; 
 import { useAuth } from '../context/AuthContext'; 
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { FaUserCircle, FaSignOutAlt, FaThLarge, FaUser, FaHistory, FaLock, FaGift, FaTicketAlt, FaCreditCard, FaReceipt } from 'react-icons/fa';
+import { NavLink, Outlet } from 'react-router-dom';
+import { FaUserCircle, FaSignOutAlt, FaThLarge, FaUser, FaHistory, FaGift } from 'react-icons/fa';
 
 // === STYLED COMPONENTS ===
 const PageWrapper = styled.div`
@@ -111,13 +108,11 @@ const ColMain = styled.div`
 
 
 export default function UserProfile () {
-    const { user, logout } = useAuth();
+    const { user } = useAuth();
     const displayUser = user || { name: "Võ Minh Thư" };
 
     return (
     <PageWrapper>
-        <Header />
-
         <MainContainer>
             <ColMenu>
                 <HeaderMenu>
@@ -149,12 +144,8 @@ export default function UserProfile () {
             </ColMenu>
             <ColMain>
                     <Outlet />
-                </ColMain>
-            
+                </ColMain>           
         </MainContainer>
-
-        <Footer /> 
-
     </PageWrapper>
 
 );

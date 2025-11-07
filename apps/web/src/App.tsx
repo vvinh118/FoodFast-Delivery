@@ -17,6 +17,7 @@ import GeneralInfo from './pages/Profile.tsx/GeneralInfo';
 import Details from './pages/Profile.tsx/Details';
 import RewardPoint from './pages/Profile.tsx/RewardPoint';
 import OrderHistory from './pages/Profile.tsx/OrderHistory';
+import MainLayout from './components/MainLayout';
 
 function App() {
   return (
@@ -26,21 +27,23 @@ function App() {
       <AuthProvider>
         <GlobalStyle />
         <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/login" element={<Login />} /> 
-        <Route path="/register" element={<Register />} /> 
-        <Route path="/restaurants" element={<RestaurantList />} />
-        <Route path="/restaurant/:id" element={<MenuItemList />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/order-success" element={<OrderSuccess />} />
-        <Route path="/userProfile" element={<UserProfile />}>
-            <Route index element={<GeneralInfo />} /> 
-            <Route path="details" element={<Details />} />
-            <Route path="orders" element={<OrderHistory />} />
-            <Route path="reward-point" element={<RewardPoint />} />
-            </Route>
-      </Routes>
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/restaurants" element={<RestaurantList />} />
+            <Route path="/restaurant/:id" element={<MenuItemList />} />
+            <Route path="/userProfile" element={<UserProfile />}>
+                <Route index element={<GeneralInfo />} /> 
+                <Route path="details" element={<Details />} />
+                <Route path="orders" element={<OrderHistory />} />
+                <Route path="reward-point" element={<RewardPoint />} />
+                </Route>
+          </Route>
+            <Route path="/login" element={<Login />} /> 
+            <Route path="/register" element={<Register />} /> 
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/order-success" element={<OrderSuccess />} />
+        </Routes>
       <CartSidebar />
       <ProfileSidebar />
       </AuthProvider>

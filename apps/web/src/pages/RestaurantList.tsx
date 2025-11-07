@@ -1,6 +1,4 @@
 import React from 'react';
-import Footer from "../components/Footer";
-import Header from '../components/Header';
 import styled from 'styled-components';
 import RestaurantCard from '../components/RestaurantCard';
 import CategoryCard from '../components/CategoryCard'; 
@@ -104,8 +102,7 @@ const RestaurantList = () => {
 
   return (
      <ListPageContainer>
-        < Header />
-      
+
       {/* B3: KHU VỰC THANH DANH MỤC CUỘN NGANG */}
             <CategoryBarWrapper>
                 <CategoryListContainer>
@@ -156,7 +153,6 @@ const RestaurantList = () => {
         </RestaurantGrid>
       </ContentWrapper>
 
-        <Footer />
      </ListPageContainer>
   );
 };

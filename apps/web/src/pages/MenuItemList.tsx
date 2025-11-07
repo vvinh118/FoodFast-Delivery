@@ -85,8 +85,7 @@ const MenuItemList = () => {
 
     return (
         <MenuPageContainer>
-            <Header />
-            
+
             <ContentWrapper>
                 <HeaderSection>
                     <Breadcrumb>Trang chủ &gt; Nhà hàng &gt; {restaurant.name}</Breadcrumb>
@@ -114,7 +113,6 @@ const MenuItemList = () => {
                 </MenuGrid>
             </ContentWrapper>
 
-            <Footer />
         </MenuPageContainer>
     );
 };

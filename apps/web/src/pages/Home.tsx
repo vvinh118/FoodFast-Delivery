@@ -1,7 +1,5 @@
 import React from "react";
 import Button from "../components/Button";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
 import ProductCard from "../components/ProductCard";
 import CategoryButton from "../components/CategoryButton";
 import HomeHeroImg from "../assets/img/HomeHeroImg.png" 
@@ -24,8 +22,7 @@ interface Product {
 
 //toàn trang
 const HomeContainer = styled.div` 
-  min-height: 100vh;
-  background-color: #ffff;
+  background-color: #f9f9f9;
 ` 
 
 //Hero Section
@@ -328,8 +325,6 @@ export default function Home() {
 
     return (
         <HomeContainer>
-            <Header />
-
 
             {/* Hero Section */}
             <HeroWrapper>
@@ -440,11 +435,6 @@ export default function Home() {
                     </DeliText>
                 </DeliTextWrap>
             </DeliSection>
-
-            
-
-
-            <Footer />
         </HomeContainer>
     );
 }
