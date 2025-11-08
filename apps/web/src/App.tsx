@@ -18,6 +18,7 @@ import Details from './pages/Profile.tsx/Details';
 import RewardPoint from './pages/Profile.tsx/RewardPoint';
 import OrderHistory from './pages/Profile.tsx/OrderHistory';
 import MainLayout from './components/MainLayout';
+import MyOrders from './pages/MyOrders';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/restaurants" element={<RestaurantList />} />
             <Route path="/restaurant/:id" element={<MenuItemList />} />
+            <Route path="/my-orders" element={<MyOrders />} />
             <Route path="/userProfile" element={<UserProfile />}>
                 <Route index element={<GeneralInfo />} /> 
                 <Route path="details" element={<Details />} />
