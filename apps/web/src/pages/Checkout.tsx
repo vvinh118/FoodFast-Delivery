@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header';
 import Footer from '../components/Footer'; 
 import Button from '../components/Button'; 
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
+import { apiSubmitOrder } from '../services/api'; 
 import { FaMapMarkerAlt, FaCreditCard, FaTicketAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
@@ -78,10 +80,17 @@ const Input = styled.input<{ $error?: string }>`
     border: 1px solid ${props => props.$error ? '#f72d57' : '#ddd'};
     border-radius: 6px;
     box-sizing: border-box;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, background-color 0.2s;
     &:focus {
         border-color: #F72D57;
         outline: none;
+    }
+    
+    /* Thêm style khi bị disabled */
+    &:disabled {
+        background-color: #f0f0f0;
+        color: #999;
+        cursor: not-allowed;
     }
 `;
 
@@ -96,9 +105,7 @@ const SummaryTitle = styled.h2`
     margin-bottom: 20px;
 `;
 
-
-
-const SummaryRow = styled.div<SummaryRowProps>`
+const SummaryRow = styled.div<{ $total?: string }>`
     display: flex;
     justify-content: space-between;
     padding: 8px 0;
@@ -110,7 +117,6 @@ const SummaryRow = styled.div<SummaryRowProps>`
     color: ${props => props.$total ? '#333' : '#555'};
 `;
 
-// COMPONENT ĐỂ HIỂN THỊ LIST SẢN PHẨM TRONG SUMMARY
 const ItemListContainer = styled.div`
     max-height: 200px;
     overflow-y: auto;
@@ -130,70 +136,111 @@ const ItemSummaryRow = styled.div`
     }
 `;
 
-const Form = styled.form``
+const Form = styled.form``;
 
-interface SummaryRowProps {
-    $total?: string; 
-}
 
 interface CustomerInfoErrors {
     name?: string;
     phone?: string;
     address?: string;
-    general?: string | null;
 }
 
-// === 2. CHECKOUT COMPONENT LOGIC VÀ JSX ===
+// === CHECKOUT COMPONENT LOGIC ===
 
 export default function Checkout() {
-    // KHỞI TẠO HOOKS TẠI ĐÂY
-    const navigate = useNavigate(); // <== SỬA LỖI 1: KHỞI TẠO navigate
-    const isLoggedIn = true; // THAY BẰNG: const { isLoggedIn } = useAuth();
-    const { cartItems, getTotalPrice } = useCart();
+    const navigate = useNavigate();
+    const { user, isLoggedIn } = useAuth(); // Lấy user & isLoggedIn
+    const { items: cartItems, totalAmount, clearCart } = useCart(); 
 
     // === LOGIC VÀ STATE ===
-    const [customerInfo, setCustomerInfo] = useState({ name: '', phone: '', address: '' });
+    const [customerInfo, setCustomerInfo] = useState({ 
+      name: '', 
+      phone: '',
+      address: ''
+    });
+
+    // Tự động điền thông tin user khi component tải
+    useEffect(() => {
+      if (isLoggedIn && user) {
+        setCustomerInfo({
+          name: user.name || '',
+          phone: user.tel || '',
+          address: '' // Để trống địa chỉ
+        });
+      }
+    }, [isLoggedIn, user]); // Chạy lại khi user đăng nhập
+
     const [coupon, setCoupon] = useState('');
     const [discount, setDiscount] = useState(0); 
     const [paymentMethod, setPaymentMethod] = useState('cod');
     const [validationErrors, setValidationErrors] = useState<CustomerInfoErrors>({});
 
+    const [loading, setLoading] = useState(false);
+    const [apiError, setApiError] = useState<string | null>(null);
 
-   const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault(); // <== NGĂN CHẶN ĐIỀU HƯỚNG MẶC ĐỊNH
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault(); 
         setValidationErrors({});
+        setApiError(null);
 
-        // 1. KIỂM TRA LOGIC (Giữ nguyên)
         if (!isLoggedIn) {
+            alert("Bạn cần đăng nhập để đặt hàng.");
             navigate('/login');
             return;
         }
 
+        // KIỂM TRA VALIDATION
         const errors: CustomerInfoErrors = {};
         if (!customerInfo.name.trim()) { errors.name = 'Vui lòng nhập tên người nhận.'; }
         if (!customerInfo.phone.trim()) { errors.phone = 'Vui lòng nhập số điện thoại.'; }
         if (!customerInfo.address.trim()) { errors.address = 'Vui lòng nhập địa chỉ.'; }
 
         if (Object.keys(errors).length > 0) {
-            setValidationErrors({ ...errors, general: 'Vui lòng điền đầy đủ thông tin giao hàng.' });
+            setValidationErrors(errors);
             return;
         }
+        
+        // (Tính toán lại tổng tiền lần cuối)
+        const finalDiscountValue = discount > 0 ? totalAmount * discount : 0;
+        const finalTotal = (totalAmount - finalDiscountValue) + DELIVERY_FEE;
+        
+        // Gọi API
+        setLoading(true);
 
-        // 4. ĐẶT ĐƠN THÀNH CÔNG (CHỈ ĐIỀU HƯỚNG KHI KIỂM TRA XONG)
-        console.log("Đang đặt đơn thành công...");
-        navigate('/order-success'); 
+        const orderData = {
+          userId: user.id,
+          userName: customerInfo.name,
+          userPhone: customerInfo.phone,
+          userAddress: customerInfo.address,
+          items: cartItems,
+          total: finalTotal,
+          subtotal: totalAmount,
+          deliveryFee: DELIVERY_FEE,
+          discount: finalDiscountValue,
+          paymentMethod: paymentMethod,
+          status: 'Pending', // Trạng thái ban đầu
+          createdAt: new Date().toISOString(),
+        };
+
+        try {
+          await apiSubmitOrder(orderData); // Gửi đơn hàng
+
+          alert('Đặt hàng thành công!');
+          clearCart();
+          navigate('/order-success');
+
+        } catch (err: any) {
+          setApiError(err.message || "Không thể đặt hàng. Vui lòng thử lại.");
+        } finally {
+          setLoading(false);
+        }
     };
 
-    // 1. TÍNH TOÁN TỔNG TIỀN TỪ GIỎ HÀNG (DỮ LIỆU ĐỘNG)
-    const totalAmount = getTotalPrice(); 
-
-    // 2. TÍNH TOÁN GIẢM GIÁ
+    // Logic tính toán tổng tiền
     const finalDiscount = discount > 0 ? totalAmount * discount : 0;
-    
-    // 3. TÍNH TOÁN CỘNG DỒN
     const finalSubtotal = totalAmount - finalDiscount;
     const finalTotal = finalSubtotal + DELIVERY_FEE;
-    // ===================================
 
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('vi-VN', { 
@@ -222,54 +269,63 @@ export default function Checkout() {
                 {/* CỘT CHÍNH: THÔNG TIN VÀ FORM */}
                 <MainContent>
                     
-
                     {/* SECTION 1: THÔNG TIN GIAO HÀNG */}
                     <SectionCard>
                         <Heading><FaMapMarkerAlt color="#F72D57" /> Thông tin giao hàng</Heading>
-                        <InputGroup onSubmit={handleSubmit}>
+                        <InputGroup>
                             <label style={{ marginBottom: '10px', display: 'block' }}>Tên người nhận</label>
                             <Input 
                                 placeholder="Nhập tên" 
                                 value={customerInfo.name}
                                 onChange={e => setCustomerInfo({...customerInfo, name: e.target.value})}
                                 $error={validationErrors.name ? 'true' : undefined}
+                                disabled={loading}
                             />
                             {validationErrors.name && <p style={{color: '#F72D57', fontSize: '0.8rem', marginTop: '5px'}}>{validationErrors.name}</p>}
                         </InputGroup>
                         
-                        {/* Input Số điện thoại (ĐÃ SỬA) */}
                         <InputGroup>
                             <label style={{ marginBottom: '5px', display: 'block' }}>Số điện thoại</label>
                             <Input 
                                 placeholder="Nhập SĐT" 
                                 value={customerInfo.phone} 
-                                onChange={e => setCustomerInfo({...customerInfo, phone: e.target.value})} // <== ĐÃ THÊM ONCHANGE
+                                onChange={e => setCustomerInfo({...customerInfo, phone: e.target.value})} 
                                 $error={validationErrors.phone ? 'true' : undefined}
+                                disabled={loading}
                             />
                             {validationErrors.phone && <p style={{color: '#F72D57', fontSize: '0.8rem', marginTop: '5px'}}>{validationErrors.phone}</p>}
                         </InputGroup>
                         
-                        {/* Input Địa chỉ (ĐÃ SỬA) */}
                         <InputGroup>
                             <label style={{ marginBottom: '5px', display: 'block' }}>Địa chỉ nhận hàng</label>
                             <Input 
                                 placeholder="Nhập địa chỉ" 
                                 value={customerInfo.address} 
-                                onChange={e => setCustomerInfo({...customerInfo, address: e.target.value})} // <== ĐÃ THÊM ONCHANGE
+                                onChange={e => setCustomerInfo({...customerInfo, address: e.target.value})} 
                                 $error={validationErrors.address ? 'true' : undefined}
+                                disabled={loading}
                             />
                             {validationErrors.address && <p style={{color: '#F72D57', fontSize: '0.8rem', marginTop: '5px'}}>{validationErrors.address}</p>}
                         </InputGroup>
-                        
-                        {validationErrors.general && <p style={{color: '#F72D57', fontSize: '0.9rem', textAlign: 'center', marginTop: '15px'}}>* {validationErrors.general}</p>}
-                     </SectionCard>
+                       </SectionCard>
 
                     {/* SECTION 2: MÃ KHUYẾN MÃI */}
                     <SectionCard>
                         <Heading><FaTicketAlt color="#F72D57" /> Mã khuyến mãi</Heading>
                         <InputWrapper style={{ display: 'flex', gap: '10px' }}>
-                            <Input placeholder="Nhập mã giảm giá" value={coupon} onChange={e => setCoupon(e.target.value)} />
-                            <Button type='button' onClick={handleCouponApply}>Áp dụng</Button>
+                            <Input 
+                                placeholder="Nhập mã giảm giá" 
+                                value={coupon} 
+                                onChange={e => setCoupon(e.target.value)} 
+                                disabled={loading}
+                            />
+                            <Button 
+                                type='button' 
+                                onClick={handleCouponApply} 
+                                disabled={loading}
+                            >
+                                Áp dụng
+                            </Button>
                         </InputWrapper>
                     </SectionCard>
 
@@ -285,6 +341,7 @@ export default function Checkout() {
                                     checked={paymentMethod === 'cod'} 
                                     onChange={() => setPaymentMethod('cod')} 
                                     style={{ marginRight: '8px' }}
+                                    disabled={loading}
                                 />
                                 Thanh toán khi nhận hàng (COD)
                             </label>
@@ -296,22 +353,20 @@ export default function Checkout() {
                                     checked={paymentMethod === 'card'} 
                                     onChange={() => setPaymentMethod('card')} 
                                     style={{ marginRight: '8px' }}
+                                    disabled={loading}
                                 />
                                 Thanh toán bằng thẻ / Ví điện tử
                             </label>
                         </InputWrapper>
-                        {paymentMethod === 'card' && <p style={{ color: '#F72D57', fontSize: '0.9rem' }}>Bạn sẽ được chuyển hướng đến cổng thanh toán.</p>}
                     </SectionCard>
 
                 </MainContent>
                 
-
                 {/* CỘT TÓM TẮT ĐƠN HÀNG */}
                 <SummarySection>
                     <SummaryCard>
                         <SummaryTitle>Tóm tắt đơn hàng</SummaryTitle>
                         
-                        {/* 1. HIỂN THỊ CHI TIẾT SẢN PHẨM */}
                         <ItemListContainer>
                             {cartItems.map(item => ( 
                                 <ItemSummaryRow key={item.id}>
@@ -323,26 +378,31 @@ export default function Checkout() {
                         </ItemListContainer>
 
                         <div style={{ marginTop: '20px' }}>
-                            {/* 2. CHI TIẾT TÍNH TOÁN */}
                             <SummaryRow><span>Tạm tính</span><span>{formatCurrency(totalAmount)}</span></SummaryRow>
                             <SummaryRow><span>Phí giao hàng</span><span>{formatCurrency(DELIVERY_FEE)}</span></SummaryRow>
                             {finalDiscount > 0 && <SummaryRow><span>Giảm giá Mã KM</span><span style={{ color: 'green' }}>- {formatCurrency(finalDiscount)}</span></SummaryRow>}
 
-                            {/* 3. TỔNG CỘNG */}
                             <SummaryRow $total="true">
                                 <span>TỔNG CỘNG</span>
                                 <span style={{ color: '#F72D57', fontSize: '1.4rem' }}>{formatCurrency(finalTotal)}</span>
                             </SummaryRow>
                         </div>
                         
+                        {apiError && (
+                            <p style={{color: '#F72D57', fontSize: '0.9rem', textAlign: 'center', marginTop: '15px'}}>
+                                * {apiError}
+                            </p>
+                        )}
+                        
                         {/* NÚT ĐẶT HÀNG */}
                         <Button 
-                        type="submit"
-                        $fontSize='20px'
-                        $width='100%'
-                        $margin='20px 0 20px 0'
+                            type="submit"
+                            $fontSize='20px'
+                            $width='100%'
+                            $margin='20px 0 20px 0'
+                            disabled={loading || cartItems.length === 0}
                         >
-                            Đặt đơn
+                            {loading ? 'Đang xử lý...' : 'Đặt đơn'}
                         </Button>
                     </SummaryCard>
                 </SummarySection>

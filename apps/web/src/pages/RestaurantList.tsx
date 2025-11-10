@@ -1,35 +1,47 @@
-import React from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import RestaurantCard from '../components/RestaurantCard';
 import CategoryCard from '../components/CategoryCard'; 
 
-import { mockRestaurants, mockCategories } from '../data/mockData'; // <-- IMPORT mock data
+import { fetchRestaurants, fetchCategories } from '../services/api'; 
 
+// === TYPES ===
+interface Restaurant {
+  id: number;
+  name: string;
+  address: string;
+  rating: number;
+  distance: number;
+  deliveryTime: number;
+  imageUrl: string;
+  isPromo: boolean;
+  category: string;
+}
 
-// ==========================================================
-// 2. STYLED COMPONENTS (Định kiểu cho Trang)
-// ==========================================================
+interface Category {
+    id: number;
+    name: string;
+    iconUrl: string;
+}
 
-// Container cho toàn bộ thanh danh mục (có thể bị tràn)
+// Styled Components
 const CategoryBarWrapper = styled.div`
-  max-width: 1200px; /* Chiều rộng tối đa giống ContentWrapper */
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px 0;
-  overflow-x: scroll; /* Kích hoạt cuộn ngang */
-  white-space: nowrap; /* Ngăn các item xuống dòng */
-  -ms-overflow-style: none; /* Ẩn scrollbar trên IE/Edge */
-  scrollbar-width: none; /* Ẩn scrollbar trên Firefox */
+  overflow-x: scroll;
+  white-space: nowrap;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   
-  /* Ẩn scrollbar trên Chrome/Safari/Opera */
   &::-webkit-scrollbar {
     display: none;
   }
 `;
 
-// Container chứa các card danh mục
 const CategoryListContainer = styled.div`
   display: flex;
-  gap: 15px; /* Khoảng cách giữa các card */
+  gap: 15px;
   padding: 0 20px;
 `;
 
@@ -38,14 +50,13 @@ const ListPageContainer = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-  /* Căn giữa nội dung và giới hạn chiều rộng trang */
   max-width: 1200px; 
   margin: 0 auto;
   padding: 0 20px;
-  
+  /* Thêm: Chiều cao tối thiểu để Spinner hiển thị đẹp */
+  min-height: 60vh; 
 `;
 
-// Container cho Tiêu đề và Context
 const ContextHeader = styled.div`
   padding: 20px 0;
 `;
@@ -63,66 +74,91 @@ const ListTitle = styled.h1`
   color: #333;
 `;
 
-// Lưới Quán ăn (Sử dụng CSS Grid để tạo bố cục 4 cột)
 const RestaurantGrid = styled.div`
   display: grid;
-  /* Tạo 4 cột có kích thước bằng nhau và linh hoạt (1fr) */
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
-  gap: 30px; /* Khoảng cách giữa các thẻ */
+  gap: 30px;
   margin-top: 20px;
   margin-bottom: 80px;
 `;
 
-
-// ==========================================================
-// 3. COMPONENT CHÍNH
-// ==========================================================
+// Component chính
 
 const RestaurantList = () => {
-    // 1. STATE QUẢN LÝ DANH MỤC ĐANG HOẠT ĐỘNG
-    // Đặt mặc định là danh mục đầu tiên
-    const [activeCategory, setActiveCategory] = React.useState(mockCategories[0].name);
+    // State cho API, Loading, Error
+    const [allRestaurants, setAllRestaurants] = useState<Restaurant[]>([]);
+    const [allCategories, setAllCategories] = useState<Category[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    
+    const [activeCategory, setActiveCategory] = useState("All");
 
-    // 2. Logic lọc quán ăn theo danh mục
-    // Sau này khi có dữ liệu thật, có thể dùng:
-    // const filteredRestaurants = mockRestaurants.filter(r => r.category === activeCategory);
 
-    const filteredRestaurants = React.useMemo(() => {
-        // KIỂM TRA TRƯỜNG HỢP "TẤT CẢ"
+    useEffect(() => {
+        const loadData = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                
+
+                const [categoriesData, restaurantsData] = await Promise.all([
+                    fetchCategories(),
+                    fetchRestaurants()
+                ]);
+                
+                // Lưu dữ liệu thật vào state
+                setAllCategories(categoriesData as Category[]);
+                setAllRestaurants(restaurantsData as Restaurant[]);
+                
+                // Mặc định chọn category đầu tiên ("All")
+                if (categoriesData && (categoriesData as Category[]).length > 0) {
+                     setActiveCategory((categoriesData as Category[])[0].name);
+                }
+
+            } catch (err: any) {
+                setError('Không thể tải dữ liệu. Vui lòng thử lại.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadData();
+    }, []); // [] = Chạy 1 lần duy nhất khi trang tải
+
+
+    // Lọc nhà hàng theo category
+    const filteredRestaurants = useMemo(() => {
         if (activeCategory === "All") {
-            return mockRestaurants; // Trả về toàn bộ danh sách
+            return allRestaurants;
         }
         
-        // TRƯỜNG HỢP LỌC theo danh mục cụ thể
-        return mockRestaurants.filter(restaurant => {
-            // So sánh category của quán ăn với activeCategory
+        return allRestaurants.filter(restaurant => { 
             return restaurant.category.toLowerCase() === activeCategory.toLowerCase();
         });
-    }, [activeCategory]); // Dependency Array: Chỉ chạy lại khi activeCategory thay đổi
+    }, [activeCategory, allRestaurants]); // Thêm allRestaurants vào dependency
 
   return (
      <ListPageContainer>
 
-      {/* B3: KHU VỰC THANH DANH MỤC CUỘN NGANG */}
-            <CategoryBarWrapper>
-                <CategoryListContainer>
-                    {mockCategories.map((category) => (
-                        <CategoryCard
-                            key={category.name}
-                            name={category.name}
-                            iconUrl={category.iconUrl}
-                            $isActive={activeCategory === category.name}
-                            onClick={() => setActiveCategory(category.name)}
-                        />
-                    ))}
-                </CategoryListContainer>
-            </CategoryBarWrapper>
-            {/* KẾT THÚC KHU VỰC CATEGORY BAR */}
+     {/* KHU VỰC THANH DANH MỤC */}
+        <CategoryBarWrapper>
+            <CategoryListContainer>
+                {!loading && !error && allCategories.map((category) => (
+                    <CategoryCard
+                        key={category.name}
+                        name={category.name}
+                        iconUrl={category.iconUrl}
+                        $isActive={activeCategory === category.name}
+                        onClick={() => setActiveCategory(category.name)}
+                    />
+                ))}
+            </CategoryListContainer>
+        </CategoryBarWrapper>
 
 
 
-      <ContentWrapper>
-        {/* KHU VỰC TIÊU ĐỀ/CONTEXT */}
+     <ContentWrapper>
+        {/* KHU VỰC TIÊU ĐỀ */}
         <ContextHeader>
           <Breadcrumb>Trang chủ &gt; Nhà hàng</Breadcrumb>
           <ListTitle>
@@ -130,28 +166,40 @@ const RestaurantList = () => {
           </ListTitle>
         </ContextHeader>
         
-        {/* KHU VỰC DANH SÁCH QUÁN ĂN ĐÃ Lọc theo danh mục*/}
-        <RestaurantGrid>
-        
-          {filteredRestaurants.length > 0 ? (
-                        filteredRestaurants.map(restaurant => (
-                            <RestaurantCard 
-                                key={restaurant.id}
-                                id={restaurant.id}
-                                name={restaurant.name}
-                                address={restaurant.address}
-                                rating={restaurant.rating}
-                                distance={restaurant.distance}
-                                deliveryTime={restaurant.deliveryTime}
-                                imageUrl={restaurant.imageUrl}
-                                isPromo={restaurant.isPromo}
-                            />
-                        ))
-                    ) : (
-                        <p>Không tìm thấy quán ăn nào trong danh mục "{activeCategory}".</p>
-                    )}
-        </RestaurantGrid>
-      </ContentWrapper>
+        {/* Xử lý Loading / Error */}
+
+        {/* trạng thái đang tải */}
+        {loading && (
+            <div style={{ textAlign: 'center', padding: '50px' }}>
+                {/* <LoadingSpinner /> */}
+                <h2>Đang tải danh sách nhà hàng...</h2>
+            </div>
+        )}
+
+        {/* Trạng thái lỗi */}
+        {error && (
+            <div style={{ textAlign: 'center', padding: '50px', color: 'red' }}>
+                <h2>{error}</h2>
+            </div>
+        )}
+
+        {/* Trạng thái thành công */}
+        {!loading && !error && (
+            <RestaurantGrid>
+                {filteredRestaurants.length > 0 ? (
+                    filteredRestaurants.map(restaurant => (
+                        <RestaurantCard 
+                            key={restaurant.id}
+                            {...restaurant} 
+                        />
+                    ))
+                ) : (
+                    <p>Không tìm thấy quán ăn nào trong danh mục "{activeCategory}".</p>
+                )}
+            </RestaurantGrid>
+        )}
+
+     </ContentWrapper>
 
      </ListPageContainer>
   );

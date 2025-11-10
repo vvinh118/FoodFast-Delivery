@@ -1,24 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import CategoryButton from './CategoryButton';
 import Button from './Button';
-import { mockMenuItems, mockRestaurants } from '../data/mockData'; 
+// Import Type 'Order'
+import { type Order } from '../pages/MyOrders';
 
+// === STYLED ===
 const HistoryWrapper = styled.div`
     width: 100%;
-`
+`;
 const OrderMenu = styled.div`
     display: flex;    
     justify-content: center;
     flex-wrap: wrap;
     gap: 15px;
-    margin-bottom: 40px; // Tăng khoảng cách với danh sách
-`
+    margin-bottom: 40px;
+`;
 const ListWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 20px; // Khoảng cách giữa các đơn hàng
-`
+    gap: 20px;
+`;
 const OrderItemCard = styled.div`
     display: flex;
     background: #ffffff;
@@ -28,48 +30,45 @@ const OrderItemCard = styled.div`
     padding: 15px;
     gap: 15px;
     transition: box-shadow 0.2s;
-
     &:hover {
         box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     }
-`
-
+`;
 const ItemImage = styled.img`
     width: 80px;
     height: 80px;
     object-fit: cover;
     border-radius: 6px;
-`
-
+`;
 const ItemInfo = styled.div`
-    flex-grow: 1; // Lấp đầy không gian
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-`
-
+`;
 const RestaurantName = styled.h3`
     font-size: 1.1rem;
     font-weight: 700;
     color: #333;
     margin: 0 0 5px 0;
-`
-
+`;
 const ItemPrice = styled.p`
     font-size: 0.9rem;
     color: #555;
     margin: 0 0 10px 0;
-`
-const ItemStatus = styled.span<{ $status: 'delivered' | 'cancelled' }>`
+`;
+const ItemStatus = styled.span<{ $status: string }>`
     font-size: 0.9rem;
     font-weight: 600;
-    color: ${props => (props.$status === 'delivered' ? '#28a745' : '#dc3545')};
-`
-
+    color: ${props => 
+        (props.$status === 'Delivered' ? '#28a745' :
+         props.$status === 'Cancelled' ? '#dc3545' :
+         '#007bff')}; // Đang giao (Pending)
+`;
 const ItemActions = styled.div`
-    margin-left: auto; // Đẩy qua phải
+    margin-left: auto;
     display: flex;
     align-items: center;
-`
+`;
 const EmptyState = styled.div`
     text-align: center;
     padding: 40px;
@@ -77,97 +76,87 @@ const EmptyState = styled.div`
     background: #fcfcfc;
     border: 1px dashed #ddd;
     border-radius: 8px;
-`
+`;
 
-const OrderHistoryMenu: React.FC = () => {
-    const [activeStatus, setActiveStatus] = useState('Đang giao');
-    const statuses = ['Đang giao', 'Đã giao', 'Đã huỷ'];
 
-    const deliveredOrders = [ 
-        mockMenuItems[0], 
-        mockMenuItems[9], 
-        mockMenuItems[12], 
-        mockMenuItems[15], 
-        mockMenuItems[17], 
-        mockMenuItems[19]  
+interface OrderHistoryProps {
+  allOrders: Order[];
+}
+
+// === COMPONENT ===
+const OrderHistoryMenu: React.FC<OrderHistoryProps> = ({ allOrders }) => {
+    const [activeStatus, setActiveStatus] = useState('Pending');
+    const statuses = [
+      { key: 'Pending', label: 'Đang xử lý' },
+      { key: 'Delivered', label: 'Đã giao' },
+      { key: 'Cancelled', label: 'Đã huỷ' },
     ];
 
-    const cancelledOrders = [ 
-        mockMenuItems[21], 
-        mockMenuItems[23]  
-    ];
-
-    const findRestaurantName = (restaurantId: number) => {
-        return mockRestaurants.find(r => r.id === restaurantId)?.name || "Nhà hàng";
-    };
+    const filteredOrders = useMemo(() => {
+        return allOrders.filter(order => order.status === activeStatus);
+    }, [allOrders, activeStatus]); // Lọc lại khi data hoặc tab thay đổi
 
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
     };
 
+    // Render danh sách từ 'filteredOrders'
     const renderListContent = () => {
-        switch (activeStatus) {
-            case 'Đang giao':
-                return (
-                    <EmptyState>
-                        Bạn không có đơn hàng nào đang giao.
-                    </EmptyState>
-                );
+      if (filteredOrders.length === 0) {
+        return (
+          <EmptyState>
+            Bạn không có đơn hàng nào trong mục này.
+          </EmptyState>
+        );
+      }
 
-            case 'Đã giao':
-                return deliveredOrders.map(item => (
-                    <OrderItemCard key={item.id}>
-                        <ItemImage src={item.imageUrl} alt={item.name} />
-                        <ItemInfo>
-                            <RestaurantName>{findRestaurantName(item.restaurantId)}</RestaurantName>
-                            <ItemPrice>
-                                {item.name} (và {Math.floor(Math.random() * 3) + 1} món khác) • {formatCurrency(item.price + 30000)}
-                            </ItemPrice>
-                            <ItemStatus $status="delivered">Đã giao thành công</ItemStatus>
-                        </ItemInfo>
-                        <ItemActions>
-                            <Button $padding="8px 15px" $fontSize="0.9rem">Đặt lại</Button>
-                        </ItemActions>
-                    </OrderItemCard>
-                ));
-            
-            case 'Đã huỷ':
-                return cancelledOrders.map(item => (
-                    <OrderItemCard key={item.id}>
-                        <ItemImage src={item.imageUrl} alt={item.name} />
-                        <ItemInfo>
-                            <RestaurantName>{findRestaurantName(item.restaurantId)}</RestaurantName>
-                            <ItemPrice>
-                                {item.name} • {formatCurrency(item.price)}
-                            </ItemPrice>
-                            <ItemStatus $status="cancelled">Đã huỷ</ItemStatus>
-                        </ItemInfo>
-                        <ItemActions>
-                            <Button $padding="8px 15px" $fontSize="0.9rem">Đặt lại</Button>
-                        </ItemActions>
-                    </OrderItemCard>
-                ));
-
-            default:
-                return null;
-        }
+      return filteredOrders.map(order => {
+        // Lấy món ăn đầu tiên để làm ảnh đại diện
+        const firstItem = order.items[0]; 
+        
+        return (
+          <OrderItemCard key={order.id}>
+              {/* Lấy ảnh của món đầu tiên */}
+              <ItemImage src={firstItem.imageUrl || '/default-image.png'} alt={firstItem.name} />
+              <ItemInfo>
+                  <RestaurantName>Đơn hàng #{order.id}</RestaurantName> 
+                  <ItemPrice>
+                      {/* Hiển thị món đầu tiên và số lượng các món khác */}
+                      {firstItem.name}
+                      {order.items.length > 1 && ` (và ${order.items.length - 1} món khác)`}
+                      {' • '}
+                      <span style={{fontWeight: 700}}>{formatCurrency(order.total)}</span>
+                  </ItemPrice>
+                  <ItemStatus $status={order.status}>
+                      {/* Hiển thị trạng thái từ API */}
+                      {statuses.find(s => s.key === order.status)?.label || order.status}
+                  </ItemStatus>
+              </ItemInfo>
+              <ItemActions>
+                {order.status !== 'Pending' && (
+                  <Button $padding="8px 15px" $fontSize="0.9rem">
+                    Đặt lại
+                  </Button>
+                )}
+              </ItemActions>
+          </OrderItemCard>
+        );
+      });
     };
 
     return (
         <HistoryWrapper>
-            {/* 1. PHẦN MENU */}
             <OrderMenu>
                 {statuses.map(status => (
                     <CategoryButton
-                        key={status}
-                        name={status}
-                        isActive={activeStatus === status}
-                        onClick={() => setActiveStatus(status)}
+                        key={status.key}
+                        name={status.label} // Hiển thị "Đã giao"
+                        isActive={activeStatus === status.key}
+                        onClick={() => setActiveStatus(status.key)}
                     />
                 ))}
             </OrderMenu>
 
-            {/* 2. PHẦN DANH SÁCH (Render có điều kiện) */}
             <ListWrapper>
                 {renderListContent()}
             </ListWrapper>

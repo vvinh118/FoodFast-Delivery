@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext'; // Lấy hook
 import { FaArrowLeft } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc'; 
 import { FaFacebook } from 'react-icons/fa'; 
 
 import InputField from '../components/InputField'; 
 
-// Import style từ file AuthStyles
+// Import style
 import {
     PageContainer,
     AuthCard,
@@ -25,48 +25,30 @@ import {
 } from '../components/AuthStyle';
 
 
-interface AccountMap {
-    [key: string]: string;
-}
-
-const MOCK_ACCOUNTS: AccountMap = {
-  'test@foodfast.vn': '1', 
-  'user@demo.com': 'password',
-};
-
 // === REACT COMPONENT ===
 export default function Login() {
-  const { login } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
+  const { login, authLoading, authError } = useAuth();
+  const [email, setEmail] = useState('test@foodfast.vn');
+  const [password, setPassword] = useState('1');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [localError, setLocalError] = useState<string | null>(null);
+  
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
+    setLocalError(null);
 
+    // Validation
     if (!email || !password) {
-        setError('Vui lòng nhập đầy đủ Email và Mật khẩu.');
+        setLocalError('Vui lòng nhập đầy đủ Email và Mật khẩu.');
         return;
     } 
     
-    if (MOCK_ACCOUNTS[email] && MOCK_ACCOUNTS[email] === password) {
-      console.log('Login successful: Redirecting...');
-      alert('Đăng nhập thành công!');
-      login(email); 
-      navigate('/home');
-      return;
-    }
-    else {
-      setError('Email hoặc Mật khẩu không chính xác');
-      return;
-    }
+    
+    // Gọi hàm login từ context
+    await login(email, password);
   }
 
-
   return (
-
     <PageContainer>
         <AuthCard>
             <HeaderLink to="/Home">
@@ -82,14 +64,14 @@ export default function Login() {
 
             <Form onSubmit={handleSubmit}>
                 
-                {/* InputField component */}
                 <InputField
                     label="Email"
                     id="email"
                     type="email"
                     placeholder="Nhập Email của bạn"
                     value={email}
-                    onChange={(e) => {setEmail(e.target.value); setError(null);}}
+                    onChange={(e) => {setEmail(e.target.value); setLocalError(null);}}
+                    disabled={authLoading}
                 />
                 
                 <InputField
@@ -98,13 +80,17 @@ export default function Login() {
                     type="password" 
                     placeholder="••••••"
                     value={password}
-                    onChange={(e) => {setPassword(e.target.value); setError(null);}}
-                    error={error} // Lỗi chung sẽ hiển thị ở đây
+                    onChange={(e) => {setPassword(e.target.value); setLocalError(null);}}
+                    disabled={authLoading}
+                    // HIỂN THỊ LỖI TỪ CẢ 2 NGUỒN
+                    error={localError || authError} 
                 />
                 
                 <ActionRow>
                     <ForgotPasswordLink to="/forgot-password">Quên mật khẩu?</ForgotPasswordLink>
-                    <MainButton type="submit">Đăng nhập</MainButton>
+                    <MainButton type="submit" disabled={authLoading}>
+                        {authLoading ? 'Đang đăng nhập...' : 'Đăng nhập'}
+                    </MainButton>
                 </ActionRow>
             </Form>
 

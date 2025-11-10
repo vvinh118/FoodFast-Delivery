@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 
-// Định nghĩa kiểu dữ liệu (Props) cho component
+// === TYPES ===
 interface RestaurantCardProps {
   id: number;
   name: string;
@@ -15,9 +15,7 @@ interface RestaurantCardProps {
   isPromo: boolean;
 }
 
-// ==========================================================
-// 2. STYLED COMPONENTS
-// ==========================================================
+// === STYLED COMPONENTS ===
 
 // Container chính của thẻ quán ăn
 const CardContainer = styled.div`
@@ -100,9 +98,7 @@ const DetailsRow = styled.div`
   }
 `;
 
-// ==========================================================
-// 3. COMPONENT CHÍNH
-// ==========================================================
+// === COMPONENT ===
 
 const RestaurantCard: React.FC<RestaurantCardProps> = ({
   id,
@@ -115,8 +111,6 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
   isPromo,
 }) => {
   const navigate = useNavigate(); // Khởi tạo hook navigate
-
-  // Hàm xử lý khi click vào thẻ
   const handleClick = () => {
     navigate(`/restaurant/${id}`);
   };

@@ -2,9 +2,11 @@ import styled from "styled-components";
 import Button from "../components/Button";
 import { Link } from 'react-router-dom';
 import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
-import { useCart } from '../context/CartContext'; // Import hook giỏ hàng
+import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 
+
+// STYLED COMPONENTS
 
 // khung header
 const HeaderContainer = styled.header` 
@@ -40,14 +42,14 @@ const NavLink = styled(Link)` //link điều hướng
   }
 `;
 
-// Container mới cho Giỏ hàng (Thay thế CartLink cũ)
+// Container Giỏ hàng
 const CartContainer = styled.div` 
     position: relative;
     display: flex;
     align-items: center;
     cursor: pointer;
     
-    /* Style cho Icon Giỏ hàng (dùng fill thay vì stroke như mẫu cũ để FaShoppingCart hiển thị đúng màu) */
+    /* Style cho Icon Giỏ hàng */
     svg {
         stroke: #F72D57;
         stroke-width: 40;
@@ -55,7 +57,7 @@ const CartContainer = styled.div`
     }
 
     &:hover svg {
-        fill: #ff5b7a; /* Màu hover nhẹ hơn */
+        fill: #ff5b7a;
     }
 `;
 
@@ -80,7 +82,7 @@ const CartBadge = styled.div`
 // Icon Profile
 const ProfileIconButton = styled.div`
     color: #F72D57;
-    font-size: 30px;  
+    font-size: 30px;    
     transition: color 0.2s;
     cursor: pointer; // Thêm con trỏ
     display: flex; // Đảm bảo icon căn giữa
@@ -95,9 +97,8 @@ const ProfileIconButton = styled.div`
 export default function Header() {
     const { isLoggedIn, toggleProfileSidebar } = useAuth();
 
-    const { getTotalItems, toggleCart } = useCart();
-    const totalItems = getTotalItems();
-
+    const { totalItems, toggleCart } = useCart();
+    
     const handleCartClick = () => {
         toggleCart(); // gọi hàm này để mở sidebar giỏ hàng
     };

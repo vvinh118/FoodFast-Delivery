@@ -37,6 +37,12 @@ const Input = styled.input<{ $error?: boolean; $isPassword?: boolean }>`
     outline: none;
     box-shadow: 0 0 0 1px #f72d57;
   }
+  
+  &:disabled {
+    background-color: #f0f0f0;
+    color: #999;
+    cursor: not-allowed;
+  }
 `;
 
 const TogglePassword = styled.span`
@@ -63,10 +69,10 @@ interface InputFieldProps {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     error?: string | null; 
     name?: string; 
+    disabled?: boolean;
 }
 
 // === REACT COMPONENT ===
-
 const InputField: React.FC<InputFieldProps> = ({ 
     label, 
     id, 
@@ -75,10 +81,10 @@ const InputField: React.FC<InputFieldProps> = ({
     value, 
     onChange, 
     error,
-    name 
+    name,
+    disabled
 }) => {
   
-    // Component tự quản lý state ẩn/hiện mật khẩu
   const [showPassword, setShowPassword] = useState(false);
   
   const isPassword = type === 'password';
@@ -95,17 +101,16 @@ const InputField: React.FC<InputFieldProps> = ({
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}
-                $error={!!error} // Chuyển string thành boolean
-                $isPassword={isPassword} // Truyền prop để xử lý padding
+                $error={!!error}
+                $isPassword={isPassword}
+                disabled={disabled}
             />
-            {/* hiển thị icon nếu type là 'password' */}
             {isPassword && (
                 <TogglePassword onClick={() => setShowPassword(!showPassword)}>
                     {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </TogglePassword>
             )}
         </InputWrapper>
-        {/* Hiển thị lỗi */}
         {error && <ErrorMessage>{error}</ErrorMessage>}
     </InputGroup>
   );

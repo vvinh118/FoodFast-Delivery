@@ -1,17 +1,34 @@
-// apps/web/src/pages/MenuItemList.tsx
-
-
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom'; // Dùng để lấy ID quán ăn từ URL
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import MenuItemCard from '../components/MenuItemCard'; // Import component hiển thị món ăn
-import { mockRestaurants, mockMenuItems } from '../data/mockData'; // <-- IMPORT mockdata
+import { useParams } from 'react-router-dom';
+import MenuItemCard from '../components/MenuItemCard';
 
-// ==========================================================
-// STYLED COMPONENTS
-// ==========================================================
+import { fetchRestaurantById, fetchMenuByRestaurant } from '../services/api';
 
+// === TYPES ===
+interface Restaurant {
+  id: number;
+  name: string;
+  address: string;
+  rating: number;
+  distance: number;
+  deliveryTime: number;
+  imageUrl: string;
+  isPromo: boolean;
+  category: string;
+}
+
+interface MenuItem {
+    id: number;
+    restaurantId: number;
+    name: string;
+    price: number;
+    description: string;
+    imageUrl: string;
+    category: string;
+}
+
+// === STYLED COMPONENTS ===
 const MenuPageContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -22,7 +39,8 @@ const ContentWrapper = styled.div`
     max-width: 1000px; 
     margin: 0 auto;
     padding: 0 20px;
-    flex-grow: 1; /* Đảm bảo content chiếm hết không gian còn lại */
+    flex-grow: 1; 
+    min-height: 60vh; /* Đảm bảo Spinner/Lỗi hiển thị đẹp */
 `;
 
 const HeaderSection = styled.div`
@@ -43,49 +61,98 @@ const Breadcrumb = styled.p`
     margin-bottom: 8px;
 `;
 
-// Container cho lưới Món ăn
 const MenuGrid = styled.div`
     display: grid;
-    /* Tạo 3-4 cột linh hoạt, mỗi cột có chiều rộng tối thiểu 220px */
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    /* Cố định 3 cột và dùng grid-gap để tạo khoảng cách */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px; /* Khoảng cách giữa các món */
     margin-top: 20px;
     margin-bottom: 80px;
+
+    /* Responsive: Nếu màn hình nhỏ hơn 768px, chỉ hiển thị 2 cột */
+    @media (max-width: 768px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Responsive: Nếu màn hình nhỏ hơn 480px, chỉ hiển thị 1 cột */
+    @media (max-width: 480px) {
+        grid-template-columns: repeat(1, 1fr);
+    }
 `;
 
-// ==========================================================
-// COMPONENT CHÍNH
-// ==========================================================
 
 const MenuItemList = () => {
-    // Lấy ID (dạng string) của quán ăn từ URL
+    // lấy ID (dạng string) của quán ăn từ URL
     const { id } = useParams<{ id: string }>(); 
-    const restaurantId = parseInt(id || '0', 10); // Chuyển đổi ID sang số nguyên
 
-    // Tìm thông tin quán ăn
-    const restaurant = mockRestaurants.find(r => r.id === restaurantId);
+    // state cho API
+    const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
+    const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // dùng useEffect để gọi API
+    useEffect(() => {
+        if (!id) {
+            setError("Không tìm thấy ID nhà hàng.");
+            setLoading(false);
+            return;
+        }
+
+        const loadData = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+
+                // gọi 2 API song song
+                const [restaurantData, menuData] = await Promise.all([
+                    fetchRestaurantById(id),    // Gọi API lấy thông tin nhà hàng
+                    fetchMenuByRestaurant(id) // Gọi API lấy menu
+                ]);
+                
+                setRestaurant(restaurantData as Restaurant);
+                setMenuItems(menuData as MenuItem[]);
+
+            } catch (err: any) {
+                setError(err.message || 'Không thể tải dữ liệu.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadData();
+    }, [id]); // Chạy lại nếu ID trên URL thay đổi
+
     
-    // Lọc danh sách món ăn theo ID
-    const menuItems = mockMenuItems.filter(item => item.restaurantId === restaurantId);
-
-    // Xử lý trường hợp không tìm thấy quán ăn
-    if (!restaurant) {
+    // 1. Trạng thái Đang Tải
+    if (loading) {
         return (
             <MenuPageContainer>
-                <Header />
                 <ContentWrapper>
-                    <h1 style={{ textAlign: 'center', marginTop: '50px' }}>
-                        Không tìm thấy quán ăn này!
+                    <h2 style={{ textAlign: 'center', marginTop: '50px' }}>
+                        Đang tải thực đơn...
+                    </h2>
+                </ContentWrapper>
+            </MenuPageContainer>
+        );
+    }
+    
+    // 2. Trạng thái Lỗi
+    if (error || !restaurant) {
+        return (
+            <MenuPageContainer>
+                <ContentWrapper>
+                    <h1 style={{ textAlign: 'center', marginTop: '50px', color: 'red' }}>
+                        {error || "Không tìm thấy quán ăn này!"}
                     </h1>
                 </ContentWrapper>
-                <Footer />
             </MenuPageContainer>
         );
     }
 
+    // 3. trạng thái thành Công
     return (
         <MenuPageContainer>
-
             <ContentWrapper>
                 <HeaderSection>
                     <Breadcrumb>Trang chủ &gt; Nhà hàng &gt; {restaurant.name}</Breadcrumb>
@@ -93,16 +160,17 @@ const MenuItemList = () => {
                     <p style={{ color: '#FFC107', fontWeight: 600 }}>Thực đơn chính</p>
                 </HeaderSection>
                 
-                {/* THAY THẾ DIV BỌC BẰNG MENUGRID */}
                 <MenuGrid>
                     {menuItems.length > 0 ? (
                         menuItems.map(item => (
                             <MenuItemCard 
                                 key={item.id}
-                                name={item.name}
                                 id={item.id}
+                                name={item.name}
                                 price={item.price}
                                 imageUrl={item.imageUrl}
+                                restaurantId={restaurant.id} 
+                                restaurantName={restaurant.name}
                             />
                         ))
                     ) : (
@@ -112,7 +180,6 @@ const MenuItemList = () => {
                     )}
                 </MenuGrid>
             </ContentWrapper>
-
         </MenuPageContainer>
     );
 };

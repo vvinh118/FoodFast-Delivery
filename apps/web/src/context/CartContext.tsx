@@ -1,133 +1,156 @@
-// src/context/CartContext.tsx
+import React, { createContext, useContext, useState, type ReactNode } from 'react';
 
-import React, { createContext, useContext, useState } from 'react';
-import type { ReactNode } from 'react';
-
-// Định nghĩa kiểu dữ liệu cho một món hàng trong giỏ
+// === TYPES ===
 interface CartItem {
-    id: number; // ID của món ăn
-    name: string;
-    price: number;
-    quantity: number;
-    imageUrl?: string;
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  imageUrl?: string;
+  restaurantId: number;
+  restaurantName: string;
 }
 
 interface ItemData {
-    id: number;
-    name: string;
-    price: number;
-    imageUrl?: string;
+  id: number;
+  name: string;
+  price: number;
+  imageUrl?: string;
+  restaurantId: number;
+  restaurantName: string;
 }
 
-
-// Định nghĩa kiểu dữ liệu cho Cart Context
+// INTERFACE
 interface CartContextType {
-    cartItems: CartItem[];
-    increaseItemQuantity: (item: ItemData) => void;
-    decreaseItemQuantity: (itemId: number) => void;
-    findItem: (id: number) => CartItem | undefined; // Thêm hàm tìm kiếm
-    getTotalItems: () => number;
-    getTotalPrice: () => number;
-
-    // quản lý trạng thái mở đóng sidebar
-    isCartOpen: boolean; 
-    toggleCart: () => void;
+  isCartOpen: boolean;
+  toggleCart: () => void;
+  items: CartItem[];
+  increaseItemQuantity: (itemData: ItemData) => void;
+  decreaseItemQuantity: (itemId: number) => void;
+  removeFromCart: (itemId: number) => void;
+  findItem: (id: number) => CartItem | undefined;
+  totalAmount: number;
+  totalItems: number;
+  clearCart: () => void;
+  conflictingItem: ItemData | null;
+  proceedWithNewBasket: () => void;
+  cancelNewBasket: () => void;
 }
 
-// Tạo Context (với giá trị mặc định là null)
-const CartContext = createContext<CartContextType | null>(null);
+// === CONTEXT ===
+const CartContext = createContext<CartContextType | undefined>(undefined);
 
-// Custom hook để sử dụng Context dễ dàng
 export const useCart = () => {
-    const context = useContext(CartContext);
-    if (!context) {
-        throw new Error('useCart must be used within a CartProvider');
-    }
-    return context;
+  const context = useContext(CartContext);
+  if (!context) {
+    throw new Error('useCart must be used within a CartProvider');
+  }
+  return context;
 };
 
-// Component Provider để cung cấp trạng thái
+// === PROVIDER ===
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [items, setItems] = useState<CartItem[]>([]);
+  const [conflictingItem, setConflictingItem] = useState<ItemData | null>(null);
+
+  const toggleCart = () => {
+    if (conflictingItem) {
+      setIsCartOpen(true);
+      return;
+    }
+    setIsCartOpen(prev => !prev);
+  };
+
+  const findItem = (id: number) => items.find(i => i.id === id);
+
+  const increaseItemQuantity = (itemData: ItemData) => {    
+    // 1. Giỏ hàng trống
+    if (items.length === 0) {
+      setItems([{ ...itemData, quantity: 1 }]);
+      return;
+    }
+
+    // 2. Giỏ hàng có đồ
+    const existingRestaurantId = items[0].restaurantId;
     
-    // THÊM: State để kiểm soát Sidebar Giỏ hàng
-    const [isCartOpen, setIsCartOpen] = useState(false);
+    // 3. CÙNG nhà hàng
+    if (itemData.restaurantId === existingRestaurantId) {
+      setItems(currentItems => {
+        const existingItem = currentItems.find(item => item.id === itemData.id);
+        if (existingItem) {
+          return currentItems.map(item =>
+            item.id === itemData.id
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          );
+        } else {
+          return [...currentItems, { ...itemData, quantity: 1 }];
+        }
+      });
+    } else {
+      // 4. KHÁC nhà hàng --> Hiện thông báo xung đột
+      setConflictingItem(itemData);
+      setIsCartOpen(true);
+    }
+  };
 
-    // THÊM: Hàm chuyển đổi trạng thái mở/đóng
-    const toggleCart = () => {
-        setIsCartOpen(prev => !prev);
-    };
+  const proceedWithNewBasket = () => {
+    if (conflictingItem) {
+      setItems([{ ...conflictingItem, quantity: 1 }]); 
+      setConflictingItem(null); 
+    }
+  };
 
-    // Hàm tìm kiếm món ăn
-    const findItem = (id: number) => cartItems.find(i => i.id === id);
+  const cancelNewBasket = () => {
+    setConflictingItem(null); 
+    setIsCartOpen(false); 
+  };
 
+  const decreaseItemQuantity = (itemId: number) => {
+    setItems(prevItems => {
+      const existingItem = prevItems.find(i => i.id === itemId);
+      if (!existingItem) return prevItems;
+      if (existingItem.quantity > 1) {
+        return prevItems.map(i =>
+          i.id === itemId ? { ...i, quantity: i.quantity - 1 } : i
+        );
+      } else {
+        return prevItems.filter(i => i.id !== itemId);
+      }
+    });
+  };
 
-    // TĂNG SỐ LƯỢNG (hoặc THÊM MỚI nếu lần đầu nhấn '+')
-    const increaseItemQuantity = (item: ItemData) => {
-        setCartItems(prevItems => {
-            const existingItem = prevItems.find(i => i.id === item.id);
+  const removeFromCart = (itemId: number) => {
+    setItems(prevItems => prevItems.filter(i => i.id !== itemId));
+  };
 
-            if (existingItem) {
-                // Tăng số lượng
-                return prevItems.map(i =>
-                    i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
-                );
-            } else {
-                // THÊM MỚI (Lần đầu nhấn '+' => quantity = 1)
-                return [...prevItems, { 
-                    id: item.id,
-                    name: item.name,
-                    price: item.price,
-                    quantity: 1,
-                    imageUrl: item.imageUrl
-                }];
-            }
-        });
-    };
+  const clearCart = () => {
+    setItems([]);
+  };
 
-    // GIẢM SỐ LƯỢNG (hoặc XÓA nếu quantity về 0)
-    const decreaseItemQuantity = (itemId: number) => {
-        setCartItems(prevItems => {
-            const existingItem = prevItems.find(i => i.id === itemId);
+  const totalAmount = items.reduce((total, item) => total + item.price * item.quantity, 0);
+  const totalItems = items.reduce((total, item) => total + item.quantity, 0);
 
-            if (!existingItem) return prevItems;
+  const value = { 
+    isCartOpen, 
+    toggleCart,
+    items,
+    increaseItemQuantity, 
+    decreaseItemQuantity,
+    removeFromCart,
+    findItem,
+    totalAmount,
+    totalItems,
+    clearCart,
+    conflictingItem,
+    proceedWithNewBasket,
+    cancelNewBasket,
+  };
 
-            if (existingItem.quantity > 1) {
-                // Giảm số lượng
-                return prevItems.map(i =>
-                    i.id === itemId ? { ...i, quantity: i.quantity - 1 } : i
-                );
-            } else {
-                // SỐ LƯỢNG = 1, nhấn (-) => XÓA KHỎI GIỎ HÀNG
-                return prevItems.filter(i => i.id !== itemId);
-            }
-        });
-    };
-
-    // Tính tổng số lượng món ăn
-    const getTotalItems = () => {
-        return cartItems.reduce((total, item) => total + item.quantity, 0);
-    };
-    
-    // Tính tổng tiền
-    const getTotalPrice = () => {
-        return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-    };
-
-    return (
-        <CartContext.Provider value={{ 
-            cartItems, 
-            increaseItemQuantity, 
-            decreaseItemQuantity,
-            findItem,
-            getTotalItems, 
-            getTotalPrice,
-            
-            // THÊM: Sidebar State và Functions
-            isCartOpen, 
-            toggleCart 
-        }}>
-            {children}
-        </CartContext.Provider>
-    );
+  return (
+    <CartContext.Provider value={value}>
+      {children}
+    </CartContext.Provider>
+  );
 };

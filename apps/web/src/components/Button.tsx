@@ -15,16 +15,22 @@ const StyledButton = styled.button<ButtonProps>`
   display: ${props => props.$display || "block"};
   font-size: ${props => props.$fontSize || "15px"};
   margin: ${props => props.$margin || "0"};
-  type: button;
   box-sizing: border-box;
   text-align: center;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.3s, box-shadow 0.3s;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.06);
 
   &:hover {
     background-color: ${props => props.$hoverBackground || "#ff5b7a"};
+  }
+  
+  &:disabled {
+    background-color: #ccc;
+    color: #777;
+    cursor: not-allowed;
+    box-shadow: none; /* Tắt shadow khi disabled */
   }
 `;
 
@@ -67,13 +73,33 @@ interface ButtonProps extends Omit<LinkProps, 'to'> {
   $fontSize?: string;
   $margin?: string;
   type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
 }
 
 // === COMPONENT CHÍNH ===
-export default function Button({ to, children, onClick, type = 'button', ...props }: ButtonProps) {
-  if (to) {
+export default function Button({ 
+  to, 
+  children, 
+  onClick, 
+  type = 'button', 
+  disabled,
+  ...props 
+}: ButtonProps) {
+  
+
+  if (to && !disabled) {
     return <StyledLink to={to} {...props}>{children}</StyledLink>;
   }
   
-  return <StyledButton type={type} onClick={onClick} {...props}>{children}</StyledButton>;
+  // render một <button>
+  return (
+    <StyledButton 
+      type={type} 
+      onClick={onClick} 
+      disabled={disabled}
+      {...props}
+    >
+      {children}
+    </StyledButton>
+  );
 }

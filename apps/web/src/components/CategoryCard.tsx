@@ -7,7 +7,7 @@ import styled from "styled-components";
 interface CategoryCardProps {
   name: string;
   iconUrl: string; 
-  $isActive: boolean; // Transient Prop
+  $isActive: boolean;
   onClick: () => void;
 }
 

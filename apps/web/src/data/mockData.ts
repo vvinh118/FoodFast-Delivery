@@ -145,9 +145,9 @@ export const mockMenuItems = [
 
 
     // Quán ID 2: 3 Râu - Gà Rán Pizza & Trà Sữa
-    { id: 201, restaurantId: 2, name: "Combo Gà Rán 2 Miếng + Pepsi", price: 59000, description: "2 miếng gà giòn tan kèm nước.", imageUrl: "https://i.imgur.com/7gK5xQf.jpeg" }, 
-    { id: 202, restaurantId: 2, name: "Pizza Hải Sản (Size M)", price: 99000, description: "Pizza hải sản với đế mỏng giòn.", imageUrl: "https://i.imgur.com/8QjZzRj.jpeg" },
-    { id: 203, restaurantId: 2, name: "Trà Sữa Khoai Môn", price: 35000, description: "Trà sữa khoai môn béo ngậy.", imageUrl: "https://i.imgur.com/Uo2eG7x.jpeg" },
+    { id: 201, restaurantId: 13, name: "Combo Gà Rán 2 Miếng + Pepsi", price: 59000, description: "2 miếng gà giòn tan kèm nước.", imageUrl: "https://i.imgur.com/7gK5xQf.jpeg" }, 
+    { id: 202, restaurantId: 13, name: "Pizza Hải Sản (Size M)", price: 99000, description: "Pizza hải sản với đế mỏng giòn.", imageUrl: "https://i.imgur.com/8QjZzRj.jpeg" },
+    { id: 203, restaurantId: 13, name: "Trà Sữa Khoai Môn", price: 35000, description: "Trà sữa khoai môn béo ngậy.", imageUrl: "https://i.imgur.com/Uo2eG7x.jpeg" },
 
     // Quán ID 3: Mì Trộn Indomie, Gà Rán
     { id: 301, restaurantId: 3, name: "Mì Trộn Indomie Đặc Biệt", price: 39000, description: "Mì trộn Indomie kèm trứng, chả lụa và rau.", imageUrl: "https://i.imgur.com/sW3Xg1J.jpeg" },
@@ -183,7 +183,6 @@ export const mockCategories = [
     { name: "Trà Sữa", iconUrl: milkteaIcon },
     { name: "Bún, Mì, Phở", iconUrl: ramenIcon },
     { name: "Thức ăn nhanh", iconUrl: fastfoodIcon },
-//    { name: "Đồ chay", iconUrl: "https://via.placeholder.com/50/F08080?text=DC" },
     { name: "Bánh", iconUrl: donutIcon },
     { name: "Lẩu, Nướng", iconUrl: hotpotIcon },
     { name: "Kem", iconUrl: icecreamIcon },

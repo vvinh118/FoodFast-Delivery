@@ -1,20 +1,22 @@
 import React, { createContext, useContext, useState, type ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
+// NÂNG CẤP 1: Import hàm API
+import { apiLogin } from '../services/api'; 
 
-// 1. Định nghĩa kiểu dữ liệu (Interface) cho Context
+// NÂNG CẤP 2: Mở rộng Interface
 interface AuthContextType {
   isLoggedIn: boolean;
-  user: any; // Thêm user (bạn nên thay 'any' bằng kiểu User cụ thể)
-  login: (userData: any) => void; // Sửa lại để nhận userData
+  user: any; 
+  login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   isProfileSidebarOpen: boolean;
   toggleProfileSidebar: () => void;
+  authLoading: boolean;
+  authError: string | null;
 }
 
-// 2. Tạo Context Object
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// 3. Custom Hook
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
@@ -23,34 +25,44 @@ export const useAuth = () => {
   return context;
 };
 
-// 4. Component Provider chính
+// Component Provider chính
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState<any>(null); // Thêm state cho user
+  const [user, setUser] = useState<any>(null); 
   const navigate = useNavigate();
   const [isProfileSidebarOpen, setIsProfileSidebarOpen] = useState(false);
+  const [authLoading, setAuthLoading] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
 
-  const login = (userData: any) => { 
-    setIsLoggedIn(true);
-    setUser(userData); // Lưu thông tin user
-    
-    // Giả lập thông tin user nếu đăng nhập mà không có data
-    if (!userData) {
-      setUser({ name: "Võ Minh Thư", email: "test@foodfast.vn" });
+  const login = async (email: string, password: string) => { 
+    setAuthLoading(true);
+    setAuthError(null);
+
+    try {
+      const response: any = await apiLogin(email, password); 
+      
+      // Nếu thành công (API không ném lỗi)
+      setIsLoggedIn(true);
+      setUser(response.user); // Lưu user từ API trả về
+      navigate('/'); // Điều hướng về trang chủ
+
+    } catch (err: any) {
+      // Nếu thất bại (API ném lỗi "Sai tài khoản...")
+      setAuthError(err.message);
+    } finally {
+      setAuthLoading(false);
     }
-
-    navigate('/'); 
   };
 
   const logout = () => {
     setIsLoggedIn(false);
-    setUser(null); // Xóa thông tin user
+    setUser(null); 
     navigate('/login'); 
   };
 
   const toggleProfileSidebar = () => {
-        setIsProfileSidebarOpen(prev => !prev);
-    };
+      setIsProfileSidebarOpen(prev => !prev);
+  };
 
   const value = {
     isLoggedIn,
@@ -59,6 +71,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     logout,
     isProfileSidebarOpen,
     toggleProfileSidebar,
+    authLoading,
+    authError,
   };
 
   return (

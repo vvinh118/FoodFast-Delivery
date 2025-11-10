@@ -1,0 +1,382 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "test@foodfast.vn",
+      "password": "1",
+      "name": "Võ Minh Thư",
+      "avatar": "https://i.pravatar.cc/150?img=11"
+    },
+    {
+      "id": "48d9",
+      "name": "vinhdeptrai",
+      "tel": "123213312",
+      "birthday": "2004-11-08",
+      "email": "test2@foodfast.vn",
+      "password": "1182004"
+    },
+    {
+      "id": "a686",
+      "name": "vv112",
+      "tel": "123213123",
+      "birthday": "122312-11-23",
+      "email": "test3@foodfast.vn",
+      "password": "1182004"
+    },
+    {
+      "id": "ef54",
+      "name": "vvv12312",
+      "tel": "0913625400",
+      "birthday": "2000-01-01",
+      "email": "test4@foodfast.vn",
+      "password": "123456"
+    }
+  ],
+  "restaurants": [
+    {
+      "id": "1",
+      "name": "Nem Nướng D'yan - Since 1968",
+      "address": "183 Nguyễn Văn Đậu",
+      "rating": 4.7,
+      "distance": 2.9,
+      "deliveryTime": 25,
+      "imageUrl": "https://trumfood.vn/wp-content/uploads/2023/01/nem-nuong-thom-ngon-Trum-Food.jpg",
+      "isPromo": true,
+      "category": "Lẩu, Nướng"
+    },
+    {
+      "id": "2",
+      "name": "Jollibee",
+      "address": "200 Lý Chính Thắng",
+      "rating": 4.5,
+      "distance": 2.2,
+      "deliveryTime": 20,
+      "imageUrl": "https://jollibeemenu.com/wordpress/wp-content/uploads/2024/07/Jollibee-Menu-Prices-Philippines.jpeg",
+      "isPromo": true,
+      "category": "Gà"
+    },
+    {
+      "id": "3",
+      "name": "Mì Trộn Indomie, Gà Rán",
+      "address": "155 Lê Văn Sỹ",
+      "rating": 4.7,
+      "distance": 2.3,
+      "deliveryTime": 30,
+      "imageUrl": "https://tse4.mm.bing.net/th/id/OIP.g349_sKPS2INyrS8vSgLlQHaE8",
+      "isPromo": false,
+      "category": "Bún, Mì, Phở"
+    },
+    {
+      "id": "4",
+      "name": "Xôi Mặn - Bánh Bao Trường Sơn",
+      "address": "36 Trường Sơn, P.4, Q.TB",
+      "rating": 4.6,
+      "distance": 0.8,
+      "deliveryTime": 15,
+      "imageUrl": "https://tse2.mm.bing.net/th/id/OIP.WnQXS6zgCF0nFxumjcgNXgHaFT",
+      "isPromo": true,
+      "category": "Thức ăn nhanh"
+    },
+    {
+      "id": "5",
+      "name": "Cơm Gà Xối Mỡ - Chú Tư",
+      "address": "18 Thành Thái, P.14, Q.10",
+      "rating": 4.8,
+      "distance": 3.5,
+      "deliveryTime": 35,
+      "imageUrl": "https://cdn.xanhsm.com/2025/01/735df340-com-ga-sai-gon-1.jpg",
+      "isPromo": false,
+      "category": "Cơm"
+    },
+    {
+      "id": "6",
+      "name": "Trà Sữa Cheese Bông - Hot Trend",
+      "address": "212 Lý Thường Kiệt, P.15, Q.11",
+      "rating": 4.9,
+      "distance": 1.1,
+      "deliveryTime": 15,
+      "imageUrl": "https://tse4.mm.bing.net/th/id/OIP.71cGG9HIkYC_9s-FRLkwTQHaHa",
+      "isPromo": true,
+      "category": "Trà Sữa"
+    },
+    {
+      "id": "7",
+      "name": "Bún Chả Hà Nội - 120 Năm",
+      "address": "118 Cống Quỳnh, P. Phạm Ngũ Lão, Q.1",
+      "rating": 4.4,
+      "distance": 5.1,
+      "deliveryTime": 40,
+      "imageUrl": "https://bizweb.dktcdn.net/100/442/328/files/bun-cha-mon-dac-san-binh-di-cua-nguoi-ha-noi-1.jpg?v=1638938776859",
+      "isPromo": false,
+      "category": "Bún, Mì, Phở"
+    },
+    {
+      "id": "8",
+      "name": "Pizza & Pasta Ý - VV",
+      "address": "339 Lê Văn Sỹ, P.1, Q. TB",
+      "rating": 4.3,
+      "distance": 0.5,
+      "deliveryTime": 20,
+      "imageUrl": "https://img1.wsimg.com/isteam/stock/2982",
+      "isPromo": true,
+      "category": "Thức ăn nhanh"
+    },
+    {
+      "id": "9",
+      "name": "Kem Wall's - ST F-MART 24",
+      "address": "258 Phan Đình Phùng, P.2, Q. Phú Nhuận",
+      "rating": 4.6,
+      "distance": 0.5,
+      "deliveryTime": 20,
+      "imageUrl": "https://bizweb.dktcdn.net/100/093/924/files/kem-hop-3-trong-1-triple-delight-vanilla-lemon-chocolate-walls-840ml-2.jpg",
+      "isPromo": true,
+      "category": "Kem"
+    },
+    {
+      "id": "10",
+      "name": "Thế Giới Donut",
+      "address": "124 Hai Bà Trưng, P.6, Q.3",
+      "rating": 4.6,
+      "distance": 0.5,
+      "deliveryTime": 20,
+      "imageUrl": "https://tse4.mm.bing.net/th/id/OIP._RHtf6pxnrUkhaWDxrmeKQHaHa",
+      "isPromo": true,
+      "category": "Bánh"
+    },
+    {
+      "id": "11",
+      "name": "KFC",
+      "address": "111 Nguyễn Thái Bình",
+      "rating": 4.5,
+      "distance": 2.2,
+      "deliveryTime": 20,
+      "imageUrl": "https://aeonmall-haiphong-lechan.com.vn/wp-content/uploads/2020/10/2_resize.jpg",
+      "isPromo": true,
+      "category": "Gà"
+    },
+    {
+      "id": "12",
+      "name": "Popyes",
+      "address": "201 Lý Chính Thắng",
+      "rating": 4.5,
+      "distance": 2.2,
+      "deliveryTime": 20,
+      "imageUrl": "https://tb-static.uber.com/prod/image-proc/processed_images/ccd54526c695b0983481e9ce407ad5ad/719c6bd2757b08684c0faae44d43159d.jpeg",
+      "isPromo": true,
+      "category": "Gà"
+    },
+    {
+      "id": "13",
+      "name": "3 Râu - Gà Rán Pizza & Trà Sữa",
+      "address": "191 Nguyễn Tiểu La",
+      "rating": 4.5,
+      "distance": 2.2,
+      "deliveryTime": 20,
+      "imageUrl": "https://tse3.mm.bing.net/th/id/OIP.4o98zuIor0zIGSloJFZ_DAHaEo",
+      "isPromo": true,
+      "category": "Gà"
+    },
+    {
+      "id": "14",
+      "name": "Lotteria",
+      "address": "118 Lê Lợi",
+      "rating": 4.5,
+      "distance": 2.2,
+      "deliveryTime": 20,
+      "imageUrl": "https://tse4.mm.bing.net/th/id/OIP.C6XBtQjroK22AuqAjPMhsgHaHa?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+      "isPromo": true,
+      "category": "Gà"
+    }
+  ],
+  "menuItems": [
+    {
+      "id": "101",
+      "restaurantId": 1,
+      "name": "Nem Nướng Cuốn Bánh Tráng",
+      "price": 65000,
+      "description": "Combo 2 phần nem nướng đầy đủ rau, dưa, bánh tráng.",
+      "imageUrl": "https://toplist.vn/images/800px/nem-nuong-bun-thit-nuong-quan-cua-ma-1143319.jpg"
+    },
+    {
+      "id": "102",
+      "restaurantId": 1,
+      "name": "Nem Nướng Lẻ",
+      "price": 35000,
+      "description": "10 que nem nướng nóng giòn.",
+      "imageUrl": "https://i.imgur.com/i9O3L6F.jpeg"
+    },
+    {
+      "id": "103",
+      "restaurantId": 1,
+      "name": "Bún Nem Nướng Chả Giò",
+      "price": 50000,
+      "description": "Bún tươi, nem nướng, chả giò và rau sống.",
+      "imageUrl": "https://i.imgur.com/rN2tMhY.jpeg"
+    },
+    {
+      "id": "104",
+      "restaurantId": 1,
+      "name": "Gỏi Cuốn Nem Nướng (3 Cuốn)",
+      "price": 40000,
+      "description": "Gỏi cuốn nhân nem nướng, tôm, thịt.",
+      "imageUrl": "https://i.imgur.com/V7gZJ8w.jpeg"
+    },
+    {
+      "id": "105",
+      "restaurantId": 1,
+      "name": "Trà Tắc Giải Nhiệt",
+      "price": 18000,
+      "description": "Trà tắc tươi mát, giải nhiệt.",
+      "imageUrl": "https://i.imgur.com/P5kQJ1o.jpeg"
+    },
+    {
+      "id": "201",
+      "restaurantId": 13,
+      "name": "Combo Gà Rán 2 Miếng + Pepsi",
+      "price": 59000,
+      "description": "2 miếng gà giòn tan kèm nước.",
+      "imageUrl": "https://i.imgur.com/7gK5xQf.jpeg"
+    },
+    {
+      "id": "202",
+      "restaurantId": 13,
+      "name": "Pizza Hải Sản (Size M)",
+      "price": 99000,
+      "description": "Pizza hải sản với đế mỏng giòn.",
+      "imageUrl": "https://i.imgur.com/8QjZzRj.jpeg"
+    },
+    {
+      "id": "203",
+      "restaurantId": 13,
+      "name": "Trà Sữa Khoai Môn",
+      "price": 35000,
+      "description": "Trà sữa khoai môn béo ngậy.",
+      "imageUrl": "https://i.imgur.com/Uo2eG7x.jpeg"
+    },
+    {
+      "id": "301",
+      "restaurantId": 3,
+      "name": "Mì Trộn Indomie Đặc Biệt",
+      "price": 39000,
+      "description": "Mì trộn Indomie kèm trứng.",
+      "imageUrl": "https://i.imgur.com/sW3Xg1J.jpeg"
+    },
+    {
+      "id": "302",
+      "restaurantId": 3,
+      "name": "Mì Xào Giòn Hải Sản",
+      "price": 69000,
+      "description": "Mì xào giòn sốt hải sản đậm đà.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "All",
+      "iconUrl": "icons/danhmuc.png"
+    },
+    {
+      "id": "2",
+      "name": "Gà",
+      "iconUrl": "/icons/chicken.png"
+    },
+    {
+      "id": "3",
+      "name": "Cơm",
+      "iconUrl": "/icons/rice.png"
+    },
+    {
+      "id": "4",
+      "name": "Trà Sữa",
+      "iconUrl": "/icons/milktea.png"
+    },
+    {
+      "id": "5",
+      "name": "Bún, Mì, Phở",
+      "iconUrl": "/icons/ramen.png"
+    },
+    {
+      "id": "6",
+      "name": "Thức ăn nhanh",
+      "iconUrl": "/icons/fastfood.svg"
+    },
+    {
+      "id": "7",
+      "name": "Bánh",
+      "iconUrl": "/icons/donut.png"
+    },
+    {
+      "id": "8",
+      "name": "Lẩu, Nướng",
+      "iconUrl": "/icons/hotpot.png"
+    },
+    {
+      "id": "9",
+      "name": "Kem",
+      "iconUrl": "/icons/ice-cream.png"
+    }
+  ],
+  "orders": [
+    {
+      "id": "3eba",
+      "userId": "1",
+      "userName": "Võ Minh Thư",
+      "userPhone": "1232",
+      "userAddress": "144 duong so 7",
+      "items": [
+        {
+          "id": "201",
+          "name": "Combo Gà Rán 2 Miếng + Pepsi",
+          "price": 59000,
+          "quantity": 2,
+          "imageUrl": "https://i.imgur.com/7gK5xQf.jpeg"
+        },
+        {
+          "id": "202",
+          "name": "Pizza Hải Sản (Size M)",
+          "price": 99000,
+          "quantity": 2,
+          "imageUrl": "https://i.imgur.com/8QjZzRj.jpeg"
+        }
+      ],
+      "total": 336000,
+      "subtotal": 316000,
+      "deliveryFee": 20000,
+      "discount": 0,
+      "paymentMethod": "cod",
+      "status": "Pending",
+      "createdAt": "2025-11-10T18:51:40.690Z"
+    },
+    {
+      "id": "b483",
+      "userId": "1",
+      "userName": "Viết Vinh",
+      "userPhone": "0914732121",
+      "userAddress": "144 duong so 7",
+      "items": [
+        {
+          "id": "201",
+          "name": "Combo Gà Rán 2 Miếng + Pepsi",
+          "price": 59000,
+          "quantity": 4,
+          "imageUrl": "https://i.imgur.com/7gK5xQf.jpeg"
+        },
+        {
+          "id": "202",
+          "name": "Pizza Hải Sản (Size M)",
+          "price": 99000,
+          "quantity": 3,
+          "imageUrl": "https://i.imgur.com/8QjZzRj.jpeg"
+        }
+      ],
+      "total": 553000,
+      "subtotal": 533000,
+      "deliveryFee": 20000,
+      "discount": 0,
+      "paymentMethod": "cod",
+      "status": "Pending",
+      "createdAt": "2025-11-10T19:11:27.651Z"
+    }
+  ]
+}

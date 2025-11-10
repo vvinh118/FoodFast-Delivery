@@ -1,30 +1,37 @@
-import React from "react";
-import Button from "../components/Button";
-import ProductCard from "../components/ProductCard";
-import CategoryButton from "../components/CategoryButton";
-import HomeHeroImg from "../assets/img/HomeHeroImg.png" 
-import HomePromoImg from "../assets/img/HomePromoImg.png"
-import HomeDeliImg from "../assets/img/HomeDeliImg.png"
-import HomeProductCategory from "../assets/img/HomeProductCategory.jpg" 
-import HomePayImg from "../assets/img/HomePayImg.png"
+import React, { useEffect, useState } from 'react';
+import Button from '../components/Button';
+import RestaurantCard from '../components/RestaurantCard';
+import CategoryButton from '../components/CategoryButton';
+
+import HomeHeroImg from '../assets/img/HomeHeroImg.png' 
+import HomePromoImg from '../assets/img/HomePromoImg.png'
+import HomeDeliImg from '../assets/img/HomeDeliImg.png'
+import HomePayImg from '../assets/img/HomePayImg.png'
 
 import styled from "styled-components";
 
+import { fetchRestaurants } from '../services/api';
+
+
 // === TYPES ===
-interface Product {
+interface Restaurant {
+  id: number;
   name: string;
-  price: number;
-  image: string;
+  address: string;
+  rating: number;
+  distance: number;
+  deliveryTime: number;
+  imageUrl: string;
+  isPromo: boolean;
   category: string;
 }
 
-// === STYLED COMPONENTS ===
 
+// === STYLED COMPONENTS ===
 //toàn trang
 const HomeContainer = styled.div` 
   background-color: #f9f9f9;
 ` 
-
 //Hero Section
 const HeroSection = styled.section` 
   display: flex;
@@ -32,7 +39,6 @@ const HeroSection = styled.section`
   align-items: center;
   padding: 40px;
 `
-// === THÀNH PHẦN MỚI: HERO WRAPPER ===
 const HeroWrapper = styled.div`
     background-color: white;
     box-shadow: 0 30px 60px rgba(247, 45, 87, 0.15);
@@ -42,7 +48,6 @@ const HeroWrapper = styled.div`
     border-radius: 60%;
     padding: 50px;
 `;
-// ===================================
 const HeroTextWrap = styled.section`
   display: flex;
   align-content:center;
@@ -56,7 +61,6 @@ const HeroHeading = styled.h1`
   margin-bottom: 20px;
   font-family: 'MilestoneScript', cursive;
   font-weight: normal;
-  //letter-spacing: 4px;
 ` 
 const HeroImg = styled.img`
   max-width: 400px; 
@@ -87,21 +91,22 @@ const HighlightedText = styled.span<{ $color: string, $fontSize: string }>`
 `
 
 const CategoryButtonContainer = styled.div`
-  display: flex;    
+  display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 15px;
 `
 
-//Product Section
-const ProductSection = styled.section`
+
+const RestaurantSection = styled.section`
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
   position: relative; 
+  min-height: 300px; 
 `
 
-const ProductGrid = styled.div`
+const RestaurantGrid = styled.div`
   display: flex;
   overflow-x: auto;
   scroll-behavior: smooth;
@@ -113,7 +118,6 @@ const ProductGrid = styled.div`
     max-width: 300px;
   }
   
-  /* CSS TÙY CHỈNH CHO SCROLLBAR TRÊN WEBKIT */
   &::-webkit-scrollbar { height: 8px; }
   &::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
   &::-webkit-scrollbar-thumb { background: #f72d57; border-radius: 10px; border: 2px solid #f1f1f1; }
@@ -139,7 +143,6 @@ const NavButton = styled.button`
     color: white;
   }
 `
-
 const PrevButton = styled(NavButton)` left: 0; `;
 const NextButton = styled(NavButton)` right: 0; `;
 
@@ -160,6 +163,7 @@ const Dot = styled.div<{ $isActive: boolean }>`
   transition: background-color 0.3s;
 `
 
+
 //Promo Section
 const PromoSection = styled.section`
   display: flex;
@@ -170,7 +174,6 @@ const PromoSection = styled.section`
   border-style: solid;
     border-color: #ffff;
     border-width: 50px 0;
-    //overflow: hidden;
     position: relative;
   margin: 70px 0 70px 0;
 `
@@ -253,42 +256,56 @@ const DeliText = styled.p`
   color: #333;
 `
 
-// === PRODUCTS DATA ===
-const products: Product[] = [
-    { name: "Pepperoni Pizza", price: 11.99, image: HomeProductCategory, category: "Pizzas", },
-    { name: "Vegetarian Pizza", price: 15.99, image: HomeProductCategory, category: "Pizzas", },
-    { name: "Deluxe Pizza", price: 17.99, image: HomeProductCategory, category: "Pizzas", },
-    { name: "Mushroom Pizza", price: 13.99, image: HomeProductCategory, category: "Pizzas", },
-    { name: "Seafood Pizza", price: 20.99, image: HomeProductCategory, category: "Pizzas", },
-    { name: "Cheeseburger", price: 9.99, image: HomeProductCategory, category: "Burgers", },
-    { name: "Spicy Burger", price: 10.99, image: HomeProductCategory, category: "Burgers", },
-    { name: "Caesar Salad", price: 8.50, image: HomeProductCategory, category: "Salads", },
-    { name: "Cobb Salad", price: 12.50, image: HomeProductCategory, category: "Salads", },
-    { name: "Combo Pizza & Coke", price: 19.99, image: HomeProductCategory, category: "Combos", },
-    { name: "Combo Burger & Fries", price: 14.99, image: HomeProductCategory, category: "Combos", },
-];
 
-
+// danh sách danh mục nổi bật tượng trưng
+const symbolicCategories = ["Gà", "Cơm", "Trà Sữa", "Bánh", "Kem"];
 
 // =========================================================================================
 
 export default function Home() {
-    const [activeCategory, setActiveCategory] = React.useState<string>("Pizzas");
+    const [allRestaurants, setAllRestaurants] = useState<Restaurant[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Đặt active là danh mục đầu tiên
+    const [activeCategory, setActiveCategory] = React.useState<string>(symbolicCategories[0]); 
     const [activeIndex, setActiveIndex] = React.useState(0);
-    const categories = ["Pizzas", "Burgers", "Salads", "Combos"];
     const scrollRef = React.useRef<HTMLDivElement>(null); 
     
+    // State slider
     const ITEM_WIDTH = 300; 
     const ITEMS_PER_PAGE = 3; 
     
-    const filteredProducts = products.filter(
-        product => product.category === activeCategory
-    );
+    const filteredRestaurants = React.useMemo(() => {
+        return allRestaurants.filter(
+            restaurant => restaurant.category === activeCategory
+        );
+    }, [activeCategory, allRestaurants]); 
     
-    // Tính tổng số trang
-    const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE); 
+    const totalPages = Math.ceil(filteredRestaurants.length / ITEMS_PER_PAGE); 
 
-    // Hàm xử lý click
+
+    useEffect(() => {
+        const loadData = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                
+                const restaurantsData = await fetchRestaurants();
+                
+                setAllRestaurants(restaurantsData as Restaurant[]);
+
+            } catch (err) {
+                setError('Không thể tải dữ liệu trang chủ. Vui lòng thử lại.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadData();
+    }, []); // [] = Chạy 1 lần duy nhất khi trang tải
+
+    
     const handleCategoryClick = (category: string) => {
         setActiveCategory(category);
         setActiveIndex(0); // Reset index khi đổi danh mục
@@ -321,7 +338,7 @@ export default function Home() {
         }
     };
     
-    // ===================================
+
 
     return (
         <HomeContainer>
@@ -346,55 +363,80 @@ export default function Home() {
                   <HighlightedText $color="#f72d57" $fontSize="80px">Món ngon</HighlightedText> cho bạn
                 </CategoryHeading>
                 <CategoryButtonContainer>
-                    {categories.map(cat => (
+                    {/* Map qua 5 danh mục */}
+                    {symbolicCategories.map(catName => (
                         <CategoryButton
-                            key={cat}
-                            name={cat}
-                            isActive={activeCategory === cat}
-                            onClick={() => handleCategoryClick(cat)}
+                            key={catName}
+                            name={catName}
+                            isActive={activeCategory === catName}
+                            onClick={() => handleCategoryClick(catName)}
                         />
                     ))}
                 </CategoryButtonContainer>
             </CategorySection>
 
-            {/* Product Section */}
-            <ProductSection>
-                {/* JSX cho nút Prev/Next */}
-                {filteredProducts.length > ITEMS_PER_PAGE && (
-                    <PrevButton onClick={() => scroll('left')}>{'<'}</PrevButton>
-                )}
-                
-                <ProductGrid ref={scrollRef}>
-                    {filteredProducts.map((p, i) => (
-                        <ProductCard
-                            key={i}
-                            name={p.name}
-                            price={p.price}
-                            image={p.image}
-                            onAddToCart={() => { console.log(`Added ${p.name} to cart`); }}
-                        />
-                    ))}
-                </ProductGrid>
-                
-                {filteredProducts.length > ITEMS_PER_PAGE && (
-                    <NextButton onClick={() => scroll('right')}>{'>'}</NextButton>
+            {/* RestaurantSection */}
+            <RestaurantSection>
+                {/* 1. trạng thái đag tải */}
+                {loading && (
+                    <div style={{ textAlign: 'center', padding: '50px' }}>
+                        {/* <LoadingSpinner /> */}
+                        <h2>Đang tải nhà hàng...</h2>
+                    </div>
                 )}
 
-                {/* JSX cho chấm tròn */}
-                {filteredProducts.length > ITEMS_PER_PAGE && (
-                    <DotsContainer>
-                        {Array.from({ length: totalPages }, (_, index) => (
-                            <Dot 
-                                key={index}
-                                $isActive={index === activeIndex}
-                                onClick={() => jumpToPage(index)}
-                            />
-                        ))}
-                    </DotsContainer>
+                {/* 2. trạng thái lỗi */}
+                {error && (
+                    <div style={{ textAlign: 'center', padding: '50px', color: 'red' }}>
+                        <h2>{error}</h2>
+                    </div>
                 )}
-            </ProductSection>
+                
+                {/* 3. thành công */}
+                {!loading && !error && (
+                    <>
+                        {/* Nút Prev/Next */}
+                        {filteredRestaurants.length > ITEMS_PER_PAGE && (
+                            <PrevButton onClick={() => scroll('left')}>{'<'}</PrevButton>
+                        )}
+                        
+                        <RestaurantGrid ref={scrollRef}>
+                            {filteredRestaurants.map((r) => (
+                                <RestaurantCard 
+                                    key={r.id} 
+                                    {...r} 
+                                />
+                            ))}
+                        </RestaurantGrid>
+                        
+                        {filteredRestaurants.length > ITEMS_PER_PAGE && (
+                            <NextButton onClick={() => scroll('right')}>{'>'}</NextButton>
+                        )}
 
-            {/* Promo Section */}
+                        {/* Chấm tròn */}
+                        {filteredRestaurants.length > ITEMS_PER_PAGE && (
+                            <DotsContainer>
+                                {Array.from({ length: totalPages }, (_, index) => (
+                                    <Dot 
+                                        key={index}
+                                        $isActive={index === activeIndex}
+                                        onClick={() => jumpToPage(index)}
+                                    />
+                                ))}
+                            </DotsContainer>
+                        )}
+                        
+                        {/* Thông báo khi không có nhà hàng */}
+                        {filteredRestaurants.length === 0 && (
+                            <p style={{textAlign: 'center', padding: '20px'}}>
+                                Không có nhà hàng nào thuộc danh mục "{activeCategory}".
+                            </p>
+                        )}
+                    </>
+                )}
+            </RestaurantSection>
+
+
             <PromoSection>
                 <PromoImg src={HomePromoImg} alt="Promo Burger" />
                 <PromoTextWrap>
@@ -407,9 +449,7 @@ export default function Home() {
                     </PromoText>
                 </PromoTextWrap>
             </PromoSection>
-
-           
-            {/* Payment Section */}
+            
             <PaymentSection>
               <PayTextWrap>
                 <PayHeading>
@@ -423,7 +463,6 @@ export default function Home() {
             </PaymentSection>
             
             
-            {/* Deli Section */}
             <DeliSection>
                 <DeliImg src={HomeDeliImg} alt="Delivery Moto" />
                 <DeliTextWrap>
@@ -435,6 +474,7 @@ export default function Home() {
                     </DeliText>
                 </DeliTextWrap>
             </DeliSection>
+
         </HomeContainer>
     );
 }

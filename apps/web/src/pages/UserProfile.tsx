@@ -15,10 +15,9 @@ const MainContainer = styled.div`
     gap: 30px;
     min-height: 80vh;
 `
-//cột Menu
 const ColMenu = styled.div`
-    flex-basis: 300px; // Chiều rộng cố định
-    flex-shrink: 0; // Không co lại
+    flex-basis: 300px;
+    flex-shrink: 0;
     background-color: #fff;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     display: flex;
@@ -52,7 +51,6 @@ const NavMenu = styled.nav`
     display:flex;
     flex-direction:column;
     border-bottom: 1px solid #eee;
-
 `
 const MenuLink = styled(NavLink)`
     display: flex;
@@ -63,9 +61,8 @@ const MenuLink = styled(NavLink)`
     color: #333;
     font-weight: 600;
     font-size: 0.9rem;
-    text-transform: uppercase; // Viết hoa
-    border-bottom: 1px solid #f0f0f0;
-    background-color: #f7f7f7; // Màu xám nhạt
+    text-transform: uppercase;
+    background-color: #f7f7f7;
     transition: background-color 0.2s, color 0.2s;
 
     svg {
@@ -78,13 +75,12 @@ const MenuLink = styled(NavLink)`
         background-color: #eee;
     }
 
-    // Link được active (trùng với URL)
     &.active {
-        background-color: #f72d57; // Màu đỏ
+        background-color: #f72d57;
         color: white;
         
         &::before {
-            border-left-color: #f72d57; // Đổi màu mũi tên
+            border-left-color: #f72d57;
         }
         
         svg {
@@ -92,7 +88,6 @@ const MenuLink = styled(NavLink)`
         }
     }
 `
-
 const LogoutContainer = styled.div`
     display: flex;
     justify-content: center;    
@@ -100,16 +95,18 @@ const LogoutContainer = styled.div`
     background: #fcfcfc;
 `
 const ColMain = styled.div`
-    flex-grow: 1; // Lấp đầy không gian còn lại
+    flex-grow: 1;
     background-color: #fff;
     padding: 30px 40px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 `
 
-
+// === COMPONENT ===
 export default function UserProfile () {
-    const { user } = useAuth();
-    const displayUser = user || { name: "Võ Minh Thư" };
+    const { user, logout } = useAuth();
+    
+    // (Xử lý trường hợp user có thể null khi đang tải)
+    const displayUser = user || { name: "..." }; 
 
     return (
     <PageWrapper>
@@ -136,18 +133,16 @@ export default function UserProfile () {
                         </MenuLink>
                 </NavMenu>
                 <LogoutContainer>
-                    <Button>
+                    <Button onClick={logout}>
                         <FaSignOutAlt style={{ marginRight: '8px' }}/>
                         Đăng Xuất
                     </Button>
                 </LogoutContainer>
             </ColMenu>
             <ColMain>
-                    <Outlet />
-                </ColMain>           
+                <Outlet />
+            </ColMain>          
         </MainContainer>
     </PageWrapper>
-
 );
-
 }
