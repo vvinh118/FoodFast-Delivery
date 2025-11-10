@@ -13,12 +13,13 @@ import OrderSuccess from "./pages/OrderSuccess";
 import { AuthProvider } from './context/AuthContext';
 import ProfileSidebar from './components/ProfileSideBar';
 import UserProfile from './pages/UserProfile';
-import GeneralInfo from './pages/Profile.tsx/GeneralInfo';
-import Details from './pages/Profile.tsx/Details';
-import RewardPoint from './pages/Profile.tsx/RewardPoint';
-import OrderHistory from './pages/Profile.tsx/OrderHistory';
+import GeneralInfo from './pages/Profile/GeneralInfo';
+import Details from './pages/Profile/Details';
+import RewardPoint from './pages/Profile/RewardPoint';
+import OrderHistory from './pages/Profile/OrderHistory';
 import MainLayout from './components/MainLayout';
 import MyOrders from './pages/MyOrders';
+import Support from './pages/Support';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             <Route path="/restaurants" element={<RestaurantList />} />
             <Route path="/restaurant/:id" element={<MenuItemList />} />
             <Route path="/my-orders" element={<MyOrders />} />
+            <Route path="/support" element={<Support />} />
             <Route path="/userProfile" element={<UserProfile />}>
                 <Route index element={<GeneralInfo />} /> 
                 <Route path="details" element={<Details />} />
