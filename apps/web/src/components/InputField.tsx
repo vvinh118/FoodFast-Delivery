@@ -43,6 +43,10 @@ const Input = styled.input<{ $error?: boolean; $isPassword?: boolean }>`
     color: #999;
     cursor: not-allowed;
   }
+    &::-ms-reveal,
+  &::-webkit-reveal {
+    display: none;
+  }
 `;
 
 const TogglePassword = styled.span`
