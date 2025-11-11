@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import OrderHistoryMenu from '../components/OrderHistoryMenu';
-// NÂNG CẤP 1: Import hooks và API
 import { useAuth } from '../context/AuthContext';
 import { fetchMyOrders } from '../services/api';
 

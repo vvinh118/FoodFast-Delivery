@@ -1,5 +1,4 @@
-import React from 'react';
-import { Routes, Route, Link } from "react-router-dom"; 
+import { Routes, Route } from "react-router-dom"; 
 import Home from "./pages/Home";
 import RestaurantList from "./pages/RestaurantList";
 import Login from "./pages/Login"; 
@@ -19,6 +18,7 @@ import RewardPoint from './pages/Profile.tsx/RewardPoint';
 import OrderHistory from './pages/Profile.tsx/OrderHistory';
 import MainLayout from './components/MainLayout';
 import MyOrders from './pages/MyOrders';
+import FakePaymentPage from './pages/FakePaymentPage';
 
 function App() {
   return (
@@ -44,6 +44,7 @@ function App() {
             <Route path="/login" element={<Login />} /> 
             <Route path="/register" element={<Register />} /> 
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/fake-payment-gateway" element={<FakePaymentPage />} />
             <Route path="/order-success" element={<OrderSuccess />} />
         </Routes>
       <CartSidebar />

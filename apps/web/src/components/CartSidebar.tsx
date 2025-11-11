@@ -5,32 +5,21 @@ import CartItemRow from './CartItemRow';
 import Button from './Button';
 import { useNavigate } from 'react-router-dom';
 
+// Import các style dùng chung
+import { 
+  Overlay, 
+  SidebarFrame,
+  CloseButton 
+} from '../components/SideBarStyle'; 
+
 // ==========================================================
 // 1. STYLED COMPONENTS
 // ==========================================================
-const Overlay = styled.div<{ $isOpen: boolean }>`
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.5); z-index: 999;
-    visibility: ${props => (props.$isOpen ? 'visible' : 'hidden')};
-    opacity: ${props => (props.$isOpen ? 1 : 0)};
-    transition: opacity 0.3s, visibility 0.3s;
-`;
-const Sidebar = styled.div<{ $isOpen: boolean }>`
-    position: fixed; top: 0; right: 0; width: 560px; height: 100%;
-    background: white; box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    transform: ${props => (props.$isOpen ? 'translateX(0)' : 'translateX(100%)')};
-    transition: transform 0.3s ease-out;
-    display: flex; flex-direction: column;
-`;
+
 const Header = styled.div`
     padding: 20px 20px 10px 20px;
     border-bottom: 1px solid #eee;
-`;
-const CloseButton = styled.button`
-    background: none; border: none; font-size: 1.8rem; cursor: pointer;
-    color: #666; position: absolute; top: 15px; left: 15px; padding: 0;
-    z-index: 1001; 
+    position: relative; 
 `;
 const HeaderTitleRow = styled.div`
     display: flex; align-items: center; justify-content: flex-end; 
@@ -88,15 +77,18 @@ const ConflictActions = styled.div`
     display: flex;
     width: 100%;
     gap: 15px;
-    
-    > * { 
-      flex: 1;
-    }
+    > * { flex: 1; }
 `;
 const BasketIcon = styled.img`
-    width: 500px;
+    width: 400px;
     height: auto;
     margin-bottom: 20px;
+`;
+const RestaurantTitle = styled.h4`
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #333;
+  margin: 20px 0 10px 0; // Thêm khoảng cách
 `;
 
 // ==========================================================
@@ -128,7 +120,7 @@ const CartSidebar: React.FC = () => {
     };
 
     
-    // NỘI DUNG 1: Hiển thị xác nhận nếu thêm món từ nhà hàng khác
+    // NỘI DUNG 1: Hiển thị xác nhận
     if (conflictingItem) {
         const oldRestaurantName = items.length > 0 ? items[0].restaurantName : "nhà hàng cũ";
         const newRestaurantName = conflictingItem.restaurantName;
@@ -136,7 +128,7 @@ const CartSidebar: React.FC = () => {
         return (
             <>
                 <Overlay $isOpen={isCartOpen} onClick={cancelNewBasket} />
-                <Sidebar $isOpen={isCartOpen}>
+                <SidebarFrame $isOpen={isCartOpen}>
                     <CloseButton onClick={cancelNewBasket}>&times;</CloseButton>
                     <ConflictWrapper>
                         <BasketIcon src="/icons/new-basket.svg" alt="Basket Conflict" />
@@ -163,7 +155,7 @@ const CartSidebar: React.FC = () => {
                             </Button>
                         </ConflictActions>
                     </ConflictWrapper>
-                </Sidebar>
+                </SidebarFrame>
             </>
         );
     }
@@ -176,7 +168,7 @@ const CartSidebar: React.FC = () => {
     return (
         <>
             <Overlay $isOpen={isCartOpen} onClick={toggleCart} />
-            <Sidebar $isOpen={isCartOpen}>
+            <SidebarFrame $isOpen={isCartOpen}>
                 <Header>
                     <CloseButton onClick={toggleCart}>&times;</CloseButton>
                     <HeaderTitleRow>
@@ -194,6 +186,10 @@ const CartSidebar: React.FC = () => {
                         </p>
                     ) : (
                         <div>
+                            {/* Tên nhà hàng */}
+                            <RestaurantTitle>{items[0].restaurantName}</RestaurantTitle>
+
+                            {/* Map qua các món ăn */}
                             {items.map(item => (
                                 <CartItemRow 
                                     key={item.id}
@@ -204,6 +200,7 @@ const CartSidebar: React.FC = () => {
                     )}
                 </MainContent>
 
+                {/* (Phần SummaryTotal) */}
                 <SummaryTotal>
                     {hasItems && (
                         <>
@@ -229,7 +226,7 @@ const CartSidebar: React.FC = () => {
                         </>
                     )}
                 </SummaryTotal>
-            </Sidebar>
+            </SidebarFrame>
         </>
     );
 };

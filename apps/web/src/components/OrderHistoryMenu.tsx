@@ -93,8 +93,12 @@ const OrderHistoryMenu: React.FC<OrderHistoryProps> = ({ allOrders }) => {
     ];
 
     const filteredOrders = useMemo(() => {
-        return allOrders.filter(order => order.status === activeStatus);
-    }, [allOrders, activeStatus]); // Lọc lại khi data hoặc tab thay đổi
+        const filtered = allOrders.filter(order => order.status === activeStatus);
+        return filtered.sort((a, b) => {
+            return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
+
+}, [allOrders, activeStatus]);
 
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
@@ -132,13 +136,13 @@ const OrderHistoryMenu: React.FC<OrderHistoryProps> = ({ allOrders }) => {
                       {statuses.find(s => s.key === order.status)?.label || order.status}
                   </ItemStatus>
               </ItemInfo>
-              <ItemActions>
+              {/* <ItemActions>
                 {order.status !== 'Pending' && (
                   <Button $padding="8px 15px" $fontSize="0.9rem">
                     Đặt lại
                   </Button>
                 )}
-              </ItemActions>
+              </ItemActions> */}
           </OrderItemCard>
         );
       });
@@ -150,7 +154,7 @@ const OrderHistoryMenu: React.FC<OrderHistoryProps> = ({ allOrders }) => {
                 {statuses.map(status => (
                     <CategoryButton
                         key={status.key}
-                        name={status.label} // Hiển thị "Đã giao"
+                        name={status.label}
                         isActive={activeStatus === status.key}
                         onClick={() => setActiveStatus(status.key)}
                     />
