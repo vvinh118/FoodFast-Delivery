@@ -19,10 +19,11 @@ const HeaderContainer = styled.header`
 //box-shadow: 0px 7px 7px -1px rgba(0, 0, 0, 0.06), 0px 1px 4px -1px rgba(0, 0, 0, 0.06);
 `;
 
-const Logo = styled.h1` //logo FOODFAST DELIVERY
+const Logo = styled(Link)` //logo FOODFAST DELIVERY
   font-size: 25px;
-  //font-weight: bold;
+  font-weight: bold;
   color: #F72D57;
+  text-decoration: none;
 `;
 
 const Nav = styled.nav` //Trang chủ, Danh Mục
@@ -109,7 +110,7 @@ export default function Header() {
 
     return (
         <HeaderContainer>
-            <Logo>FoodFast Delivery</Logo>
+            <Logo to="/home">FoodFast Delivery</Logo>
 
             <Nav>
                 <NavLink to="/">Trang chủ</NavLink>

@@ -119,7 +119,7 @@ const CouponText = styled.p`
 const GeneralInfo: React.FC = () => {
     const { user } = useAuth(); // Lấy user thật từ context
     // Dùng user thật, nếu không có thì dùng placeholder
-    const displayUser = user || { name: "Võ Minh Thư" };
+    const displayUser = user || { name: "..." };
 
     return (
     
@@ -131,7 +131,7 @@ const GeneralInfo: React.FC = () => {
                 </AvaWrapper>
                 <MessContainer>
                     <MessTitle>
-                        Xin chào Võ Minh Thư,
+                        Xin chào {displayUser.name},
                     </MessTitle> 
                     <MessText>
                         Với trang này, bạn sẽ quản lý được tất cả thông tin tài khoản của mình.
