@@ -276,7 +276,336 @@
       "price": 69000,
       "description": "Mì xào giòn sốt hải sản đậm đà.",
       "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "401",
+      "restaurantId": 4,
+      "name": "Xôi Mặn Đặc Biệt",
+      "price": 39000,
+      "description": "Xôi mặn đặc biệt với nhiều topping hấp dẫn.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "402",
+      "restaurantId": 4,
+      "name": "Xôi Gà Xé Phay",
+      "price": 29000,
+      "description": "Xôi mặn đặc biệt với nhiều topping hấp dẫn.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "403",
+      "restaurantId": 4,
+      "name": "Xôi Chà Bông Trứng Muối",
+      "price": 25000,
+      "description": "Xôi mặn đặc biệt với nhiều topping hấp dẫn.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "501",
+      "restaurantId": 5,
+      "name": "Cơm Gà Xối Mỡ Lớn",
+      "price": 45000,
+      "description": "Cơm gà xối mỡ phần lớn đầy đặn.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "502",
+      "restaurantId": 5,
+      "name": "Cơm Gà Xối Mỡ Nhỏ",
+      "price": 35000,
+      "description": "Cơm gà xối mỡ phần nhỏ 1 người.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "503",
+      "restaurantId": 5,
+      "name": "Cơm Gà Hấp Muối",
+      "price": 45000,
+      "description": "Cơm gà hấp muối phần 1 người ăn.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "504",
+      "restaurantId": 5,
+      "name": "Cơm Bò Xào Sa Tế",
+      "price": 45000,
+      "description": "Cơm bò xào sa tế phần 1 người ăn.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "601",
+      "restaurantId": 6,
+      "name": "Trà Sữa Cheese Bông Hot Trend size L",
+      "price": 39000,
+      "description": "Trà sữa cheese bông béo ngậy, hot trend.",
+      "imageUrl": "https://hunufa.vn/wp-content/uploads/2024/10/ly-size-m-bao-nhieu-ml-29.webp"
+    },
+    {
+      "id": "602",
+      "restaurantId": 6,
+      "name": "Trà Sữa Cheese Bông Hot Trend size M",
+      "price": 29000,
+      "description": "Trà sữa cheese bông béo ngậy, hot trend.",
+      "imageUrl": "https://hunufa.vn/wp-content/uploads/2024/10/ly-size-m-bao-nhieu-ml-29.webp"
+    },
+    {
+      "id": "603",
+      "restaurantId": 6,
+      "name": "Trà Sữa Cheese Bông Kem Muối Mặn size L",
+      "price": 42900,
+      "description": "Trà sữa cheese bông béo ngậy, hot trend.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "604",
+      "restaurantId": 6,
+      "name": "Trà Sữa Cheese Bông Kem Muối Mặn size M",
+      "price": 34000,
+      "description": "Trà sữa cheese bông béo ngậy, hot trend.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "605",
+      "restaurantId": 6,
+      "name": "Trà Tắc Giải Nhiệt XL",
+      "price": 25000,
+      "description": "Trà tắc giải nhiệt mát lạnh, thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "606",
+      "restaurantId": 6,
+      "name": "Trà Mơ Xí Muội XL",
+      "price": 28000,
+      "description": "Trà mơ xí muội mát lạnh, thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "701",
+      "restaurantId": 7,
+      "name": "Bún Chả Hà Nội Đặc Biệt",
+      "price": 59000,
+      "description": "Bún chả Hà Nội đặc biệt thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "702",
+      "restaurantId": 7,
+      "name": "Bún Chả Hà Nội - Nem Rán",
+      "price": 53000,
+      "description": "Bún chả Hà Nội đặc biệt thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "703",
+      "restaurantId": 7,
+      "name": "Bún Chả Hà Nội - Chả Giò",
+      "price": 49000,
+      "description": "Bún chả Hà Nội đặc biệt thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "704",
+      "restaurantId": 7,
+      "name": "Nem Rán Thêm",
+      "price": 12000,
+      "description": "Nem rán thêm.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "705",
+      "restaurantId": 7,
+      "name": "Chả Giò Thêm",
+      "price": 8000,
+      "description": "Chả giò thêm",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "706",
+      "restaurantId": 7,
+      "name": "Bún Thêm",
+      "price": 6000,
+      "description": "Bún thêm.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "801",
+      "restaurantId": 8,
+      "name": "Pizza Bò BBQ (Size M)",
+      "price": 89000,
+      "description": "Pizza bò BBQ size M thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "802",
+      "restaurantId": 8,
+      "name": "Pizza Bò BBQ (Size L)",
+      "price": 119000,
+      "description": "Pizza bò BBQ size L thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "803",
+      "restaurantId": 8,
+      "name": "Pizza Hải Sản Sốt Oceania (Size M)",
+      "price": 99000,
+      "description": "Pizza hải sản size M thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "804",
+      "restaurantId": 8,
+      "name": "Pizza Hải Sản Sốt Oceania (Size L)",
+      "price": 129000,
+      "description": "Pizza hải sản size L thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "805",
+      "restaurantId": 8,
+      "name": "Pizza Xúc Xích Xông Khói Kid's Favor",
+      "price": 79000,
+      "description": "Pizza xúc xích xông khói phần trẻ em.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "901",
+      "restaurantId": 9,
+      "name": "Kem Bơ Đà Lạt",
+      "price": 39000,
+      "description": "Kem bơ Đà Lạt thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "902",
+      "restaurantId": 9,
+      "name": "Kem Dâu Chuối",
+      "price": 36500,
+      "description": "Kem dâu chuối thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "903",
+      "restaurantId": 9,
+      "name": "Kem Dừa Thái Lan",
+      "price": 37000,
+      "description": "Kem dừa Thái Lan thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "1001",
+      "restaurantId": 10,
+      "name": "Donut Tiramisu",
+      "price": 19000,
+      "description": "Donut Tiramisu thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "1002",
+      "restaurantId": 10,
+      "name": "Donut Watermelon",
+      "price": 22000,
+      "description": "Donut Watermelon thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "1003",
+      "restaurantId": 10,
+      "name": "Donut Sugar Glaze",
+      "price": 17500,
+      "description": "Donut Sugar Glaze thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "1101",
+      "restaurantId": 11,
+      "name": "Family Bucket 8 Miếng",
+      "price": 168000,
+      "description": "Family Bucket 8 Miếng thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "1102",
+      "restaurantId": 11,
+      "name": "Combo 3 Miếng Gà + 1 Phần Khoai Tây + Pepsi",
+      "price": 119000,
+      "description": "Combo 3 Miếng Gà + 1 Phần Khoai Tây + Pepsi thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "1103",
+      "restaurantId": 11,
+      "name": "Pepsi Lon 355ml",
+      "price": 17000,
+      "description": "Pepsi lon 355ml thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "1201",
+      "restaurantId": 12,
+      "name": "Box Meal 3 Miếng",
+      "price": 89000,
+      "description": "Box Meal 3 Miếng thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "1202",
+      "restaurantId": 12,
+      "name": "Salad Trộn Dầu Giấm",
+      "price": 27000,
+      "description": "Salad Trộn Dầu Giấm thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "1203",
+      "restaurantId": 12,
+      "name": "Khoai Tây Chiên Vừa",
+      "price": 29500,
+      "description": "Khoai Tây Chiên Vừa thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "1401",
+      "restaurantId": 14,
+      "name": "Combo 3 Miếng Gà + 1 Phần Khoai Tây + Pepsi",
+      "price": 119000,
+      "description": "Combo 3 Miếng Gà + 1 Phần Khoai Tây + Pepsi thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "1402",
+      "restaurantId": 14,
+      "name": "Pepsi Lon 355ml",
+      "price": 17000,
+      "description": "Pepsi lon 355ml thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "1403",
+      "restaurantId": 14,
+      "name": "Box Meal 3 Miếng",
+      "price": 89000,
+      "description": "Box Meal 3 Miếng thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "1404",
+      "restaurantId": 14,
+      "name": "Salad Trộn Dầu Giấm",
+      "price": 27000,
+      "description": "Salad Trộn Dầu Giấm thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "1405",
+      "restaurantId": 14,
+      "name": "Khoai Tây Chiên Vừa",
+      "price": 29500,
+      "description": "Khoai Tây Chiên Vừa thơm ngon.",
+      "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
     }
+
   ],
   "categories": [
     {
