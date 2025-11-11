@@ -28,8 +28,8 @@ import {
 // === REACT COMPONENT ===
 export default function Login() {
   const { login, authLoading, authError } = useAuth();
-  const [email, setEmail] = useState('test@foodfast.vn');
-  const [password, setPassword] = useState('1');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const [localError, setLocalError] = useState<string | null>(null);
   

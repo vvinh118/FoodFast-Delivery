@@ -1,9 +1,7 @@
 import React, { createContext, useContext, useState, type ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
-// NÂNG CẤP 1: Import hàm API
 import { apiLogin } from '../services/api'; 
 
-// NÂNG CẤP 2: Mở rộng Interface
 interface AuthContextType {
   isLoggedIn: boolean;
   user: any; 
