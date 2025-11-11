@@ -57,10 +57,9 @@ const HeroTextWrap = styled.section`
   padding-right: 20px;
 `
 const HeroHeading = styled.h1`
-  font-size: 80px;
+  font-size: 3rem;
   margin-bottom: 20px;
-  font-family: 'MilestoneScript', cursive;
-  font-weight: normal;
+  color: #3F3F3F;
 ` 
 const HeroImg = styled.img`
   max-width: 400px; 
@@ -348,10 +347,9 @@ export default function Home() {
             <HeroSection>
                 <HeroTextWrap>
                     <HeroHeading>
-                        <HighlightedText $color="#f72d57" $fontSize="80px">Nhanh </HighlightedText> như chớp,
-                        <HighlightedText $color="#f72d57" $fontSize="80px"> ngon </HighlightedText> bất ngờ.
+                        Nhanh như chớp, ngon bất ngờ!
                     </HeroHeading>
-                    <Button to='/restaurants' $fontSize="30px">Đặt ngay</Button>
+                    <Button to='/restaurants' $fontSize="2`0px">Đặt ngay</Button>
                 </HeroTextWrap>
                 <HeroImg src={HomeHeroImg} alt="Hero Image" /> 
             </HeroSection>
