@@ -23,15 +23,13 @@ const SubmitButton = styled.div`
 `
 
 export default function Details() {
-    const { user } = useAuth(); 
-    // Dùng user thật, giả lập tạm
-    const displayUser = user || { name: "Võ Minh Thư" };
+    const { user } = useAuth(); // Lấy user thật từ context
     
-    const [name, setName] = useState('');
-    const [tel, setTel] = useState('');
-    const [birthday, setBirthday] = useState('');
-    const [email, setEmail] = useState('');
-    const [address, setAddress] = useState('');
+    const [name, setName] = useState(user?.name || '');
+    const [tel, setTel] = useState(user?.tel || '');
+    const [birthday, setBirthday] = useState(user?.birthday || '');
+    const [email, setEmail] = useState(user?.email || '');
+    const [address, setAddress] = useState(user?.address || '');
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -53,7 +51,7 @@ export default function Details() {
                     label="Họ Tên"
                     id="name"
                     type="text"
-                    placeholder="Võ Minh Thư"
+                    placeholder='Họ và tên'
                     value={name}
                     onChange={(e) => {setName(e.target.value)}}
                 />
@@ -62,7 +60,7 @@ export default function Details() {
                     label="Số điện thoại"
                     id="tel"
                     type="text"
-                    placeholder="0923625408"
+                    placeholder='Số điện thoại'
                     value={tel}
                     onChange={(e) => {setTel(e.target.value)}}
                 />
@@ -71,7 +69,7 @@ export default function Details() {
                     label="Email"
                     id="email"
                     type="email"
-                    placeholder="test@foodfast.vn"
+                    placeholder='Email'
                     value={email}
                     onChange={(e) => {setEmail(e.target.value)}}
                 />
@@ -80,7 +78,7 @@ export default function Details() {
                     label="Ngày Sinh"
                     id="birthday"
                     type="date"
-                    placeholder="31/8/2004"
+                    placeholder='Ngày Sinh'
                     value={birthday}
                     onChange={(e) => {setBirthday(e.target.value)}}
                 />
@@ -89,7 +87,7 @@ export default function Details() {
                     label="Địa Chỉ"
                     id="address"
                     type="text"
-                    placeholder="299 Đường An Dương Vương, Phường Chợ Quán, TP. HCM"
+                    placeholder='Địa Chỉ'
                     value={address}
                     onChange={(e) => {setAddress(e.target.value)}}
                 />
