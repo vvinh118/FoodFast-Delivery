@@ -127,7 +127,7 @@ const ProfileSidebar: React.FC = () => {
                         <NavItem to="/my-orders" onClick={toggleProfileSidebar}>
                             <FaHistory /> ĐƠN HÀNG CỦA TÔI
                         </NavItem>
-                        <NavItem to="/profile/settings" onClick={toggleProfileSidebar}>
+                        <NavItem to="/support" onClick={toggleProfileSidebar}>
                             <FaCog /> HỖ TRỢ
                         </NavItem>
                     </NavList>
