@@ -46,47 +46,47 @@
     {
       "id": "1",
       "name": "All",
-      "iconUrl": "/icons/danhmuc.png"
+      "iconUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUKCEhHQkKf7SzorZLjGFsOVXZeheX29ivRw&s"
     },
     {
       "id": "2",
       "name": "Gà",
-      "iconUrl": "/icons/chicken.png"
+      "iconUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTX22JFjbHb_E9zbo779PQunJiayX1Eepdrg&s"
     },
     {
       "id": "3",
       "name": "Cơm",
-      "iconUrl": "/icons/rice.png"
+      "iconUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPCYZYY6GSSfHIe6Rw0lH_FfF7GquwNq3MwQ&s"
     },
     {
       "id": "4",
       "name": "Trà Sữa",
-      "iconUrl": "/icons/milktea.png"
+      "iconUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0U94YUpmDMVA2mIwpuhqNd7ZyFk9Hr7Abmw&s"
     },
     {
       "id": "5",
       "name": "Bún, Mì, Phở",
-      "iconUrl": "/icons/ramen.png"
+      "iconUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd-LhCJ13K3D0I8Ce6gwcL2gXhSbHIK0ReaQ&s"
     },
     {
       "id": "6",
       "name": "Thức ăn nhanh",
-      "iconUrl": "/icons/fastfood.svg"
+      "iconUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHChqIU_qKqlxrNPVkOxvMrR3DZHSkSEqFPA&s"
     },
     {
       "id": "7",
       "name": "Bánh",
-      "iconUrl": "/icons/donut.png"
+      "iconUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSHWeO5GPLKdSMpUBG-rY-MTKo5tyMtVtiWg&s"
     },
     {
       "id": "8",
       "name": "Lẩu, Nướng",
-      "iconUrl": "/icons/hotpot.png"
+      "iconUrl": "https://icon2.cleanpng.com/20240112/jup/transparent-chinese-hot-pot-emoji-pot-of-food-ingredients-bowl-image-bowl-of-food-with-sliced-1710926043496.webp"
     },
     {
       "id": "9",
       "name": "Kem",
-      "iconUrl": "/icons/ice-cream.png"
+      "iconUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNw_Oal41OoKnaaennQAS3koUJs9uCEvZf0Q&s"
     }
   ],
   "restaurants": [
