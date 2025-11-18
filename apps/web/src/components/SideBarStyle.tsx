@@ -18,7 +18,8 @@ export const SidebarFrame = styled.div<{ $isOpen: boolean }>`
     position: fixed;
     top: 0;
     right: 0;
-    width: 560px; 
+    width: 560px; /* Chiều rộng mặc định cho Desktop */
+    max-width: 100%; /* Đảm bảo không bao giờ tràn */
     height: 100%;
     background: white;
     box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
@@ -27,6 +28,15 @@ export const SidebarFrame = styled.div<{ $isOpen: boolean }>`
     transition: transform 0.3s ease-out;
     display: flex;
     flex-direction: column;
+
+    /* THÊM MỚI: Media query cho màn hình nhỏ (điện thoại) */
+    @media (max-width: 768px) {
+        /* * Đặt chiều rộng là 100% hoặc một giá trị nhỏ hơn
+         * ví dụ: 90% hoặc 320px
+         * Dùng 100% là phổ biến nhất để che toàn bộ màn hình
+         */
+        width: 100%; 
+    }
 `;
 
 // SidebarHeader
@@ -47,5 +57,3 @@ export const CloseButton = styled.button`
     padding: 0;
     z-index: 1001; 
 `;
-
-// LƯU Ý: File này không có 'export default'

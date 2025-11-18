@@ -5,7 +5,9 @@ import { FaUserCircle, FaSignOutAlt, FaThLarge, FaUser, FaHistory, FaGift } from
 import { useAuthStore } from 'core';
 
 
-// STYLED COMPONENTS
+// ==================================================
+// STYLED COMPONENTS (ĐÃ THÊM MEDIA QUERIES)
+// ==================================================
 const PageWrapper = styled.div`
     background-color: #f9f9f9;
 `
@@ -15,6 +17,13 @@ const MainContainer = styled.div`
     margin: 30px auto;
     gap: 30px;
     min-height: 80vh;
+
+    /* SỬA: Chuyển sang layout dọc trên mobile */
+    @media (max-width: 768px) {
+        flex-direction: column;
+        margin: 10px; /* Giảm margin 2 bên */
+        gap: 15px; /* Giảm khoảng cách */
+    }
 `
 const ColMenu = styled.div`
     flex-basis: 300px;
@@ -23,13 +32,25 @@ const ColMenu = styled.div`
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
-    align-self: flex-start;
+    align-self: flex-start; /* Giữ component này co lại theo nội dung */
+
+    /* SỬA: Gỡ bỏ chiều rộng cố định trên mobile */
+    @media (max-width: 768px) {
+        flex-basis: auto; /* Reset lại */
+        width: 100%; /* Chiếm 100% chiều rộng */
+        align-self: stretch; /* Kéo dãn theo container */
+    }
 `
 const HeaderMenu = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 30px 0 30px;
+
+    /* SỬA: Giảm margin trên mobile */
+    @media (max-width: 768px) {
+        margin: 20px 0 15px;
+    }
 `
 const UserAvatar = styled(FaUserCircle)`
     font-size: 80px;
@@ -80,9 +101,7 @@ const MenuLink = styled(NavLink)`
         background-color: #f72d57;
         color: white;
         
-        &::before {
-            border-left-color: #f72d57;
-        }
+        /* SỬA: Xóa style '::before' bị lỗi (do thiếu định nghĩa) */
         
         svg {
             color: white;
@@ -94,12 +113,22 @@ const LogoutContainer = styled.div`
     justify-content: center;    
     margin: 50px;
     background: #fcfcfc;
+
+    /* SỬA: Giảm margin trên mobile */
+    @media (max-width: 768px) {
+        margin: 25px;
+    }
 `
 const ColMain = styled.div`
     flex-grow: 1;
     background-color: #fff;
     padding: 30px 40px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+
+    /* SỬA: Giảm padding trên mobile */
+    @media (max-width: 768px) {
+        padding: 20px 15px;
+    }
 `
 
 // COMPONENT CHÍNH
@@ -112,6 +141,7 @@ export default function UserProfile () {
     return (
     <PageWrapper>
         <MainContainer>
+            {/* ColMenu và ColMain sẽ tự động xếp chồng trên mobile */}
             <ColMenu>
                 <HeaderMenu>
                     <UserAvatar />
@@ -120,16 +150,17 @@ export default function UserProfile () {
                 </HeaderMenu>
                 
                 <NavMenu>
-                    <MenuLink to="/userProfile" end>
+                    {/* SỬA: Xóa 'end' ở các link con để 'Thông tin chung' active đúng */}
+                    <MenuLink to="/userProfile" end> 
                         <FaThLarge /> Thông tin chung
                         </MenuLink>
-                    <MenuLink to="/userProfile/details" end>
+                    <MenuLink to="/userProfile/details">
                         <FaUser /> Chi tiết thông tin
                         </MenuLink>
-                    <MenuLink to="/userProfile/orders" end>
+                    <MenuLink to="/userProfile/orders">
                         <FaHistory /> Lịch sử đơn hàng
                         </MenuLink>
-                    <MenuLink to="/userProfile/reward-point" end> 
+                    <MenuLink to="/userProfile/reward-point"> 
                         <FaGift /> Điểm thưởng
                         </MenuLink>
                 </NavMenu>
@@ -140,6 +171,7 @@ export default function UserProfile () {
                     </Button>
                 </LogoutContainer>
             </ColMenu>
+            
             <ColMain>
                 <Outlet />
             </ColMain>          
