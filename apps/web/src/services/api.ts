@@ -1,5 +1,6 @@
 // Địa chỉ của API server giả (json-server)
-const API_URL = 'http://localhost:3001';
+// const API_URL = 'http://localhost:3001';
+const API_URL = 'http://172.20.10.12:3001'; // Thay bằng địa chỉ IP của máy chạy json-server
 
 /**
  * Xử lý lỗi chung cho fetch
