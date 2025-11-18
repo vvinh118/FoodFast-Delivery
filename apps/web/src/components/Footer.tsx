@@ -13,14 +13,11 @@ font-size: 25px;
   //font-weight: bold;
   color: #FFFF;
 `
-const Founder = styled.h3``
 
 export default function Footer () {
     return (
         <FooterContainer>
             <Logo>FoodFast Delivery</Logo>
-            <Founder>Meo Meo Company</Founder>
-
         </FooterContainer>
     )
 }
