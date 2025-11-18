@@ -1,21 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useCart } from '../context/CartContext';
 import CartItemRow from './CartItemRow';
 import Button from './Button';
 import { useNavigate } from 'react-router-dom';
+import { useCartStore, APP_CONSTANTS, formatCurrency } from 'core';
 
-// Import các style dùng chung
 import { 
   Overlay, 
   SidebarFrame,
   CloseButton 
 } from '../components/SideBarStyle'; 
 
-// ==========================================================
-// 1. STYLED COMPONENTS
-// ==========================================================
+const { DELIVERY_FEE } = APP_CONSTANTS;
 
+
+// STYLED COMPONENTS
 const Header = styled.div`
     padding: 20px 20px 10px 20px;
     border-bottom: 1px solid #eee;
@@ -91,28 +90,18 @@ const RestaurantTitle = styled.h4`
   margin: 20px 0 10px 0; // Thêm khoảng cách
 `;
 
-// ==========================================================
-// 2. COMPONENT CHÍNH
-// ==========================================================
+// COMPONENT
 const CartSidebar: React.FC = () => {
-    const { 
-      isCartOpen, 
-      toggleCart, 
-      items, 
-      totalAmount,
-      conflictingItem,
-      proceedWithNewBasket,
-      cancelNewBasket
-    } = useCart();
+    const isCartOpen = useCartStore(state => state.isCartOpen);
+    const toggleCart = useCartStore(state => state.toggleCart);
+    const items = useCartStore(state => state.items);
+    const totalAmount = useCartStore(state => state.totalAmount);
+    const conflictingItem = useCartStore(state => state.conflictingItem);
+
+    const proceedWithNewBasket = useCartStore(state => state.proceedWithNewBasket);
+    const cancelNewBasket = useCartStore(state => state.cancelNewBasket);
     
     const navigate = useNavigate();
-
-    const formatCurrency = (amount: number) => {
-        return new Intl.NumberFormat('vi-VN', { 
-            style: 'currency', 
-            currency: 'VND' 
-        }).format(amount);
-    };
 
     const handleCheckout = () => {
       toggleCart(); 
@@ -120,7 +109,7 @@ const CartSidebar: React.FC = () => {
     };
 
     
-    // NỘI DUNG 1: Hiển thị xác nhận
+    // Hiển thị xác nhận nếu thêm món từ nhà hàng khác
     if (conflictingItem) {
         const oldRestaurantName = items.length > 0 ? items[0].restaurantName : "nhà hàng cũ";
         const newRestaurantName = conflictingItem.restaurantName;
@@ -160,9 +149,8 @@ const CartSidebar: React.FC = () => {
         );
     }
     
-    // NỘI DUNG 2: Hiển thị giỏ hàng bình thường
-    const deliveryFee = 20000;
-    const finalTotal = totalAmount + deliveryFee;
+    // Hiển thị giỏ hàng bình thường
+    const finalTotal = totalAmount + DELIVERY_FEE;
     const hasItems = items.length > 0;
 
     return (
@@ -200,7 +188,6 @@ const CartSidebar: React.FC = () => {
                     )}
                 </MainContent>
 
-                {/* (Phần SummaryTotal) */}
                 <SummaryTotal>
                     {hasItems && (
                         <>
@@ -210,7 +197,7 @@ const CartSidebar: React.FC = () => {
                             </SummaryRow>
                             <SummaryRow style={{ color: '#666' }}>
                                 <span>Phí giao hàng tạm tính</span>
-                                <span>{formatCurrency(deliveryFee)}</span>
+                                <span>{formatCurrency(DELIVERY_FEE)}</span>
                             </SummaryRow>
                             <FinalTotal>
                                 <span>Tổng cộng</span>

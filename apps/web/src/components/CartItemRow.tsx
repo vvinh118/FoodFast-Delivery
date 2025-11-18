@@ -1,23 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useCart } from '../context/CartContext';
+import { useCartStore, formatCurrency, type CartItem } from 'core'; 
 
-// === TYPES ===
-interface CartItem {
-    id: number;
-    name: string;
-    price: number;
-    quantity: number;
-    imageUrl?: string; 
-    restaurantId: number;
-    restaurantName: string;
-}
 
+// TYPE
 interface CartItemRowProps {
     item: CartItem;
 }
 
-// ... (Styled components) ...
+// STYLED COMPONENTS
 const ItemRow = styled.div`
     display: flex;
     padding: 15px 0;
@@ -87,24 +78,26 @@ const CurrentPrice = styled.span`
     font-size: 0.95rem;
 `;
 
-// === COMPONENT CHÍNH ===
+// COMPONENT
 const CartItemRow: React.FC<CartItemRowProps> = ({ item }) => {
-    const { increaseItemQuantity, decreaseItemQuantity } = useCart();
+    const addToCart = useCartStore(state => state.addToCart);
+    const decreaseQuantity = useCartStore(state => state.decreaseQuantity);
     
     const handleIncrease = () => {
-        increaseItemQuantity(item);
+        addToCart({
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            imageUrl: item.imageUrl,
+            restaurantId: item.restaurantId,
+            restaurantName: item.restaurantName
+        });
     };
 
     const handleDecrease = () => {
-        decreaseItemQuantity(item.id);
+        decreaseQuantity(item.id);
     };
 
-    const formatCurrency = (amount: number) => {
-        return new Intl.NumberFormat('vi-VN', { 
-            style: 'currency', 
-            currency: 'VND' 
-        }).format(amount);
-    };
     
     const itemTotalPrice = item.price * item.quantity;
 
@@ -117,7 +110,7 @@ const CartItemRow: React.FC<CartItemRowProps> = ({ item }) => {
                 <ControlButton onClick={handleIncrease}>+</ControlButton>
             </QuantityControllerWrapper>
             
-            {/* Hình ảnh và Tên món ăn */}
+            {/* Thông tin món ăn*/}
             <ItemInfo>
                 {item.imageUrl && <ItemImage src={item.imageUrl} alt={item.name} />}
                 <ItemName>{item.name}</ItemName>

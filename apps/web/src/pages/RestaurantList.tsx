@@ -2,27 +2,8 @@ import { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import RestaurantCard from '../components/RestaurantCard';
 import CategoryCard from '../components/CategoryCard'; 
-
 import { fetchRestaurants, fetchCategories } from '../services/api'; 
-
-// === TYPES ===
-interface Restaurant {
-  id: number;
-  name: string;
-  address: string;
-  rating: number;
-  distance: number;
-  deliveryTime: number;
-  imageUrl: string;
-  isPromo: boolean;
-  category: string;
-}
-
-interface Category {
-    id: number;
-    name: string;
-    iconUrl: string;
-}
+import type { Restaurant, Category } from 'core';
 
 // Styled Components
 const CategoryBarWrapper = styled.div`
@@ -135,7 +116,7 @@ const RestaurantList = () => {
         return allRestaurants.filter(restaurant => { 
             return restaurant.category.toLowerCase() === activeCategory.toLowerCase();
         });
-    }, [activeCategory, allRestaurants]); // Thêm allRestaurants vào dependency
+    }, [activeCategory, allRestaurants]);
 
   return (
      <ListPageContainer>

@@ -2,13 +2,9 @@ import styled from "styled-components";
 import Button from "../components/Button";
 import { Link } from 'react-router-dom';
 import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
-import { useCart } from '../context/CartContext';
-import { useAuth } from '../context/AuthContext';
-
+import { useCartStore, useAuthStore } from 'core';
 
 // STYLED COMPONENTS
-
-// khung header
 const HeaderContainer = styled.header` 
   display: flex;
   justify-content: space-between;
@@ -16,24 +12,27 @@ const HeaderContainer = styled.header`
   background-color: #ffff;
   padding: 15px 40px;
   color: white;
-//box-shadow: 0px 7px 7px -1px rgba(0, 0, 0, 0.06), 0px 1px 4px -1px rgba(0, 0, 0, 0.06);
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 `;
 
-const Logo = styled(Link)` //logo FOODFAST DELIVERY
+const Logo = styled(Link)` 
   font-size: 25px;
   font-weight: bold;
   color: #F72D57;
   text-decoration: none;
 `;
 
-const Nav = styled.nav` //Trang chủ, Danh Mục
+const Nav = styled.nav` 
   display: flex;
   align-items: center;
   gap: 40px;
   font-size: large;
 `;
 
-const NavLink = styled(Link)` //link điều hướng
+const NavLink = styled(Link)` 
   color: black;
   text-decoration: none;
   font-weight: 500;
@@ -43,14 +42,12 @@ const NavLink = styled(Link)` //link điều hướng
   }
 `;
 
-// Container Giỏ hàng
 const CartContainer = styled.div` 
     position: relative;
     display: flex;
     align-items: center;
     cursor: pointer;
     
-    /* Style cho Icon Giỏ hàng */
     svg {
         stroke: #F72D57;
         stroke-width: 40;
@@ -62,12 +59,11 @@ const CartContainer = styled.div`
     }
 `;
 
-// Badge (Số lượng món)
 const CartBadge = styled.div`
     position: absolute;
     top: -8px;
     right: -10px;
-    background-color: #F72D57; /* Màu đỏ hồng */
+    background-color: #F72D57;
     color: white;
     border-radius: 50%;
     width: 20px;
@@ -77,16 +73,15 @@ const CartBadge = styled.div`
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    pointer-events: none; /* Đảm bảo click xuyên qua badge */
+    pointer-events: none;
 `;
 
-// Icon Profile
 const ProfileIconButton = styled.div`
     color: #F72D57;
     font-size: 30px;    
     transition: color 0.2s;
-    cursor: pointer; // Thêm con trỏ
-    display: flex; // Đảm bảo icon căn giữa
+    cursor: pointer;
+    display: flex; 
     align-items: center;
 
     &:hover {
@@ -96,16 +91,18 @@ const ProfileIconButton = styled.div`
 
 
 export default function Header() {
-    const { isLoggedIn, toggleProfileSidebar } = useAuth();
+    const isLoggedIn = useAuthStore(state => state.isLoggedIn);
+    const toggleProfileSidebar = useAuthStore(state => state.toggleProfileSidebar);
 
-    const { totalItems, toggleCart } = useCart();
+    const totalItems = useCartStore(state => state.totalItems);
+    const toggleCart = useCartStore(state => state.toggleCart);
     
     const handleCartClick = () => {
-        toggleCart(); // gọi hàm này để mở sidebar giỏ hàng
+        toggleCart(); 
     };
 
     const handleProfileClick = () => {
-        toggleProfileSidebar(); // Gọi hàm mở profile sidebar
+        toggleProfileSidebar(); 
     };
 
     return (
@@ -119,7 +116,6 @@ export default function Header() {
                 <CartContainer onClick={handleCartClick}> 
                     <FaShoppingCart size={22} /> 
                     
-                    {/* HIỂN THỊ BADGE */}
                     {totalItems > 0 && (
                         <CartBadge>
                             {totalItems > 99 ? '99+' : totalItems}
@@ -128,12 +124,10 @@ export default function Header() {
                 </CartContainer>
                 
                 {isLoggedIn ? (
-                    // ĐÃ ĐĂNG NHẬP: HIỂN THỊ ICON PROFILE
                     <ProfileIconButton onClick={handleProfileClick}>
                         <FaUserCircle />
                     </ProfileIconButton>
                 ) : (
-                    // CHƯA ĐĂNG NHẬP: Hiển thị nút Đăng Nhập
                     <Button to="/login">Đăng Nhập</Button>
                 )}
 

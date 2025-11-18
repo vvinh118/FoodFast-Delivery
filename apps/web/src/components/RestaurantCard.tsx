@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 
-// === TYPES ===
+// TYPES
 interface RestaurantCardProps {
   id: number;
   name: string;
@@ -15,9 +15,7 @@ interface RestaurantCardProps {
   isPromo: boolean;
 }
 
-// === STYLED COMPONENTS ===
-
-// Container chính của thẻ quán ăn
+// STYLED COMPONENTS
 const CardContainer = styled.div`
   width: 100%;
   border-radius: 12px;
@@ -98,7 +96,7 @@ const DetailsRow = styled.div`
   }
 `;
 
-// === COMPONENT ===
+// COMPONENT
 
 const RestaurantCard: React.FC<RestaurantCardProps> = ({
   id,
@@ -110,7 +108,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({
   imageUrl,
   isPromo,
 }) => {
-  const navigate = useNavigate(); // Khởi tạo hook navigate
+  const navigate = useNavigate();
   const handleClick = () => {
     navigate(`/restaurant/${id}`);
   };

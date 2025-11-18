@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import Header from '../components/Header';
 import Footer from '../components/Footer'; 
 import Button from '../components/Button'; 
-import { useCart } from '../context/CartContext';
-import { useAuth } from '../context/AuthContext';
 import { apiSubmitOrder } from '../services/api'; 
 import { FaMapMarkerAlt, FaCreditCard, FaTicketAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { useCartStore, useAuthStore, APP_CONSTANTS, formatCurrency } from 'core';
+
+const { DELIVERY_FEE } = APP_CONSTANTS;
 
 // Styled components
-const DELIVERY_FEE = 20000;
 const PageWrapper = styled.div`
     background-color: #f9fafb;
     min-height: 100vh;
@@ -123,12 +123,17 @@ interface CustomerInfoErrors {
     address?: string;
 }
 
-// === CHECKOUT COMPONENT LOGIC ===
-
+// COMPONENT
 export default function Checkout() {
     const navigate = useNavigate();
-    const { user, isLoggedIn } = useAuth();
-    const { items: cartItems, totalAmount, clearCart } = useCart(); 
+    const user = useAuthStore(state => state.user);
+    const isLoggedIn = useAuthStore(state => state.isLoggedIn);
+
+    // const { items: cartItems, totalAmount, clearCart } = useCart(); 
+    const cartItems = useCartStore(state => state.items);
+    const totalAmount = useCartStore(state => state.totalAmount);
+    const clearCart = useCartStore(state => state.clearCart);
+
 
     // STATES
     const [customerInfo, setCustomerInfo] = useState({ name: '', phone: '', address: '' });
@@ -155,13 +160,20 @@ export default function Checkout() {
         setValidationErrors({});
         setApiError(null);
 
-        if (!isLoggedIn) { /* (Validation đăng nhập) */ }
+        // Kiểm tra user có tồn tại
+        // Nếu không có user, dừng hàm ngay lập tức để TypeScript không báo lỗi user.id
+        if (!isLoggedIn || !user) { 
+            alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+            navigate('/login');
+            return; 
+        }
         
-        // (Validation thông tin)
+        // Validation thông tin người nhận
         const errors: CustomerInfoErrors = {};
         if (!customerInfo.name.trim()) { errors.name = 'Vui lòng nhập tên người nhận.'; }
         if (!customerInfo.phone.trim()) { errors.phone = 'Vui lòng nhập số điện thoại.'; }
         if (!customerInfo.address.trim()) { errors.address = 'Vui lòng nhập địa chỉ.'; }
+        
         if (Object.keys(errors).length > 0) {
             setValidationErrors(errors);
             return;
@@ -188,7 +200,6 @@ export default function Checkout() {
           createdAt: new Date().toISOString(),
         };
 
-        // === NÂNG CẤP LOGIC CHÍNH ===
         try {
           if (paymentMethod === 'cod') {
             // LUỒNG 1: Thanh toán COD (Lưu ngay)
@@ -206,19 +217,13 @@ export default function Checkout() {
         } catch (err: any) {
           setApiError(err.message || "Không thể đặt hàng. Vui lòng thử lại.");
           setLoading(false);
-        } 
+        }
     };
 
 
     const finalDiscount = discount > 0 ? totalAmount * discount : 0;
     const finalSubtotal = totalAmount - finalDiscount;
     const finalTotal = finalSubtotal + DELIVERY_FEE;
-    const formatCurrency = (amount: number) => {
-        return new Intl.NumberFormat('vi-VN', { 
-            style: 'currency', 
-            currency: 'VND' 
-        }).format(amount);
-    };
     const handleCouponApply = () => {
         if (coupon.toLowerCase() === 'foodfast10') {
             alert('Áp dụng mã khuyến mãi thành công!');

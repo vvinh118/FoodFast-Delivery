@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext'; // Lấy hook
+import { Link, useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc'; 
 import { FaFacebook } from 'react-icons/fa'; 
+import { useAuthStore } from 'core';
+import { apiLogin } from '../services/api'; 
 
 import InputField from '../components/InputField'; 
 
@@ -24,34 +25,63 @@ import {
     ActionRow
 } from '../components/AuthStyle';
 
-
-// === REACT COMPONENT ===
+// COMPONENT
 export default function Login() {
-  const { login, authLoading, authError } = useAuth();
-  const [email, setEmail] = useState(' ');
+  const navigate = useNavigate();
+
+  // LẤY STATE VÀ ACTION TỪ STORE
+  const loginAction = useAuthStore(state => state.login);
+  const setLoading = useAuthStore(state => state.setLoading);
+  const setError = useAuthStore(state => state.setError);
+  
+  // Lấy trạng thái để hiển thị UI
+  const authLoading = useAuthStore(state => state.isLoading);
+  const authError = useAuthStore(state => state.error);
+
+  // State nội bộ form
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const [localError, setLocalError] = useState<string | null>(null);
-  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLocalError(null);
-
-    // Validation
-    if (!email || !password) {
-        setLocalError('Vui lòng nhập đầy đủ Email và Mật khẩu.');
+    
+    // Validation cơ bản
+    if (!email.trim() || !password.trim()) {
+        setError('Vui lòng nhập đầy đủ Email và Mật khẩu.');
         return;
     } 
     
-    
-    // Gọi hàm login từ context
-    await login(email, password);
+    // Bắt đầu quy trình đăng nhập
+    setLoading(true);
+    setError(null);
+
+    try {
+        // Bước 1: Gọi API
+        const response: any = await apiLogin(email, password);
+        
+        // Bước 2: Kiểm tra và Lưu vào Store
+        if (response && response.user) {
+            loginAction(response.user); 
+            
+            // Bước 3: Chuyển hướng
+            alert(`Xin chào, ${response.user.name}!`);
+            navigate('/home');
+        } else {
+            throw new Error('Phản hồi từ máy chủ không hợp lệ.');
+        }
+
+    } catch (err: any) {
+        // Xử lý lỗi
+        setError(err.message || 'Đăng nhập thất bại. Vui lòng thử lại.');
+    } finally {
+        setLoading(false);
+    }
   }
 
   return (
     <PageContainer>
         <AuthCard>
-            <HeaderLink to="/Home">
+            <HeaderLink to="/home">
                 <FaArrowLeft />
                 Về trang chủ
             </HeaderLink>
@@ -70,7 +100,10 @@ export default function Login() {
                     type="email"
                     placeholder="Nhập Email của bạn"
                     value={email}
-                    onChange={(e) => {setEmail(e.target.value); setLocalError(null);}}
+                    onChange={(e) => {
+                        setEmail(e.target.value); 
+                        if (authError) setError(null);
+                    }}
                     disabled={authLoading}
                 />
                 
@@ -80,16 +113,19 @@ export default function Login() {
                     type="password" 
                     placeholder="••••••"
                     value={password}
-                    onChange={(e) => {setPassword(e.target.value); setLocalError(null);}}
+                    onChange={(e) => {
+                        setPassword(e.target.value); 
+                        if (authError) setError(null);
+                    }}
                     disabled={authLoading}
-                    // HIỂN THỊ LỖI TỪ CẢ 2 NGUỒN
-                    error={localError || authError} 
+                    // Hiển thị lỗi từ Store
+                    error={authError} 
                 />
                 
                 <ActionRow>
                     <ForgotPasswordLink to="/forgot-password">Quên mật khẩu?</ForgotPasswordLink>
                     <MainButton type="submit" disabled={authLoading}>
-                        {authLoading ? 'Đang đăng nhập...' : 'Đăng nhập'}
+                        {authLoading ? 'Đang xử lý...' : 'Đăng nhập'}
                     </MainButton>
                 </ActionRow>
             </Form>
@@ -97,10 +133,10 @@ export default function Login() {
             <Divider>HOẶC</Divider>
 
             <SocialButtons>
-                <SocialButton>
+                <SocialButton type="button">
                     <FcGoogle /> Google
                 </SocialButton>
-                <SocialButton>
+                <SocialButton type="button">
                     <FaFacebook color="#1877F2" /> Facebook
                 </SocialButton>
             </SocialButtons>

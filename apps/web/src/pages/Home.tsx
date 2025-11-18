@@ -2,32 +2,16 @@ import React, { useEffect, useState } from 'react';
 import Button from '../components/Button';
 import RestaurantCard from '../components/RestaurantCard';
 import CategoryButton from '../components/CategoryButton';
-
 import HomeHeroImg from '../assets/img/HomeHeroImg.png' 
 import HomePromoImg from '../assets/img/HomePromoImg.png'
 import HomeDeliImg from '../assets/img/HomeDeliImg.png'
 import HomePayImg from '../assets/img/HomePayImg.png'
-
 import styled from "styled-components";
-
 import { fetchRestaurants } from '../services/api';
+import type { Restaurant } from 'core';
 
 
-// === TYPES ===
-interface Restaurant {
-  id: number;
-  name: string;
-  address: string;
-  rating: number;
-  distance: number;
-  deliveryTime: number;
-  imageUrl: string;
-  isPromo: boolean;
-  category: string;
-}
-
-
-// === STYLED COMPONENTS ===
+// Styled components
 //toàn trang
 const HomeContainer = styled.div` 
   background-color: #f9f9f9;
@@ -259,8 +243,8 @@ const DeliText = styled.p`
 // danh sách danh mục nổi bật tượng trưng
 const symbolicCategories = ["Gà", "Cơm", "Trà Sữa", "Bánh", "Kem"];
 
-// =========================================================================================
 
+// COMPONENT
 export default function Home() {
     const [allRestaurants, setAllRestaurants] = useState<Restaurant[]>([]);
     const [loading, setLoading] = useState(true);

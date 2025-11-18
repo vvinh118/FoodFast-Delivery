@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useCart } from '../context/CartContext';
+import { useCartStore } from 'core';
+
 
 // Styled components
 const ControllerWrapper = styled.div`
@@ -39,7 +40,7 @@ const QuantityDisplay = styled.span`
     text-align: center;
 `;
 
-// === TYPES ===
+// TYPES
 interface QuantityControllerProps {
     itemId: number;
     name: string;
@@ -59,10 +60,11 @@ const QuantityController: React.FC<QuantityControllerProps> = ({
     restaurantId,
     restaurantName
 }) => {
-    const { increaseItemQuantity, decreaseItemQuantity } = useCart();
+    const addToCart = useCartStore(state => state.addToCart);
+    const decreaseQuantity = useCartStore(state => state.decreaseQuantity);
 
     const handleIncrease = () => {
-        increaseItemQuantity({ 
+        addToCart({ 
             id: itemId, 
             name, 
             price, 
@@ -73,7 +75,7 @@ const QuantityController: React.FC<QuantityControllerProps> = ({
     };
 
     const handleDecrease = () => {
-        decreaseItemQuantity(itemId);
+        decreaseQuantity(itemId);
     };
 
     return (

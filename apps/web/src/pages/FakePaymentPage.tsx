@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../components/Button';
-import { useCart } from '../context/CartContext'; 
+import { useCartStore } from 'core';
 import { apiSubmitOrder } from '../services/api';
 
 // Styled components
@@ -59,10 +59,10 @@ const ErrorMessage = styled.p`
     font-weight: 600;
 `;
 
-// === COMPONENT ===
+// COMPONENT
 const FakePaymentPage = () => {
   const navigate = useNavigate();
-  const { clearCart } = useCart();
+  const clearCart = useCartStore(state => state.clearCart);
   
   // State để giữ orderData
   const [orderData, setOrderData] = useState<any>(null);
@@ -76,7 +76,7 @@ const FakePaymentPage = () => {
     if (pendingOrderString) {
       setOrderData(JSON.parse(pendingOrderString));
     } else {
-      // Nếu không có đơn hàng (do refresh 2 lần, hoặc vào trực tiếp)
+      // Nếu không có đơn hàng
       setError("Không tìm thấy thông tin thanh toán. Vui lòng thử lại từ giỏ hàng.");
     }
   }, []); // Chạy 1 lần
@@ -109,7 +109,7 @@ const FakePaymentPage = () => {
 
   const handleFailure = () => {
     alert("Thanh toán đã bị hủy.");
-    sessionStorage.removeItem('pendingOrder'); // Xóa đơn hàng tạm
+    sessionStorage.removeItem('pendingOrder');
     navigate('/checkout'); // Quay lại trang thanh toán
   };
 

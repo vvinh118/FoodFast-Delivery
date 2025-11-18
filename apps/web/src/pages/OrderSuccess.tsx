@@ -1,8 +1,6 @@
-import React from 'react';
 import Button from '../components/Button';
 import styled, { keyframes } from 'styled-components';
-import { FaPrint, FaHome } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { FaHome } from 'react-icons/fa';
 import Lottie from 'lottie-react'; 
 import checkmarkAnimation from '../assets/animations/checkmark animation.json';
 
@@ -67,7 +65,7 @@ const SubText = styled.p`
 `;
 
 
-// === REACT COMPONENT ===
+// COMPONENT
 
 export default function OrderSuccess() {
   const orderId = "FFT09876"; 

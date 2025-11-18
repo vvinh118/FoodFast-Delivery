@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useAuth } from '../../context/AuthContext'; 
 import Button from '../../components/Button';
 import InputField from '../../components/InputField';
 

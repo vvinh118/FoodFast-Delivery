@@ -17,8 +17,9 @@ import {
 } from '../components/AuthStyle';
 import { apiRegister } from '../services/api';
 
+import { Validators } from 'core';
 
-// === REACT COMPONENT ===
+// COMPONENT
 export default function Register() {
   const navigate = useNavigate();
   
@@ -43,22 +44,21 @@ export default function Register() {
     setApiError(null);
     let hasError = false;
 
-    // === (Validation) ===
+    // (Validation)
 
     if (!name) {
         setErrors(prev => ({ ...prev, name: 'Vui lòng nhập Họ Tên.' }));
         hasError = true;
     }
 
-    // Kiểm tra Số Điện Thoại
-    const phoneRegex = /^\d{10}$/; // Regex (Biểu thức chính quy) cho 10 chữ số
-    if (!tel) {
-        setErrors(prev => ({ ...prev, tel: 'Vui lòng nhập SĐT.' }));
-        hasError = true;
-    } else if (!phoneRegex.test(tel)) {
-        setErrors(prev => ({ ...prev, tel: 'SĐT phải là 10 chữ số.' }));
-        hasError = true;
-    }
+    // Kiểm tra SĐT
+if (!tel) {
+    setErrors(prev => ({ ...prev, tel: 'Vui lòng nhập SĐT.' }));
+    hasError = true;
+} else if (!Validators.isValidPhone(tel)) { // Gọi hàm từ Core
+    setErrors(prev => ({ ...prev, tel: 'SĐT không hợp lệ (phải là 10 số).' }));
+    hasError = true;
+}
 
     // Kiểm tra Ngày Sinh
     if (!birthday) {
@@ -98,7 +98,7 @@ export default function Register() {
 
     if (hasError) return; // Nếu có lỗi validation thì dừng
 
-    // === (Gọi API) ===
+    // Gọi Api đăng ký
     setLoading(true);
     try {
       const newUser = { name, tel, birthday, email, password };

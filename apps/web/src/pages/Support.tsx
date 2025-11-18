@@ -4,9 +4,7 @@ import React, { useState, useMemo } from 'react';
 import { allFaqArticles, type FaqArticle } from '../data/faqData'; 
 import InputField from '../components/InputField'; 
 
-// ==========================================================
-// 1. STYLED COMPONENTS 
-// ==========================================================
+// STYLED COMPONENTS
 const PageWrapper = styled.div`
     max-width: 1280px;
     margin: 0 auto;
@@ -26,7 +24,7 @@ const Title = styled.h1`
     color: #333;
 `;
 
-// --- Thanh Tìm Kiếm ---
+// thanh tìm kiếm
 const SearchBarWrapper = styled.div`
     position: relative;
     width: 70%;
@@ -55,7 +53,7 @@ const SearchIcon = styled(FaSearch)`
     color: #999; 
 `;
 
-// --- Grid Chủ Đề ---
+// Grid chủ đề
 const TopicsGrid = styled.div`
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -89,7 +87,7 @@ const TopicCard = styled.div`
     }
 `;
 
-// --- Phần Liên Hệ ---
+// Liên hệ
 const ContactSection = styled.div`
     text-align: center;
     padding: 30px;
@@ -115,10 +113,7 @@ const ContactButton = styled.button`
     }
 `;
 
-// ==========================================================
-// 2. STYLED COMPONENTS DANH SÁCH CÂU HỎI
-// ==========================================================
-
+// danh sách câu hỏi
 const HelpListWrapper = styled.div`
     animation: fadeIn 0.3s ease-in-out;
     @keyframes fadeIn {
@@ -173,9 +168,7 @@ const SearchResultWrapper = styled(HelpListWrapper)`
     }
 `;
 
-// ==========================================================
-// 3. STYLED COMPONENTS FORM HỖ TRỢ 
-// ==========================================================
+// styled components cho form hỗ trợ
 const FormWrapper = styled.div`
     text-align: left; 
     animation: fadeIn 0.5s ease;
@@ -236,10 +229,7 @@ const CancelButton = styled(ContactButton)`
 `;
 
 
-// ==========================================================
-// 4. COMPONENT CON RENDER  Q&A 
-// ==========================================================
-
+// COMPONENTS
 type HelpTopicProps = {
     onBack: () => void;
     category: FaqArticle['category']; // 'orders' | 'payment' | ...
@@ -271,9 +261,7 @@ const HelpTopicList: React.FC<HelpTopicProps> = ({ onBack, category, title }) =>
     );
 }
 
-// ==========================================================
-// 5. COMPONENT FORM HỖ TRỢ 
-// ==========================================================
+// Component Form Hỗ Trợ    
 
 type SupportFormProps = {
     onCancel: () => void;
@@ -350,17 +338,15 @@ const SupportForm: React.FC<SupportFormProps> = ({ onCancel }) => {
 };
 
 
-// ==========================================================
-// 6. COMPONENT TRANG CHÍNH 
-// ==========================================================
+// COMPONENT TRANG CHÍNH
 
 const SupportPage: React.FC = () => {
-    // --- STATE QUẢN LÝ TRANG (Phần bạn thiếu) ---
+    // STATE QUẢN LÝ TRANG
     const [activeTopic, setActiveTopic] = useState<FaqArticle['category'] | null>(null);
     const [searchTerm, setSearchTerm] = useState(''); // <-- State 'searchTerm' bị thiếu
     const [isFormVisible, setIsFormVisible] = useState(false);
 
-    // --- LOGIC TÌM KIẾM ---
+    // logic tìm kiếm
     const searchResults = useMemo(() => {
         if (searchTerm.length < 3) {
             return [];
@@ -375,7 +361,7 @@ const SupportPage: React.FC = () => {
     }, [searchTerm]); 
 
     
-    // --- HÀM RENDER NỘI DUNG ĐỘNG ---
+    // HÀM RENDER NỘI DUNG ĐỘNG
     const renderContent = () => {
         // ƯU TIÊN 1: Hiển thị kết quả tìm kiếm
         if (searchTerm.length > 2) {

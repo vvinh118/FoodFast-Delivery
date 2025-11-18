@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
-// === STYLED COMPONENTS ===
 
+// STYLED COMPONENTS
 const InputGroup = styled.div`
   margin-bottom: 20px;
 `;
@@ -62,7 +62,7 @@ const ErrorMessage = styled.p`
   margin-top: 5px;
 `;
 
-// === INTERFACE ===
+// INTERFACE
 
 interface InputFieldProps {
     label: string;

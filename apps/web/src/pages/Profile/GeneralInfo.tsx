@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useAuth } from '../../context/AuthContext'; 
+import { useAuthStore } from 'core'; 
 import { FaUserCircle } from 'react-icons/fa';
 import Button from '../../components/Button';
 
-//cột Main
+// STYLED COMPONENTS
 const ColMain = styled.div`
     flex-grow: 1; 
     background-color: #fff;
@@ -116,15 +116,15 @@ const CouponText = styled.p`
     margin: 0;
 `
 
+// COMPONENT
 const GeneralInfo: React.FC = () => {
-    const { user } = useAuth(); // Lấy user thật từ context
-    // Dùng user thật, nếu không có thì dùng placeholder
+    const user = useAuthStore(state => state.user);
     const displayUser = user || { name: "..." };
 
     return (
     
-<ColMain>
-                <MainTitle>Thông tin chung</MainTitle>
+        <ColMain>
+            <MainTitle>Thông tin chung</MainTitle>
                 <AvaWrapper>
                 <UserAvatar />
                     <Button $padding='5px 10px' $background='#9d9b9b'>Thay đổi</Button>

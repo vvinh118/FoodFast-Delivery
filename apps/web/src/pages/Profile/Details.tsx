@@ -1,13 +1,12 @@
 // src/pages/profile/Details.tsx
-
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useAuth } from '../../context/AuthContext'; 
+import { useAuthStore } from 'core';
 import Button from '../../components/Button';
 import InputField from '../../components/InputField';
 
-// === 1. STYLED COMPONENTS ===
 
+// STYLED COMPONENTS
 const ColMain = styled.div``
 
 const MainTitle = styled.h1`
@@ -54,10 +53,9 @@ const CancelButton = styled(Button)`
 `
 
 
-// === 2. COMPONENT CHÍNH ===
-
+// COMPONENT
 export default function Details() {
-    const { user } = useAuth(); 
+    const user = useAuthStore(state => state.user);
     
     // State cho thông tin
     const [name, setName] = useState(user?.name || '');
@@ -134,7 +132,7 @@ export default function Details() {
                     !isFormVisible ? (
                         <SubmitButton style={{ marginTop: '20px' }}>
                             <Button 
-                                type="button" // Quan trọng: để không submit form
+                                type="button"
                                 $color='#9d9b9b'
                                 $background='ffff'
                                 onClick={() => setIsFormVisible(true)}

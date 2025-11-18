@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import type { LinkProps } from 'react-router-dom'; 
 import styled from 'styled-components';
 
-// === STYLED COMPONENTS ===
 
+// STYLED COMPONENT
 const StyledButton = styled.button<ButtonProps>`
   background-color: ${props => props.$background || "#f72d57"};
   border: none;
@@ -76,7 +76,7 @@ interface ButtonProps extends Omit<LinkProps, 'to'> {
   disabled?: boolean;
 }
 
-// === COMPONENT CHÍNH ===
+// COMPONENT
 export default function Button({ 
   to, 
   children, 

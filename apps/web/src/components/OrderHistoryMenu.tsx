@@ -1,11 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import CategoryButton from './CategoryButton';
-import Button from './Button';
-// Import Type 'Order'
-import { type Order } from '../pages/MyOrders';
+import { formatCurrency, type Order } from 'core';
 
-// === STYLED ===
+// STYLED COMPONENTS
 const HistoryWrapper = styled.div`
     width: 100%;
 `;
@@ -64,11 +62,7 @@ const ItemStatus = styled.span<{ $status: string }>`
          props.$status === 'Cancelled' ? '#dc3545' :
          '#007bff')}; // Đang giao (Pending)
 `;
-const ItemActions = styled.div`
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-`;
+
 const EmptyState = styled.div`
     text-align: center;
     padding: 40px;
@@ -83,7 +77,7 @@ interface OrderHistoryProps {
   allOrders: Order[];
 }
 
-// === COMPONENT ===
+// COMPONENT
 const OrderHistoryMenu: React.FC<OrderHistoryProps> = ({ allOrders }) => {
     const [activeStatus, setActiveStatus] = useState('Pending');
     const statuses = [
@@ -97,12 +91,8 @@ const OrderHistoryMenu: React.FC<OrderHistoryProps> = ({ allOrders }) => {
         return filtered.sort((a, b) => {
             return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
-
 }, [allOrders, activeStatus]);
 
-    const formatCurrency = (amount: number) => {
-        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
-    };
 
     // Render danh sách từ 'filteredOrders'
     const renderListContent = () => {
@@ -136,13 +126,6 @@ const OrderHistoryMenu: React.FC<OrderHistoryProps> = ({ allOrders }) => {
                       {statuses.find(s => s.key === order.status)?.label || order.status}
                   </ItemStatus>
               </ItemInfo>
-              {/* <ItemActions>
-                {order.status !== 'Pending' && (
-                  <Button $padding="8px 15px" $fontSize="0.9rem">
-                    Đặt lại
-                  </Button>
-                )}
-              </ItemActions> */}
           </OrderItemCard>
         );
       });

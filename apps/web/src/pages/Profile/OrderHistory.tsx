@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import OrderHistoryMenu from '../../components/OrderHistoryMenu';
-import { useAuth } from '../../context/AuthContext';
 import { fetchMyOrders } from '../../services/api';
-import { type Order } from '../MyOrders'; // Tái sử dụng Type từ MyOrders
+import { useAuthStore, type Order } from 'core';
 
 
-// === STYLED ===
+// STYLED COMPONENTS
 const ColMain = styled.div``;
 const MainTitle = styled.h1`
     display: flex;
@@ -20,9 +19,11 @@ const OrderContainer = styled.div`
     min-height: 30vh; // Thêm chiều cao tối thiểu
 `;
 
-// === COMPONENT ===
+// COMPONENT
 const OrderHistory: React.FC = () => {
-    const { user, isLoggedIn } = useAuth();
+    const user = useAuthStore(state => state.user);
+    const isLoggedIn = useAuthStore(state => state.isLoggedIn);
+
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-// === STYLED COMPONENT ===
+// STYLED COMPONENT
 const StyledButton = styled.button<{ $isActive?: boolean }>`
   padding: 18px 45px;
   border-radius: 0.5rem;
@@ -29,14 +29,14 @@ const StyledButton = styled.button<{ $isActive?: boolean }>`
   `}
 `;
 
-// === PROPS ===
+// TYPE
 type CategoryButtonProps = {
   name: string;
   isActive: boolean;
   onClick: () => void;
 };
 
-// === COMPONENT ===
+// COMPONENT
 export default function CategoryButton({ name, isActive, onClick }: CategoryButtonProps) {
   return (
     <StyledButton onClick={onClick} $isActive={isActive}>

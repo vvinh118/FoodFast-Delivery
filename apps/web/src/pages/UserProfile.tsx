@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import Button from '../components/Button'; 
-import { useAuth } from '../context/AuthContext'; 
 import { NavLink, Outlet } from 'react-router-dom';
 import { FaUserCircle, FaSignOutAlt, FaThLarge, FaUser, FaHistory, FaGift } from 'react-icons/fa';
+import { useAuthStore } from 'core';
 
-// === STYLED COMPONENTS ===
+
+// STYLED COMPONENTS
 const PageWrapper = styled.div`
     background-color: #f9f9f9;
 `
@@ -101,12 +102,12 @@ const ColMain = styled.div`
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 `
 
-// === COMPONENT ===
+// COMPONENT CHÍNH
 export default function UserProfile () {
-    const { user, logout } = useAuth();
+    const user = useAuthStore(state => state.user);
+    const logout = useAuthStore(state => state.logout);
     
-    // (Xử lý trường hợp user có thể null khi đang tải)
-    const displayUser = user || { name: "..." }; 
+    const displayUser = user || { name: "..." };
 
     return (
     <PageWrapper>

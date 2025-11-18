@@ -1,28 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import OrderHistoryMenu from '../components/OrderHistoryMenu';
-import { useAuth } from '../context/AuthContext';
 import { fetchMyOrders } from '../services/api';
+import { useAuthStore, type Order } from 'core';
 
-// === TYPES ===
-interface OrderItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  imageUrl?: string;
-}
-export interface Order {
-  id: number;
-  userId: number;
-  userName: string;
-  items: OrderItem[];
-  total: number;
-  status: string; // 'Pending', 'Delivered', 'Cancelled'
-  createdAt: string;
-}
-
-// === STYLED ===
+// Styled components
 const Container = styled.div``;
 const MainTitle = styled.h2`
     font-size: 2rem;
@@ -42,9 +24,11 @@ const Content = styled.div`
     min-height: 30vh; // Thêm chiều cao tối thiểu
 `;
 
-// === COMPONENT ===
+// COMPONENT
 const MyOrders: React.FC = () => {
-    const { user, isLoggedIn } = useAuth();
+    const user = useAuthStore(state => state.user);
+    const isLoggedIn = useAuthStore(state => state.isLoggedIn);
+
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);

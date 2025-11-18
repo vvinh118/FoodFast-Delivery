@@ -2,33 +2,10 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import MenuItemCard from '../components/MenuItemCard';
-
 import { fetchRestaurantById, fetchMenuByRestaurant } from '../services/api';
+import type { Restaurant, MenuItem } from 'core';
 
-// === TYPES ===
-interface Restaurant {
-  id: number;
-  name: string;
-  address: string;
-  rating: number;
-  distance: number;
-  deliveryTime: number;
-  imageUrl: string;
-  isPromo: boolean;
-  category: string;
-}
-
-interface MenuItem {
-    id: number;
-    restaurantId: number;
-    name: string;
-    price: number;
-    description: string;
-    imageUrl: string;
-    category: string;
-}
-
-// === STYLED COMPONENTS ===
+// Styled components
 const MenuPageContainer = styled.div`
     display: flex;
     flex-direction: column;
