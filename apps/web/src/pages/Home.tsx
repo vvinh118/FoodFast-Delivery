@@ -152,19 +152,17 @@ const PromoSection = styled.section`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  padding: 0 40px;
+  padding: 30px;
   background-color: #F72D57;
   border-style: solid;
     border-color: #ffff;
     border-width: 50px 0;
-    position: relative;
   margin: 70px 0 70px 0;
 `
 const PromoTextWrap = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 600px;
-  padding: 30px 0 50px 300px;
+  max-width: 800px;
 `
 const PromoHeading = styled.h1`
   font-size: 2rem;
@@ -182,10 +180,6 @@ const PromoText = styled.p`
 const PromoImg = styled.img`
   max-width: 500px;
   height: auto;
-  position: absolute;
-  left: 100px;
-  top: 50%;
-  transform: translateY(-50%);
 `
 
 //Payment Section
