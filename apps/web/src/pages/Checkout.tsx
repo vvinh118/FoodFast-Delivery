@@ -3,10 +3,9 @@ import styled from 'styled-components';
 import Header from '../components/Header';
 import Footer from '../components/Footer'; 
 import Button from '../components/Button'; 
-import { apiSubmitOrder } from '../services/api'; 
 import { FaMapMarkerAlt, FaCreditCard, FaTicketAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { useCartStore, useAuthStore, APP_CONSTANTS, formatCurrency } from 'core';
+import { apiSubmitOrder, useCartStore, useAuthStore, APP_CONSTANTS, formatCurrency } from 'core';
 
 const { DELIVERY_FEE } = APP_CONSTANTS;
 

@@ -1,125 +1,156 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
-// Đây là Component Màn hình chính của ứng dụng
+import React, { useEffect, useState } from 'react';
+import { 
+  StyleSheet, 
+  Text, 
+  View, 
+  FlatList, 
+  Image, 
+  ActivityIndicator, 
+  TouchableOpacity, 
+  StatusBar 
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { fetchRestaurants, Restaurant, formatCurrency, APP_CONSTANTS } from 'core';
+
 export default function HomeScreen() {
-  return (
-    // SafeAreaView giúp nội dung không bị che bởi tai thỏ (notch) trên điện thoại
-    <SafeAreaView style={styles.container}>
+  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // 3. GỌI API (Logic giống hệt Web)
+  useEffect(() => {
+    fetchRestaurants()
+      .then((data) => {
+        setRestaurants(data);
+        setLoading(false);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
+  // 4. GIAO DIỆN TỪNG MÓN (NATIVE UI)
+  const renderRestaurantItem = ({ item }: { item: Restaurant }) => (
+    <TouchableOpacity style={styles.card}>
+      {/* Ảnh nhà hàng */}
+      <Image source={{ uri: item.imageUrl }} style={styles.cardImage} />
       
-      {/* 1. Phần Header/Thanh tìm kiếm */}
+      {/* Thông tin */}
+      <View style={styles.cardContent}>
+        <Text style={styles.restaurantName} numberOfLines={1}>{item.name}</Text>
+        
+        <View style={styles.row}>
+          <Text style={styles.infoText}>⭐ {item.rating}</Text>
+          <Text style={styles.infoText}> • </Text>
+          <Text style={styles.infoText}>🕒 {item.deliveryTime} phút</Text>
+          <Text style={styles.infoText}> • </Text>
+          <Text style={styles.infoText}>🛵 {item.distance} km</Text>
+        </View>
+
+        {/* Ví dụ dùng hàm formatCurrency từ CORE */}
+        <Text style={styles.priceText}>
+          Phí ship: {formatCurrency(APP_CONSTANTS.DELIVERY_FEE)}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
+
+  if (loading) {
+    return (
+      <View style={styles.centerContainer}>
+        <ActivityIndicator size="large" color="#F72D57" />
+        <Text style={{ marginTop: 10 }}>Đang tải dữ liệu...</Text>
+      </View>
+    );
+  }
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" />
+      
+      {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.appName}>FoodFast Delivery</Text>
-        <Text style={styles.location}>Giao hàng đến: 172.16.98.188</Text>
+        <Text style={styles.greeting}>Chào mừng bạn đến với</Text>
+        <Text style={styles.logoText}>FoodFast Mobile 🚀</Text>
       </View>
 
-      {/* 2. Phần Nội dung có thể cuộn */}
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        
-        {/* Thanh tìm kiếm (Placeholder) */}
-        <View style={styles.searchBar}>
-          <Text style={{ color: '#aaa' }}>Nhấn để tìm kiếm món ăn...</Text>
-        </View>
-
-        {/* Khu vực Danh mục */}
-        <Text style={styles.sectionTitle}>Danh Mục Phổ Biến</Text>
-        <View style={styles.categoryRow}>
-          {/* Bạn sẽ thay thế bằng Component Category sau này */}
-          <Text style={styles.categoryItem}>🍔 Burger</Text>
-          <Text style={styles.categoryItem}>🍕 Pizza</Text>
-          <Text style={styles.categoryItem}>🍜 Mì</Text>
-        </View>
-
-        {/* Khu vực Danh sách Sản phẩm */}
-        <Text style={styles.sectionTitle}>Món Ngon Gần Bạn</Text>
-        {/* Thẻ sản phẩm mẫu (Placeholder) */}
-        <View style={styles.productCard}>
-            <Text style={styles.productName}>Món Ăn Số 1</Text>
-            <Text style={styles.productPrice}>69.000 VNĐ</Text>
-        </View>
-        <View style={styles.productCard}>
-            <Text style={styles.productName}>Món Ăn Số 2</Text>
-            <Text style={styles.productPrice}>45.000 VNĐ</Text>
-        </View>
-        {/* Thêm nhiều thẻ sản phẩm khác ở đây */}
-        <Text style={{ marginVertical: 20, textAlign: 'center', color: '#888' }}>-- Hết món ăn --</Text>
-
-      </ScrollView>
+      {/* Danh sách nhà hàng */}
+      <FlatList
+        data={restaurants}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderRestaurantItem}
+        contentContainerStyle={styles.listContent}
+        showsVerticalScrollIndicator={false}
+      />
     </SafeAreaView>
   );
 }
 
-// Định nghĩa các Stylesheet
+// 5. STYLES (CSS in JS)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#F9F9F9',
   },
-  scrollContent: {
-    paddingHorizontal: 15,
-    paddingBottom: 20, // Khoảng trống dưới cùng
+  centerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   header: {
-    padding: 15,
-    backgroundColor: 'white',
+    padding: 20,
+    backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
   },
-  appName: {
-    fontSize: 22,
+  greeting: {
+    fontSize: 16,
+    color: '#666',
+  },
+  logoText: {
+    fontSize: 24,
     fontWeight: 'bold',
-    color: '#E53935', // Màu đỏ thương hiệu (ví dụ)
+    color: '#F72D57', // Màu thương hiệu
   },
-  location: {
-    fontSize: 14,
-    color: '#777',
-    marginTop: 2,
-  },
-  searchBar: {
-    backgroundColor: '#fff',
+  listContent: {
     padding: 15,
-    borderRadius: 10,
-    marginTop: 15,
-    borderWidth: 1,
-    borderColor: '#ddd',
   },
-  sectionTitle: {
+  card: {
+    backgroundColor: 'white',
+    borderRadius: 12,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3, // Đổ bóng cho Android
+    overflow: 'hidden',
+  },
+  cardImage: {
+    width: '100%',
+    height: 180, // Chiều cao ảnh cố định
+    resizeMode: 'cover',
+  },
+  cardContent: {
+    padding: 15,
+  },
+  restaurantName: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginTop: 25,
-    marginBottom: 10,
     color: '#333',
+    marginBottom: 5,
   },
-  categoryRow: {
+  row: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 10,
-  },
-  categoryItem: {
-    backgroundColor: '#fff',
-    padding: 10,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#E53935',
-  },
-  productCard: {
-    backgroundColor: '#fff',
-    padding: 15,
-    borderRadius: 10,
-    marginBottom: 10,
-    borderLeftWidth: 5,
-    borderLeftColor: '#E53935',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: 5,
   },
-  productName: {
-    fontSize: 16,
+  infoText: {
+    fontSize: 14,
+    color: '#666',
+  },
+  priceText: {
+    fontSize: 14,
     fontWeight: '600',
+    color: '#F72D57',
+    marginTop: 5,
   },
-  productPrice: {
-    fontSize: 16,
-    color: '#28a745',
-    fontWeight: 'bold',
-  }
 });

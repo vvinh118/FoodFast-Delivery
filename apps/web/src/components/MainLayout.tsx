@@ -3,6 +3,8 @@ import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from './Header';
 import Footer from './Footer';
+import CartSidebar from "./CartSidebar";
+import ProfileSidebar from './ProfileSideBar';
 
 const AppWrapper = styled.div`
   display: flex;
@@ -24,6 +26,8 @@ const MainLayout: React.FC = () => {
         <Outlet />
       </MainContent>
       <Footer />
+      <CartSidebar />
+      <ProfileSidebar />
     </AppWrapper>
   );
 };

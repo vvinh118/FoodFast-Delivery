@@ -2,8 +2,8 @@ import { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import RestaurantCard from '../components/RestaurantCard';
 import CategoryCard from '../components/CategoryCard'; 
-import { fetchRestaurants, fetchCategories } from '../services/api'; 
-import type { Restaurant, Category } from 'core';
+import type { Restaurant, Category} from 'core';
+import { fetchRestaurants, fetchCategories  } from 'core';
 
 // Styled Components
 const CategoryBarWrapper = styled.div`

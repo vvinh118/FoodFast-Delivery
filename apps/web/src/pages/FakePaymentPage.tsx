@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../components/Button';
 import { useCartStore } from 'core';
-import { apiSubmitOrder } from '../services/api';
-
+import { apiSubmitOrder } from 'core';
 // Styled components
 const PageWrapper = styled.div`
   display: flex;

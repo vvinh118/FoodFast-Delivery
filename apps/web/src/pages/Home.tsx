@@ -7,8 +7,7 @@ import HomePromoImg from '../assets/img/HomePromoImg.png'
 import HomeDeliImg from '../assets/img/HomeDeliImg.png'
 import HomePayImg from '../assets/img/HomePayImg.png'
 import styled from "styled-components";
-import { fetchRestaurants } from '../services/api';
-import type { Restaurant } from 'core';
+import { fetchRestaurants, type Restaurant } from 'core';
 
 
 // ==========================================================

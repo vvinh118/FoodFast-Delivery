@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import OrderHistoryMenu from '../../components/OrderHistoryMenu';
-import { fetchMyOrders } from '../../services/api';
-import { useAuthStore, type Order } from 'core';
+import { useAuthStore, type Order, fetchMyOrders } from 'core';
 
 
 // STYLED COMPONENTS

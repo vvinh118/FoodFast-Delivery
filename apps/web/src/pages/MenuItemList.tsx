@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import MenuItemCard from '../components/MenuItemCard';
-import { fetchRestaurantById, fetchMenuByRestaurant } from '../services/api';
 import type { Restaurant, MenuItem } from 'core';
+import { fetchRestaurantById, fetchMenuByRestaurant } from 'core';
 
 // Styled components
 const MenuPageContainer = styled.div`

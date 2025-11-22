@@ -15,9 +15,8 @@ import {
     MainButton,
     SignUpPrompt
 } from '../components/AuthStyle';
-import { apiRegister } from '../services/api';
 
-import { Validators } from 'core';
+import { Validators, apiRegister } from 'core';
 
 // COMPONENT
 export default function Register() {

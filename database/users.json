@@ -1,0 +1,64 @@
+[
+    {
+      "id": "admin_01",
+      "email": "admin@foodfast.vn",
+      "password": "123",
+      "role": "admin",
+      "name": "Quản Trị Viên (Super Admin 0)",
+      "tel": "0909000000"
+    },
+    {
+      "id": "merchant_01",
+      "email": "merchant@foodfast.vn",
+      "password": "123",
+      "role": "merchant",
+      "name": "Chủ Quán Nem D'yan",
+      "tel": "0909111222"
+    },
+    {
+      "id": "1",
+      "email": "test@foodfast.vn",
+      "password": "1",
+      "role": "customer",
+      "name": "Võ Minh Thư",
+      "tel": "0123456987",
+      "birthday": "2004-08-31",
+      "avatar": "https://i.pravatar.cc/150?img=11"
+    },
+    {
+      "id": "48d9",
+      "email": "test2@foodfast.vn",
+      "password": "1182004",
+      "role": "customer",
+      "name": "Viết Vinh",
+      "tel": "123213312",
+      "birthday": "2004-11-08"
+    },
+    {
+      "id": "a686",
+      "name": "Phạm Văn A",
+      "tel": "123213123",
+      "birthday": "2004-08-31",
+      "email": "test3@foodfast.vn",
+      "password": "1182004",
+      "role": "customer"
+    },
+    {
+      "id": "ef54",
+      "name": "Nguyễn Văn B",
+      "tel": "0913625400",
+      "birthday": "2000-01-01",
+      "email": "test4@foodfast.vn",
+      "password": "123456",
+      "role": "customer"
+    },
+    {
+      "id": "46ab",
+      "name": "Võ Minh Thư",
+      "tel": "0923625408",
+      "birthday": "2004-08-31",
+      "email": "testtest@foodfast.vn",
+      "password": "123456",
+      "role": "customer"
+    }
+]

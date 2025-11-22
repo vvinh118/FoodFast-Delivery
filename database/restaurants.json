@@ -1,0 +1,156 @@
+[
+    {
+      "id": "1",
+      "name": "Nem Nướng D'yan - Since 1968",
+      "address": "183 Nguyễn Văn Đậu",
+      "rating": 4.7,
+      "distance": 2.9,
+      "deliveryTime": 25,
+      "imageUrl": "https://trumfood.vn/wp-content/uploads/2023/01/nem-nuong-thom-ngon-Trum-Food.jpg",
+      "isPromo": true,
+      "category": "Lẩu, Nướng"
+    },
+    {
+      "id": "2",
+      "name": "Jollibee",
+      "address": "200 Lý Chính Thắng",
+      "rating": 4.5,
+      "distance": 2.2,
+      "deliveryTime": 20,
+      "imageUrl": "https://jollibeemenu.com/wordpress/wp-content/uploads/2024/07/Jollibee-Menu-Prices-Philippines.jpeg",
+      "isPromo": true,
+      "category": "Gà"
+    },
+    {
+      "id": "3",
+      "name": "Mì Trộn Indomie, Gà Rán",
+      "address": "155 Lê Văn Sỹ",
+      "rating": 4.7,
+      "distance": 2.3,
+      "deliveryTime": 30,
+      "imageUrl": "https://tse4.mm.bing.net/th/id/OIP.g349_sKPS2INyrS8vSgLlQHaE8",
+      "isPromo": false,
+      "category": "Bún, Mì, Phở"
+    },
+    {
+      "id": "4",
+      "name": "Xôi Mặn - Bánh Bao Trường Sơn",
+      "address": "36 Trường Sơn, P.4, Q.TB",
+      "rating": 4.6,
+      "distance": 0.8,
+      "deliveryTime": 15,
+      "imageUrl": "https://tse2.mm.bing.net/th/id/OIP.WnQXS6zgCF0nFxumjcgNXgHaFT",
+      "isPromo": true,
+      "category": "Thức ăn nhanh"
+    },
+    {
+      "id": "5",
+      "name": "Cơm Gà Xối Mỡ - Chú Tư",
+      "address": "18 Thành Thái, P.14, Q.10",
+      "rating": 4.8,
+      "distance": 3.5,
+      "deliveryTime": 35,
+      "imageUrl": "https://cdn.xanhsm.com/2025/01/735df340-com-ga-sai-gon-1.jpg",
+      "isPromo": false,
+      "category": "Cơm"
+    },
+    {
+      "id": "6",
+      "name": "Trà Sữa Cheese Bông - Hot Trend",
+      "address": "212 Lý Thường Kiệt, P.15, Q.11",
+      "rating": 4.9,
+      "distance": 1.1,
+      "deliveryTime": 15,
+      "imageUrl": "https://tse4.mm.bing.net/th/id/OIP.71cGG9HIkYC_9s-FRLkwTQHaHa",
+      "isPromo": true,
+      "category": "Trà Sữa"
+    },
+    {
+      "id": "7",
+      "name": "Bún Chả Hà Nội - 120 Năm",
+      "address": "118 Cống Quỳnh, P. Phạm Ngũ Lão, Q.1",
+      "rating": 4.4,
+      "distance": 5.1,
+      "deliveryTime": 40,
+      "imageUrl": "https://bizweb.dktcdn.net/100/442/328/files/bun-cha-mon-dac-san-binh-di-cua-nguoi-ha-noi-1.jpg?v=1638938776859",
+      "isPromo": false,
+      "category": "Bún, Mì, Phở"
+    },
+    {
+      "id": "8",
+      "name": "Pizza & Pasta Ý - VV",
+      "address": "339 Lê Văn Sỹ, P.1, Q. TB",
+      "rating": 4.3,
+      "distance": 0.5,
+      "deliveryTime": 20,
+      "imageUrl": "https://img1.wsimg.com/isteam/stock/2982",
+      "isPromo": true,
+      "category": "Thức ăn nhanh"
+    },
+    {
+      "id": "9",
+      "name": "Kem Wall's - ST F-MART 24",
+      "address": "258 Phan Đình Phùng, P.2, Q. Phú Nhuận",
+      "rating": 4.6,
+      "distance": 0.5,
+      "deliveryTime": 20,
+      "imageUrl": "https://bizweb.dktcdn.net/100/093/924/files/kem-hop-3-trong-1-triple-delight-vanilla-lemon-chocolate-walls-840ml-2.jpg",
+      "isPromo": true,
+      "category": "Kem"
+    },
+    {
+      "id": "10",
+      "name": "Thế Giới Donut",
+      "address": "124 Hai Bà Trưng, P.6, Q.3",
+      "rating": 4.6,
+      "distance": 0.5,
+      "deliveryTime": 20,
+      "imageUrl": "https://tse4.mm.bing.net/th/id/OIP._RHtf6pxnrUkhaWDxrmeKQHaHa",
+      "isPromo": true,
+      "category": "Bánh"
+    },
+    {
+      "id": "11",
+      "name": "KFC",
+      "address": "111 Nguyễn Thái Bình",
+      "rating": 4.5,
+      "distance": 2.2,
+      "deliveryTime": 20,
+      "imageUrl": "https://aeonmall-haiphong-lechan.com.vn/wp-content/uploads/2020/10/2_resize.jpg",
+      "isPromo": true,
+      "category": "Gà"
+    },
+    {
+      "id": "12",
+      "name": "Popyes",
+      "address": "201 Lý Chính Thắng",
+      "rating": 4.5,
+      "distance": 2.2,
+      "deliveryTime": 20,
+      "imageUrl": "https://tb-static.uber.com/prod/image-proc/processed_images/ccd54526c695b0983481e9ce407ad5ad/719c6bd2757b08684c0faae44d43159d.jpeg",
+      "isPromo": true,
+      "category": "Gà"
+    },
+    {
+      "id": "13",
+      "name": "3 Râu - Gà Rán Pizza & Trà Sữa",
+      "address": "191 Nguyễn Tiểu La",
+      "rating": 4.5,
+      "distance": 2.2,
+      "deliveryTime": 20,
+      "imageUrl": "https://tse3.mm.bing.net/th/id/OIP.4o98zuIor0zIGSloJFZ_DAHaEo",
+      "isPromo": true,
+      "category": "Gà"
+    },
+    {
+      "id": "14",
+      "name": "Lotteria",
+      "address": "118 Lê Lợi",
+      "rating": 4.5,
+      "distance": 2.2,
+      "deliveryTime": 20,
+      "imageUrl": "https://tse4.mm.bing.net/th/id/OIP.C6XBtQjroK22AuqAjPMhsgHaHa?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+      "isPromo": true,
+      "category": "Gà"
+    }
+]
