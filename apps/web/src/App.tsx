@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Routes, Route } from "react-router-dom"; 
+import { Routes, Route, Navigate } from "react-router-dom"; 
 import Home from "./pages/Home";
 import RestaurantList from "./pages/RestaurantList";
 import Login from "./pages/Login"; 
@@ -19,13 +19,20 @@ import FakePaymentPage from './pages/FakePaymentPage';
 import Support from './pages/Support';
 import { useAuthStore, useCartStore } from 'core';
 import ScrollToTop from "./components/ScrollToTop";
+import MerchantLayout from './components/merchant/MerchantLayout';
+import MerchantDashboard from './components/merchant/MerchantDashboard';
+import MerchantMenu from './components/merchant/MerchantMenu';
+import MerchantSettings from './components/merchant/MerchantSettings';
+import MerchantLogin from './components/merchant/MerchantLogin';
+import MerchantOrders from "./components/merchant/MerchantOrders";
+import MerchantHistory from "./components/merchant/MerchantHistory";
+import MerchantWallet from "./components/merchant/MerchantWallet";
 
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import AdminLayout from "./components/Layouts/AdminLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  // Tự động xóa giỏ hàng khi khởi động mà ko thấy đã đăng nhập
   const isLoggedIn = useAuthStore(state => state.isLoggedIn);
   const clearCart = useCartStore(state => state.clearCart);
 
@@ -63,6 +70,20 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/fake-payment-gateway" element={<FakePaymentPage />} />
           <Route path="/order-success" element={<OrderSuccess />} />
+
+          <Route path="/merchant" element={<MerchantLayout />}>
+            <Route index element={<Navigate to="dashboard" replace />} />          
+            <Route path="dashboard" element={<MerchantDashboard />} />
+            <Route path="orders" element={<MerchantOrders />} />
+            <Route path="history" element={<MerchantHistory />} />
+            <Route path="menu" element={<MerchantMenu />} />
+            <Route path="wallet" element={<MerchantWallet />} />
+            <Route path="settings" element={<MerchantSettings />} />
+          </Route>
+          
+          <Route path="/login" element={<Login />} />
+          <Route path="/merchant/login" element={<MerchantLogin />} />
+
 
           {/* ADMIN */}
           <Route path="/admin/login" element={<Login mode="admin" />} />

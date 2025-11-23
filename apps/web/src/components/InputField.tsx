@@ -64,11 +64,16 @@ const ErrorMessage = styled.p`
 
 // INTERFACE
 
+// 1. Cập nhật Interface
 interface InputFieldProps {
     label: string;
     id: string;
-    type: 'text' | 'email' | 'password' | 'tel' | 'date';
-    placeholder: string;
+    // Thêm 'time' vào danh sách type
+    type: 'text' | 'email' | 'password' | 'tel' | 'date' | 'time'; 
+    
+    // Thêm dấu ? để placeholder trở thành tùy chọn (không bắt buộc)
+    placeholder?: string; 
+    
     value: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     error?: string | null; 
@@ -76,12 +81,12 @@ interface InputFieldProps {
     disabled?: boolean;
 }
 
-// === REACT COMPONENT ===
+// 2. Cập nhật Component
 const InputField: React.FC<InputFieldProps> = ({ 
     label, 
     id, 
     type, 
-    placeholder, 
+    placeholder = "", // Giá trị mặc định là chuỗi rỗng nếu không truyền
     value, 
     onChange, 
     error,

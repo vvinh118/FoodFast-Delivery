@@ -1,6 +1,7 @@
 [
     {
       "id": "1",
+      "merchant_id": "1",
       "name": "Nem Nướng D'yan - Since 1968",
       "address": "183 Nguyễn Văn Đậu",
       "rating": 4.7,
@@ -8,11 +9,15 @@
       "deliveryTime": 25,
       "imageUrl": "https://trumfood.vn/wp-content/uploads/2023/01/nem-nuong-thom-ngon-Trum-Food.jpg",
       "isPromo": true,
-      "category": "Lẩu, Nướng"
+      "category": "Lẩu, Nướng",
+      "isAcceptingOrders": true, 
+      "openingTime": "07:00",    
+      "closingTime": "22:00"     
     },
     {
       "id": "2",
       "name": "Jollibee",
+      "merchant_id": "2",
       "address": "200 Lý Chính Thắng",
       "rating": 4.5,
       "distance": 2.2,
@@ -24,6 +29,7 @@
     {
       "id": "3",
       "name": "Mì Trộn Indomie, Gà Rán",
+      "merchant_id": "3",
       "address": "155 Lê Văn Sỹ",
       "rating": 4.7,
       "distance": 2.3,

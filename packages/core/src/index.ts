@@ -5,3 +5,4 @@ export * from './utils';
 export * from './store/cartStore';
 export * from './store/authStore';
 export * from './services/api';
+export * from './store/merchantStore';

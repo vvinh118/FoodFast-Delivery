@@ -81,7 +81,7 @@
       "deliveryFee": 20000,
       "discount": 19500,
       "paymentMethod": "card",
-      "status": "Pending",
+      "status": "Delivered",
       "createdAt": "2025-11-10T20:55:58.528Z"
     },
     {

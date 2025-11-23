@@ -74,6 +74,7 @@ interface ButtonProps extends Omit<LinkProps, 'to'> {
   $margin?: string;
   type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
+  $variant?: string;
 }
 
 // COMPONENT

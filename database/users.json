@@ -9,11 +9,31 @@
     },
     {
       "id": "merchant_01",
-      "email": "merchant@foodfast.vn",
+      "merchant_id": "1",
+      "email": "NemD'yan@foodfast.vn",
       "password": "123",
       "role": "merchant",
       "name": "Chủ Quán Nem D'yan",
-      "tel": "0909111222"
+      "tel": "0909111222",
+      "walletBalance": 5000000
+    },
+    {
+      "id": "merchant_02",
+      "merchant_id": "2",
+      "email": "jollibee@foodfast.vn",
+      "password": "123",
+      "role": "merchant",
+      "name": "Chủ quán Jollibee",
+      "walletBalance": 5000000
+    },
+    {
+      "id": "merchant_03",
+      "merchant_id": "3",
+      "email": "indomie@foodfast.vn",
+      "password": "123",
+      "role": "merchant",
+      "name": "Chủ quán Indomie",
+      "walletBalance": 2500000
     },
     {
       "id": "1",
