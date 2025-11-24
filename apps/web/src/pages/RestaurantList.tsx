@@ -89,7 +89,10 @@ const RestaurantList = () => {
                 
                 // Lưu dữ liệu thật vào state
                 setAllCategories(categoriesData as Category[]);
-                setAllRestaurants(restaurantsData as Restaurant[]);
+                
+                // Lọc chỉ lấy nhà hàng đang mở cửa
+                const openRestaurants = (restaurantsData as Restaurant[]).filter(r => r.isAcceptingOrders !== false);
+                setAllRestaurants(openRestaurants);
                 
                 // Mặc định chọn category đầu tiên ("All")
                 if (categoriesData && (categoriesData as Category[]).length > 0) {

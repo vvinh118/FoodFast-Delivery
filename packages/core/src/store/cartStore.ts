@@ -6,11 +6,11 @@ import { CartItem } from '../types';
 
 // Dữ liệu món ăn đầu vào (chưa có quantity)
 export interface ItemData {
-  id: number;
+  id: string | number;
   name: string;
   price: number;
   imageUrl?: string;
-  restaurantId: number;
+  restaurantId: string | number;
   restaurantName: string;
 }
 
@@ -28,8 +28,8 @@ interface CartState {
   closeCart: () => void;
   
   addToCart: (item: ItemData) => void;       // Tương đương increaseItemQuantity
-  decreaseQuantity: (itemId: number) => void; // Tương đương decreaseItemQuantity
-  removeFromCart: (itemId: number) => void;
+  decreaseQuantity: (itemId: string | number) => void; // Tương đương decreaseItemQuantity
+  removeFromCart: (itemId: string | number) => void;
   clearCart: () => void;
   
   // Xử lý xung đột
@@ -95,7 +95,7 @@ export const useCartStore = create<CartState>()(
         }
       },
 
-      decreaseQuantity: (itemId: number) => {
+      decreaseQuantity: (itemId: string | number) => {
         const currentItems = get().items;
         const existingItem = currentItems.find((i) => i.id === itemId);
 
@@ -113,7 +113,7 @@ export const useCartStore = create<CartState>()(
         set({ items: newItems, ...calculateTotals(newItems) });
       },
 
-      removeFromCart: (itemId: number) => {
+      removeFromCart: (itemId: string | number) => {
         const newItems = get().items.filter((i) => i.id !== itemId);
         set({ items: newItems, ...calculateTotals(newItems) });
       },

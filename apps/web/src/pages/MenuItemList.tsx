@@ -148,6 +148,7 @@ const MenuItemList = () => {
                                 imageUrl={item.imageUrl}
                                 restaurantId={restaurant.id} 
                                 restaurantName={restaurant.name}
+                                isAvailable={item.isAvailable !== false}
                             />
                         ))
                     ) : (

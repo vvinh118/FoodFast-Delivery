@@ -82,6 +82,12 @@ export default function Login({ mode = 'customer' }: LoginProps) {
                 throw new Error('Tài khoản này không phải là đối tác bán hàng!');
             }
 
+            if (mode === 'customer' && (userRole === 'admin' || userRole === 'merchant')) {
+                // Gợi ý người dùng sang đúng trang
+                const redirectPage = userRole === 'admin' ? 'trang Quản Trị (Admin)' : 'trang Đối Tác (Merchant)';
+                throw new Error(`Tài khoản này thuộc quyền ${userRole}. Vui lòng đăng nhập tại ${redirectPage}.`);
+            }
+
             // === ĐĂNG NHẬP THÀNH CÔNG ===
             loginAction(response.user); 
             
@@ -89,7 +95,7 @@ export default function Login({ mode = 'customer' }: LoginProps) {
             if (mode === 'admin') {
                 navigate('/admin/dashboard');
             } else if (mode === 'merchant') {
-                navigate('/merchant/dashboard'); // chưa có trang merchant
+                navigate('/merchant/dashboard');
             } else {
                 alert(`Xin chào, ${response.user.name}!`);
                 navigate('/home');

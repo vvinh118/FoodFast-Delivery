@@ -12,6 +12,9 @@ export interface Restaurant {
   category: string;
   ownerId?: string | number;
   status?: 'active' | 'pending' | 'suspended';
+  isAcceptingOrders?: boolean; // Trạng thái đóng/mở cửa của Merchant
+  openingTime?: string;
+  closingTime?: string;
 }
 
 export interface Category {
@@ -28,4 +31,5 @@ export interface MenuItem {
     description: string;
     imageUrl: string;
     category: string;
+    isAvailable?: boolean;
 }

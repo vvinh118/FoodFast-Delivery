@@ -5,28 +5,35 @@ import QuantityController from './QuantityController';
 import { useCartStore, useAuthStore, formatCurrency } from 'core';
 
 interface MenuItemCardProps {
-    id: number;
+    id: string | number;
     name: string;
     price: number;
     imageUrl: string;
-    restaurantId: number; 
+    restaurantId: string | number;
     restaurantName: string;
+    isAvailable?: boolean;
 }
 
-// STYLED COMPONENTS
-const ItemContainer = styled.div`
+// === STYLED COMPONENTS ===
+const ItemContainer = styled.div<{ $disabled?: boolean }>`
     width: 100%;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
+    cursor: ${props => props.$disabled ? 'default' : 'pointer'}; /* Đổi con trỏ chuột */
     transition: transform 0.2s;
     display: flex;           
     flex-direction: column;
     height: 100%;
     background-color: white;
     
-    &:hover { transform: translateY(-3px); }
+    /* Làm mờ nếu hết hàng */
+    opacity: ${props => props.$disabled ? 0.7 : 1};
+    
+    &:hover { 
+        /* Chỉ hover nếu còn hàng */
+        transform: ${props => props.$disabled ? 'none' : 'translateY(-3px)'}; 
+    }
 `;
 
 const ImageWrapper = styled.div`
@@ -46,6 +53,23 @@ const ItemImage = styled.img`
     height: 100%;
     object-fit: cover;
     display: block;
+`;
+
+// Lớp phủ Hết món
+const SoldOutOverlay = styled.div`
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    backdrop-filter: blur(2px);
+    z-index: 2;
 `;
 
 const InfoWrapper = styled.div`
@@ -81,28 +105,29 @@ const ItemPrice = styled.p`
     margin: 0;
 `;
 
-const AddButton = styled.button`
-    background-color: #F72D57;
+const AddButton = styled.button<{ $disabled?: boolean }>`
+    background-color: ${props => props.$disabled ? '#ccc' : '#F72D57'};
     color: white;
     border: none;
     border-radius: 50%;
     width: 32px;
     height: 32px;
-    font-size: 1.4rem;
-    line-height: 1;
+    font-size: 1.4rem; // Size chữ dấu +
+    line-height: 1; // Căn giữa dấu + theo chiều dọc
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+    
+    cursor: ${props => props.$disabled ? 'not-allowed' : 'pointer'};
 
     position: absolute; 
     bottom: 10px;
     right: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: ${props => props.$disabled ? 'none' : '0 2px 5px rgba(0, 0, 0, 0.2)'};
     transition: background-color 0.2s;
 
     &:hover {
-        background-color: #d41b40;
+        background-color: ${props => props.$disabled ? '#ccc' : '#d41b40'};
     }
 `;
 
@@ -113,7 +138,8 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
     imageUrl, 
     id,
     restaurantId,
-    restaurantName
+    restaurantName,
+    isAvailable = true
 }) => {
     const cartItem = useCartStore(state => state.items.find(i => i.id === id));
     const addToCart = useCartStore(state => state.addToCart);
@@ -124,12 +150,17 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
     const navigate = useNavigate();
 
     const handleAddToCart = (e: React.MouseEvent) => {
+        e.stopPropagation();
+
+        if (!isAvailable) {
+            return;
+        }
+
         if (!isLoggedIn) {
             alert('Bạn cần đăng nhập để thêm món ăn vào giỏ');
             navigate('/login');
             return;
         }
-        e.stopPropagation();
 
         addToCart({ 
             id: id, 
@@ -142,31 +173,40 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
     };
 
     return (
-        <ItemContainer>
+        <ItemContainer $disabled={!isAvailable}>
             <ImageWrapper>
                 <ItemImage src={imageUrl} alt={name} />
+                {/* Hiển thị lớp phủ nếu hết hàng */}
+                {!isAvailable && <SoldOutOverlay>HẾT MÓN</SoldOutOverlay>}
             </ImageWrapper>
+            
             <InfoWrapper>
-                <div style={{ paddingRight: '30px' }}> {/* Tránh tên đè lên nút Add nếu quá dài */}
+                <div style={{ paddingRight: '30px' }}> 
                     <ItemName title={name}>{name}</ItemName>
                 </div>
                 
                 <ItemPrice>{formatCurrency(price)}</ItemPrice>
                 
-                {isInCart && cartItem ? (
-                    <QuantityController
-                        itemId={id}
-                        name={name}
-                        price={price}
-                        quantity={cartItem.quantity}
-                        imageUrl={imageUrl}
-                        restaurantId={restaurantId}
-                        restaurantName={restaurantName}
-                    />
-                ) : (
-                    <AddButton onClick={handleAddToCart}>
-                        +
+                {!isAvailable ? (
+                    <AddButton disabled $disabled={true} onClick={(e) => e.stopPropagation()}>
+                        <span style={{fontSize: '0.6rem', fontWeight: 'bold'}}>HẾT</span>
                     </AddButton>
+                ) : (
+                    isInCart && cartItem ? (
+                        <QuantityController
+                            itemId={id}
+                            name={name}
+                            price={price}
+                            quantity={cartItem.quantity}
+                            imageUrl={imageUrl}
+                            restaurantId={restaurantId}
+                            restaurantName={restaurantName}
+                        />
+                    ) : (
+                        <AddButton onClick={handleAddToCart}>
+                            + 
+                        </AddButton>
+                    )
                 )}
             </InfoWrapper>
         </ItemContainer>

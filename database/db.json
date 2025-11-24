@@ -420,7 +420,8 @@
       "name": "Nem Nướng Cuốn Bánh Tráng",
       "price": 65000,
       "description": "Combo 2 phần nem nướng đầy đủ rau, dưa, bánh tráng.",
-      "imageUrl": "https://toplist.vn/images/800px/nem-nuong-bun-thit-nuong-quan-cua-ma-1143319.jpg"
+      "imageUrl": "https://toplist.vn/images/800px/nem-nuong-bun-thit-nuong-quan-cua-ma-1143319.jpg",
+      "isAvailable": true
     },
     {
       "id": "102",

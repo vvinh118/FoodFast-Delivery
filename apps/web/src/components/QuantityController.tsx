@@ -42,12 +42,12 @@ const QuantityDisplay = styled.span`
 
 // TYPES
 interface QuantityControllerProps {
-    itemId: number;
+    itemId: string | number;
     name: string;
     price: number;
     quantity: number;
     imageUrl?: string;
-    restaurantId: number;
+    restaurantId: string | number;
     restaurantName: string;
 }
 

@@ -288,6 +288,15 @@ export const apiGetUsers = async () => {
 };
 
 /**
+ * API (Admin): Lấy danh sách nhà hàng (Không lọc status) cho trang quản lý đối tác
+ */
+export const apiGetAllRestaurants = async () => {
+  console.log("GỌI API (Admin): Lấy tất cả nhà hàng");
+  const response = await fetch(`${API_URL}/restaurants`);
+  return handleResponse(response);
+};
+
+/**
  * API (Admin): Cập nhật thông tin Nhà hàng (Duyệt/Khóa)
  */
 export const apiUpdateRestaurant = async (id: string | number, data: any) => {
@@ -312,3 +321,15 @@ export const apiCreateRestaurant = async (data: any) => {
     return handleResponse(response);
 };
 
+/**
+ * API (Admin): Khóa/Mở khóa User (Dùng cho UserManagement)
+ */
+export const apiUpdateUserStatus = async (userId: string | number, status: 'active' | 'blocked') => {
+  console.log(`GỌI API: Cập nhật trạng thái User ${userId} thành ${status}`);
+  const response = await fetch(`${API_URL}/users/${userId}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status: status }), 
+  });
+  return handleResponse(response);
+};

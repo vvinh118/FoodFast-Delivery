@@ -30,6 +30,7 @@ import MerchantWallet from "./components/merchant/MerchantWallet";
 
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import MerchantManagement from "./pages/Admin/MerchantManagement";
+import UserManagement from "./pages/Admin/UserManagement";
 import AdminLayout from "./components/Layouts/AdminLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -92,6 +93,7 @@ function App() {
               <Route path="/admin" element={<AdminLayout />}>
                   <Route path="dashboard" element={<AdminDashboard />} />
                   <Route path="merchants" element={<MerchantManagement />} />
+                  <Route path="users" element={<UserManagement />} />
               </Route>
           </Route>
 

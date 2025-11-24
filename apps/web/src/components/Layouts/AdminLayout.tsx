@@ -110,6 +110,10 @@ export default function AdminLayout() {
         <SidebarItem to="/admin/merchants">
             <FaStore /> Quản lý Đối tác
         </SidebarItem>
+
+        <SidebarItem to="/admin/users">
+            <FaStore /> Quản lý Khách hàng
+        </SidebarItem>
         
         <LogoutButton onClick={handleLogout}>
             <FaSignOutAlt /> Đăng xuất

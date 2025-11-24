@@ -11,7 +11,7 @@ import { fetchRestaurants, type Restaurant } from 'core';
 
 
 // ==========================================================
-// STYLED COMPONENTS (ĐÃ THÊM MEDIA QUERIES)
+// STYLED COMPONENTS
 // ==========================================================
 
 //toàn trang
@@ -387,7 +387,6 @@ const symbolicCategories = ["Gà", "Cơm", "Trà Sữa", "Bánh", "Kem"];
 // COMPONENT CHÍNH
 // ==========================================================
 export default function Home() {
-    // ... (Toàn bộ logic state, useEffect, useMemo... của bạn giữ nguyên)
     const [allRestaurants, setAllRestaurants] = useState<Restaurant[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -396,19 +395,24 @@ export default function Home() {
     const scrollRef = React.useRef<HTMLDivElement>(null); 
     const ITEM_WIDTH = 300; 
     const ITEMS_PER_PAGE = 3; 
+
     const filteredRestaurants = React.useMemo(() => {
         return allRestaurants.filter(
             restaurant => restaurant.category === activeCategory
         );
     }, [activeCategory, allRestaurants]); 
+
     const totalPages = Math.ceil(filteredRestaurants.length / ITEMS_PER_PAGE); 
+
     useEffect(() => {
         const loadData = async () => {
             try {
                 setLoading(true);
                 setError(null);
                 const restaurantsData = await fetchRestaurants();
-                setAllRestaurants(restaurantsData as Restaurant[]);
+                const openRestaurants = (restaurantsData as Restaurant[]).filter(r => r.isAcceptingOrders !== false);
+
+                setAllRestaurants(openRestaurants);
             } catch (err) {
                 setError('Không thể tải dữ liệu trang chủ. Vui lòng thử lại.');
             } finally {
@@ -417,6 +421,7 @@ export default function Home() {
         };
         loadData();
     }, []); 
+
     const handleCategoryClick = (category: string) => {
         setActiveCategory(category);
         setActiveIndex(0); 
@@ -424,6 +429,7 @@ export default function Home() {
             scrollRef.current.scrollLeft = 0;
         }
     };
+
     const scroll = (direction: 'left' | 'right') => {
         if (scrollRef.current) {
           const scrollAmount = ITEM_WIDTH * ITEMS_PER_PAGE;
@@ -438,6 +444,7 @@ export default function Home() {
           setActiveIndex(newIndex);
         }
     };
+    
     const jumpToPage = (index: number) => {
         if (scrollRef.current) {
             const scrollAmount = ITEM_WIDTH * ITEMS_PER_PAGE * index;

@@ -1,12 +1,12 @@
 // packages/core/src/types/order.ts
 
 export interface CartItem {
-    id: number;
+    id: string | number;
     name: string;
     price: number;
     quantity: number;
     imageUrl?: string; 
-    restaurantId: number;
+    restaurantId: string | number;
     restaurantName: string;
 }
 

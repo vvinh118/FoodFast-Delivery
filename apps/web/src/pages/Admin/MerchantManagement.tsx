@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import styled from 'styled-components';
 import { FaCheck, FaLock, FaPlus, FaStore, FaTimes, FaUnlock } from 'react-icons/fa';
 import { 
-    fetchRestaurants, 
+    apiGetAllRestaurants, 
     apiGetUsers, 
     apiUpdateRestaurant, 
     apiRegister, 
@@ -87,7 +87,10 @@ export default function MerchantManagement() {
 
     const loadData = async () => {
         try {
-            const [resData, userData] = await Promise.all([ fetchRestaurants(), apiGetUsers() ]);
+            const [resData, userData] = await Promise.all([ 
+                apiGetAllRestaurants(), 
+                apiGetUsers() 
+            ]);
             setRestaurants(resData);
             setUsers(userData as User[]);
         } catch (error) { console.error(error); } 
@@ -135,7 +138,7 @@ export default function MerchantManagement() {
         } catch (err: any) { alert("Lỗi: " + err.message); }
     };
 
-    const getOwnerName = (ownerId?: string) => {
+    const getOwnerName = (ownerId?: string | number) => {
         const owner = users.find(u => u.id == ownerId);
         return owner ? owner.name : 'Không xác định';
     };

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 // TYPES
 interface RestaurantCardProps {
-  id: number;
+  id: string | number;
   name: string;
   address: string;
   rating: number;
