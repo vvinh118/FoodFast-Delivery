@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { FaSave, FaStore, FaClock, FaMapMarkerAlt, FaPowerOff } from 'react-icons/fa';
+import { FaSave, FaStore, FaClock, FaPowerOff } from 'react-icons/fa';
 import { fetchRestaurantDetail, updateRestaurant, useMerchantStore } from 'core';
 import InputField from '../../components/InputField';
 import Button from '../../components/Button';

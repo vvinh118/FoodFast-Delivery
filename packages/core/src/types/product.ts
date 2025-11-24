@@ -1,7 +1,7 @@
 // packages/core/src/types/product.ts
 
 export interface Restaurant {
-  id: number;
+  id: string | number;
   name: string;
   address: string;
   rating: number;
@@ -10,6 +10,8 @@ export interface Restaurant {
   imageUrl: string;
   isPromo: boolean;
   category: string;
+  ownerId?: string | number;
+  status?: 'active' | 'pending' | 'suspended';
 }
 
 export interface Category {
@@ -19,8 +21,8 @@ export interface Category {
 }
 
 export interface MenuItem {
-    id: number;
-    restaurantId: number;
+    id: string | number;
+    restaurantId: string | number;
     name: string;
     price: number;
     description: string;

@@ -25,7 +25,7 @@ const handleResponse = async (response: Response) => {
 export const apiLogin = async (email: string, password: string) => {
   console.log("GỌI API: Đang thử đăng nhập với", email);
   const response = await fetch(`${API_URL}/users?email=${email}`);
-  const users: User[] = await handleResponse(response); // Định nghĩa kiểu trả về
+  const users: User[] = await handleResponse(response);
   
   if (users.length > 0 && (users[0] as any).password === password) {
     console.log("API TRẢ VỀ: Thành công");
@@ -44,7 +44,7 @@ export const apiLogin = async (email: string, password: string) => {
  */
 export const fetchRestaurants = async (): Promise<Restaurant[]> => {
   console.log("GỌI API: Lấy danh sách NHÀ HÀNG");
-  const response = await fetch(`${API_URL}/restaurants`);
+  const response = await fetch(`${API_URL}/restaurants?status=active`);
   return handleResponse(response); 
 };
 
@@ -60,7 +60,7 @@ export const fetchCategories = async (): Promise<Category[]> => {
 /**
  * API Lấy chi tiết 1 NHÀ HÀNG BẰNG ID
  */
-export const fetchRestaurantById = async (id: string): Promise<Restaurant> => {
+export const fetchRestaurantById = async (id: string | number): Promise<Restaurant> => {
   console.log(`GỌI API: Lấy chi tiết nhà hàng ID: ${id}`);
   const response = await fetch(`${API_URL}/restaurants/${id}`);
   return handleResponse(response); 
@@ -69,7 +69,7 @@ export const fetchRestaurantById = async (id: string): Promise<Restaurant> => {
 /**
  * API Lấy chi tiết MÓN ĂN của 1 NHÀ HÀNG
  */
-export const fetchMenuByRestaurant = async (restaurantId: string): Promise<MenuItem[]> => {
+export const fetchMenuByRestaurant = async (restaurantId: string | number): Promise<MenuItem[]> => {
   console.log(`GỌI API: Lấy menu của nhà hàng ID: ${restaurantId}`);
   const response = await fetch(`${API_URL}/menuItems?restaurantId=${restaurantId}`);
   return handleResponse(response); 
@@ -111,7 +111,7 @@ export const apiSubmitOrder = async (orderData: any) => {
 /**
  * API Lấy Lịch sử Đơn hàng
  */
-export const fetchMyOrders = async (userId: number | string ): Promise<Order[]> => {
+export const fetchMyOrders = async (userId: string | number ): Promise<Order[]> => {
   console.log(`GỌI API: Lấy đơn hàng của user ID: ${userId}`);
   const response = await fetch(`${API_URL}/orders?userId=${userId}&_sort=createdAt&_order=desc`);
   return handleResponse(response);
@@ -122,34 +122,24 @@ export const fetchMyOrders = async (userId: number | string ): Promise<Order[]> 
 // ==========================================================
 
 /**
- * API Đăng nhập cho Merchant (Cập nhật theo cấu trúc DB mới)
- * 1. Tìm user có email trùng khớp và role='merchant'
- * 2. Lấy merchant_id từ user đó
- * 3. Tìm restaurant có merchant_id tương ứng
+ * API Đăng nhập cho Merchant
  */
 export const apiMerchantLogin = async (email: string, password: string) => {
   console.log("GỌI API: Merchant đăng nhập với", email);
   
   // BƯỚC 1: Tìm trong bảng users
   const userResponse = await fetch(`${API_URL}/users?email=${email}&role=merchant`);
-  const users = await handleResponse(userResponse);
+  const users: User[] = await handleResponse(userResponse);
 
-  if (users.length === 0) {
-    throw new Error('Tài khoản không tồn tại hoặc không có quyền quản trị.');
-  }
-
+  if (users.length === 0) throw new Error('Tài khoản không tồn tại hoặc không phải Merchant.');
   const user = users[0];
 
   // BƯỚC 2: Kiểm tra mật khẩu
-  if (user.password !== password) {
-    throw new Error('Sai mật khẩu.');
-  }
+  if ((user as any).password !== password) throw new Error('Sai mật khẩu.');
 
-  // BƯỚC 3: Tìm nhà hàng liên kết (dựa trên merchant_id)
-  // Trong users.json: merchant_id
-  // Trong restaurants.json: merchant_id
-  const restResponse = await fetch(`${API_URL}/restaurants?merchant_id=${user.merchant_id}`);
-  const restaurants = await handleResponse(restResponse);
+  // BƯỚC 3: Tìm nhà hàng liên kết
+  const restResponse = await fetch(`${API_URL}/restaurants?ownerId=${user.id}`);
+  const restaurants: Restaurant[] = await handleResponse(restResponse);
 
   if (restaurants.length === 0) {
     throw new Error('Tài khoản này chưa được liên kết với nhà hàng nào.');
@@ -161,11 +151,11 @@ export const apiMerchantLogin = async (email: string, password: string) => {
 
   // Trả về object Merchant đã được cấu trúc lại cho Store
   return {
-    id: user.id,                // ID của user (ví dụ: "merchant_01")
+    id: user.id,
     email: user.email,
-    name: user.name,            // Tên chủ quán
-    restaurantId: restaurant.id,// ID của quán (ví dụ: "1") -> Quan trọng để lọc đơn
-    walletBalance: user.walletBalance || 0
+    name: user.name,
+    restaurantId: restaurant.id, 
+    walletBalance: (user as any).walletBalance || 0
   };
 };
 
@@ -184,7 +174,7 @@ export const updateOrderStatus = async (orderId: string, newStatus: string) => {
   console.log(`GỌI API: Cập nhật đơn hàng ${orderId} sang trạng thái: ${newStatus}`);
   
   const response = await fetch(`${API_URL}/orders/${orderId}`, {
-    method: 'PATCH', // QUAN TRỌNG: Dùng PATCH để chỉ sửa trường status, giữ nguyên data khác
+    method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ 
       status: newStatus 
@@ -201,7 +191,7 @@ export const updateOrderStatus = async (orderId: string, newStatus: string) => {
 /**
  * Lấy danh sách món ăn của nhà hàng
  */
-export const fetchMerchantMenu = async (restaurantId: string) => {
+export const fetchMerchantMenu = async (restaurantId: string | number) => {
   console.log(`GỌI API: Lấy menu của quán ID ${restaurantId}`);
   const response = await fetch(`${API_URL}/menuItems?restaurantId=${restaurantId}`);
   return handleResponse(response);
@@ -223,7 +213,7 @@ export const addMenuItem = async (itemData: any) => {
 /**
  * Cập nhật món ăn (Sửa tên, giá, ảnh, trạng thái còn hàng/hết hàng)
  */
-export const updateMenuItem = async (id: string, updates: any) => {
+export const updateMenuItem = async (id: string | number, updates: any) => {
   console.log(`GỌI API: Cập nhật món ID ${id}`, updates);
   const response = await fetch(`${API_URL}/menuItems/${id}`, {
     method: 'PATCH',
@@ -236,7 +226,7 @@ export const updateMenuItem = async (id: string, updates: any) => {
 /**
  * Xóa món ăn
  */
-export const deleteMenuItem = async (id: string) => {
+export const deleteMenuItem = async (id: string | number) => {
   console.log(`GỌI API: Xóa món ID ${id}`);
   const response = await fetch(`${API_URL}/menuItems/${id}`, {
     method: 'DELETE',
@@ -248,7 +238,7 @@ export const deleteMenuItem = async (id: string) => {
  * API Cập nhật thông tin nhà hàng
  * (Dùng cho trang Cài đặt Cửa hàng)
  */
-export const updateRestaurant = async (restaurantId: string, data: any) => {
+export const updateRestaurant = async (restaurantId: string | number, data: any) => {
   console.log(`GỌI API: Cập nhật quán ID ${restaurantId}`, data);
   const response = await fetch(`${API_URL}/restaurants/${restaurantId}`, {
     method: 'PATCH',
@@ -261,7 +251,7 @@ export const updateRestaurant = async (restaurantId: string, data: any) => {
 /**
  * API Lấy chi tiết nhà hàng (Để hiển thị trong Settings)
  */
-export const fetchRestaurantDetail = async (restaurantId: string) => {
+export const fetchRestaurantDetail = async (restaurantId: string | number) => {
     console.log(`GỌI API: Lấy thông tin quán ID ${restaurantId}`);
     const response = await fetch(`${API_URL}/restaurants/${restaurantId}`);
     return handleResponse(response);
@@ -270,14 +260,55 @@ export const fetchRestaurantDetail = async (restaurantId: string) => {
 /**
  * API Cập nhật số dư ví của Merchant
  */
-export const updateMerchantWallet = async (merchantId: string, newBalance: number) => {
-  console.log(`GỌI API: Cập nhật ví merchant ${merchantId} thành ${newBalance}`);
+export const updateMerchantWallet = async (id: string | number, newBalance: number) => {
+  console.log(`GỌI API: Cập nhật ví merchant (User ID: ${id}) thành ${newBalance}`);
   
-  // Lưu ý: Cần trỏ đúng vào bảng chứa thông tin merchant (trong ví dụ trước là bảng 'merchants')
-  const response = await fetch(`${API_URL}/merchants/${merchantId}`, {
+  const response = await fetch(`${API_URL}/users/${id}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ walletBalance: newBalance }),
   });
   return handleResponse(response);
 };
+
+
+
+
+
+// ==========================================================
+// API DÀNH CHO ADMIN
+// ==========================================================
+
+/**
+ * API (Admin): Lấy danh sách Users (để lọc ra merchant)
+ */
+export const apiGetUsers = async () => {
+  const response = await fetch(`${API_URL}/users`);
+  return handleResponse(response);
+};
+
+/**
+ * API (Admin): Cập nhật thông tin Nhà hàng (Duyệt/Khóa)
+ */
+export const apiUpdateRestaurant = async (id: string | number, data: any) => {
+  console.log(`GỌI API: Cập nhật nhà hàng ID: ${id}`, data);
+  const response = await fetch(`${API_URL}/restaurants/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  return handleResponse(response);
+};
+
+/**
+ * API (Admin): Tạo Nhà hàng mới
+ */
+export const apiCreateRestaurant = async (data: any) => {
+    const response = await fetch(`${API_URL}/restaurants`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    return handleResponse(response);
+};
+

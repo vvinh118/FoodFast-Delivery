@@ -40,30 +40,6 @@
       "imageUrl": "https://tse1.mm.bing.net/th/id/OIP.CHXJr9zzzMiu-Oc8oXYU2gHaE8?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3"
     },
     {
-      "id": "201",
-      "restaurantId": 13,
-      "name": "Combo Gà Rán 2 Miếng + Pepsi",
-      "price": 59000,
-      "description": "2 miếng gà giòn tan kèm nước.",
-      "imageUrl": "https://i.imgur.com/7gK5xQf.jpeg"
-    },
-    {
-      "id": "202",
-      "restaurantId": 13,
-      "name": "Pizza Hải Sản (Size M)",
-      "price": 99000,
-      "description": "Pizza hải sản với đế mỏng giòn.",
-      "imageUrl": "https://i.imgur.com/8QjZzRj.jpeg"
-    },
-    {
-      "id": "203",
-      "restaurantId": 13,
-      "name": "Trà Sữa Khoai Môn",
-      "price": 35000,
-      "description": "Trà sữa khoai môn béo ngậy.",
-      "imageUrl": "https://i.imgur.com/Uo2eG7x.jpeg"
-    },
-    {
       "id": "301",
       "restaurantId": 3,
       "name": "Mì Trộn Indomie Đặc Biệt",
@@ -366,6 +342,30 @@
       "price": 29500,
       "description": "Khoai Tây Chiên Vừa thơm ngon.",
       "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "id": "1301",
+      "restaurantId": 13,
+      "name": "Combo Gà Rán 2 Miếng + Pepsi",
+      "price": 59000,
+      "description": "2 miếng gà giòn tan kèm nước.",
+      "imageUrl": "https://i.imgur.com/7gK5xQf.jpeg"
+    },
+    {
+      "id": "1302",
+      "restaurantId": 13,
+      "name": "Pizza Hải Sản (Size M)",
+      "price": 99000,
+      "description": "Pizza hải sản với đế mỏng giòn.",
+      "imageUrl": "https://i.imgur.com/8QjZzRj.jpeg"
+    },
+    {
+      "id": "1303",
+      "restaurantId": 13,
+      "name": "Trà Sữa Khoai Môn",
+      "price": 35000,
+      "description": "Trà sữa khoai môn béo ngậy.",
+      "imageUrl": "https://i.imgur.com/Uo2eG7x.jpeg"
     },
     {
       "id": "1401",

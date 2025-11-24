@@ -6,7 +6,7 @@ import OrderCard, { type Order } from '../../components/merchant/OrderCard';
 import { fetchOrders, updateOrderStatus, useMerchantStore } from 'core'; 
 
 // 2. Thêm dòng import cho 'toast' và CSS của nó
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // === STYLED COMPONENTS ===

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { FaPlus, FaEdit, FaTrash, FaImage } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 import { fetchMerchantMenu, addMenuItem, updateMenuItem, deleteMenuItem, useMerchantStore } from 'core';
 import Button from '../../components/Button';
 import InputField from '../../components/InputField';

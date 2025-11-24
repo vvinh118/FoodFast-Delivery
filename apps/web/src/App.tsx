@@ -29,6 +29,7 @@ import MerchantHistory from "./components/merchant/MerchantHistory";
 import MerchantWallet from "./components/merchant/MerchantWallet";
 
 import AdminDashboard from "./pages/Admin/AdminDashboard";
+import MerchantManagement from "./pages/Admin/MerchantManagement";
 import AdminLayout from "./components/Layouts/AdminLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -90,8 +91,7 @@ function App() {
           <Route element={<ProtectedRoute allowedRole="admin" redirectPath="/admin/login" />}>
               <Route path="/admin" element={<AdminLayout />}>
                   <Route path="dashboard" element={<AdminDashboard />} />
-                  {/* Sau này thêm các route khác vào đây: */}
-                  {/* <Route path="merchants" element={<MerchantManagement />} /> */}
+                  <Route path="merchants" element={<MerchantManagement />} />
               </Route>
           </Route>
 

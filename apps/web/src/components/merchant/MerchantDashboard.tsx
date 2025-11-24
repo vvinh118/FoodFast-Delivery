@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import styled from 'styled-components';
-import { FaShoppingBag, FaDollarSign, FaCalendarDay, FaCalendarWeek } from 'react-icons/fa';
+import { FaDollarSign, FaCalendarDay, FaCalendarWeek } from 'react-icons/fa';
 import { fetchOrders, useMerchantStore } from 'core';
 
 // === STYLED COMPONENTS ===

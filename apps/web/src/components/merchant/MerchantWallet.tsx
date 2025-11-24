@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import styled from 'styled-components';
 import { useMerchantStore, fetchOrders } from 'core';
-import { FaWallet, FaHistory, FaUniversity, FaArrowUp, FaClock, FaCheckCircle } from 'react-icons/fa';
+import { FaHistory, FaUniversity, FaClock, FaCheckCircle } from 'react-icons/fa';
 import Button from '../../components/Button';
 
 // === STYLED COMPONENTS ===

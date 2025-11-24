@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import styled from 'styled-components';
-import { FaSearch, FaFilter, FaEye, FaFileDownload } from 'react-icons/fa';
+import { FaSearch, FaEye, FaFileDownload } from 'react-icons/fa';
 import { fetchOrders, useMerchantStore } from 'core';
 
 // Import Modal chi tiết

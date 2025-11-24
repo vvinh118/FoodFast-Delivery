@@ -8,8 +8,7 @@
       "tel": "0909000000"
     },
     {
-      "id": "merchant_01",
-      "merchant_id": "1",
+      "id": "m01",
       "email": "NemD'yan@foodfast.vn",
       "password": "123",
       "role": "merchant",
@@ -18,8 +17,7 @@
       "walletBalance": 5000000
     },
     {
-      "id": "merchant_02",
-      "merchant_id": "2",
+      "id": "m02",
       "email": "jollibee@foodfast.vn",
       "password": "123",
       "role": "merchant",
@@ -27,14 +25,117 @@
       "walletBalance": 5000000
     },
     {
-      "id": "merchant_03",
-      "merchant_id": "3",
+      "id": "m03",
       "email": "indomie@foodfast.vn",
       "password": "123",
       "role": "merchant",
       "name": "Chủ quán Indomie",
       "walletBalance": 2500000
     },
+
+    {
+      "id": "m04",
+      "email": "merchant4@foodfast.vn",
+      "password": "123",
+      "role": "merchant",
+      "name": "Merchant A",
+      "tel": "0909111222",
+      "walletBalance": 2500000
+    },
+    {
+      "id": "m05",
+      "email": "merchant5@foodfast.vn",
+      "password": "123",
+      "role": "merchant",
+      "name": "Merchant A",
+      "tel": "0909111222",
+      "walletBalance": 2500000
+    },
+    {
+      "id": "m06",
+      "email": "merchant6@foodfast.vn",
+      "password": "123",
+      "role": "merchant",
+      "name": "Merchant A",
+      "tel": "0909111222",
+      "walletBalance": 2500000
+    },
+    {
+      "id": "m07",
+      "email": "merchant7@foodfast.vn",
+      "password": "123",
+      "role": "merchant",
+      "name": "Merchant A",
+      "tel": "0909111222",
+      "walletBalance": 2500000
+    },
+    {
+      "id": "m08",
+      "email": "merchant8@foodfast.vn",
+      "password": "123",
+      "role": "merchant",
+      "name": "Merchant A",
+      "tel": "0909111222",
+      "walletBalance": 2500000
+    },
+    {
+      "id": "m09",
+      "email": "merchant9@foodfast.vn",
+      "password": "123",
+      "role": "merchant",
+      "name": "Merchant A",
+      "tel": "0909111222",
+      "walletBalance": 2500000
+    },
+    {
+      "id": "m10",
+      "email": "merchant10@foodfast.vn",
+      "password": "123",
+      "role": "merchant",
+      "name": "Merchant A",
+      "tel": "0909111222",
+      "walletBalance": 2500000
+    },
+    {
+      "id": "m11",
+      "email": "merchant11@foodfast.vn",
+      "password": "123",
+      "role": "merchant",
+      "name": "Merchant ABC",
+      "tel": "0909111222",
+      "walletBalance": 2500000
+    },
+    {
+      "id": "m12",
+      "email": "merchant12@foodfast.vn",
+      "password": "123",
+      "role": "merchant",
+      "name": "Merchant ABC",
+      "tel": "0909111222",
+      "walletBalance": 2500000
+    },
+    {
+      "id": "m13",
+      "email": "merchant13@foodfast.vn",
+      "password": "123",
+      "role": "merchant",
+      "name": "Merchant ABC",
+      "tel": "0909111222",
+      "walletBalance": 2500000
+    },
+    {
+      "id": "m14",
+      "email": "merchant14@foodfast.vn",
+      "password": "123",
+      "role": "merchant",
+      "name": "Merchant ABC",
+      "tel": "0909111222",
+      "walletBalance": 2500000
+    },
+
+
+
+
     {
       "id": "1",
       "email": "test@foodfast.vn",

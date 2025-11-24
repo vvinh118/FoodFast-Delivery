@@ -3,10 +3,10 @@ import { persist } from 'zustand/middleware';
 
 // Định nghĩa kiểu dữ liệu Merchant
 interface Merchant {
-    id: string;
+    id: string | number;
     email: string;
     name: string;
-    restaurantId: string;
+    restaurantId: string | number;
     walletBalance: number;
 }
 
