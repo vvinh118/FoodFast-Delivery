@@ -322,6 +322,17 @@ export const apiCreateRestaurant = async (data: any) => {
 };
 
 /**
+ * API (Admin): Xóa vĩnh viễn nhà hàng
+ */
+export const apiDeleteRestaurant = async (id: string | number) => {
+  console.log(`GỌI API: Xóa nhà hàng ID: ${id}`);
+  const response = await fetch(`${API_URL}/restaurants/${id}`, {
+    method: 'DELETE',
+  });
+  return handleResponse(response);
+};
+
+/**
  * API (Admin): Khóa/Mở khóa User (Dùng cho UserManagement)
  */
 export const apiUpdateUserStatus = async (userId: string | number, status: 'active' | 'blocked') => {

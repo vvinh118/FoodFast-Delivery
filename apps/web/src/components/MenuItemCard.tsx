@@ -11,27 +11,27 @@ interface MenuItemCardProps {
     imageUrl: string;
     restaurantId: string | number;
     restaurantName: string;
-    isAvailable?: boolean;
+    isAvailable?: boolean; 
 }
 
 // === STYLED COMPONENTS ===
+
 const ItemContainer = styled.div<{ $disabled?: boolean }>`
     width: 100%;
+    height: 100%; 
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
-    cursor: ${props => props.$disabled ? 'default' : 'pointer'}; /* Đổi con trỏ chuột */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    cursor: ${props => props.$disabled ? 'default' : 'pointer'};
     transition: transform 0.2s;
+    
     display: flex;           
-    flex-direction: column;
-    height: 100%;
+    flex-direction: column; /* Xếp dọc: Ảnh -> Thông tin */
     background-color: white;
     
-    /* Làm mờ nếu hết hàng */
     opacity: ${props => props.$disabled ? 0.7 : 1};
     
     &:hover { 
-        /* Chỉ hover nếu còn hàng */
         transform: ${props => props.$disabled ? 'none' : 'translateY(-3px)'}; 
     }
 `;
@@ -41,7 +41,7 @@ const ImageWrapper = styled.div`
     width: 100%;
     padding-top: 100%; 
     overflow: hidden;
-    flex-shrink: 0;
+    flex-shrink: 0; 
     background-color: #f0f0f0;
 `;
 
@@ -51,11 +51,10 @@ const ItemImage = styled.img`
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover; 
     display: block;
 `;
 
-// Lớp phủ Hết món
 const SoldOutOverlay = styled.div`
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -76,26 +75,28 @@ const InfoWrapper = styled.div`
     padding: 12px;
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
-    justify-content: space-between;
+    
+    flex-grow: 1; 
+    justify-content: space-between; 
     position: relative;
-    min-height: 90px;
 `;
 
 const ItemName = styled.h4`
     font-size: 0.95rem;
     font-weight: 600;
     color: #333;
-    margin: 0 0 8px 0;
+    margin: 0 0 12px 0;
 
-    overflow: hidden;
-    text-overflow: ellipsis;
+    /* Cắt dòng nếu tên quá dài (tối đa 2 dòng) */
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
     
-    min-height: 2.4em; 
-    line-height: 1.2em;
+    line-height: 1.3em;
+    /* Cố định chiều cao tên món (2 dòng) để các thẻ thẳng hàng ngay từ phần tên */
+    height: 2.6em; 
 `;
 
 const ItemPrice = styled.p`
@@ -112,17 +113,19 @@ const AddButton = styled.button<{ $disabled?: boolean }>`
     border-radius: 50%;
     width: 32px;
     height: 32px;
-    font-size: 1.4rem; // Size chữ dấu +
-    line-height: 1; // Căn giữa dấu + theo chiều dọc
+    font-size: 1.4rem; 
+    line-height: 1; 
     display: flex;
     align-items: center;
     justify-content: center;
     
     cursor: ${props => props.$disabled ? 'not-allowed' : 'pointer'};
 
+    /* Đặt vị trí tuyệt đối ở góc dưới phải của InfoWrapper */
     position: absolute; 
     bottom: 10px;
     right: 10px;
+    
     box-shadow: ${props => props.$disabled ? 'none' : '0 2px 5px rgba(0, 0, 0, 0.2)'};
     transition: background-color 0.2s;
 
@@ -139,7 +142,7 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
     id,
     restaurantId,
     restaurantName,
-    isAvailable = true
+    isAvailable = true 
 }) => {
     const cartItem = useCartStore(state => state.items.find(i => i.id === id));
     const addToCart = useCartStore(state => state.addToCart);
@@ -153,7 +156,7 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
         e.stopPropagation();
 
         if (!isAvailable) {
-            return;
+            return; 
         }
 
         if (!isLoggedIn) {
@@ -176,7 +179,6 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
         <ItemContainer $disabled={!isAvailable}>
             <ImageWrapper>
                 <ItemImage src={imageUrl} alt={name} />
-                {/* Hiển thị lớp phủ nếu hết hàng */}
                 {!isAvailable && <SoldOutOverlay>HẾT MÓN</SoldOutOverlay>}
             </ImageWrapper>
             

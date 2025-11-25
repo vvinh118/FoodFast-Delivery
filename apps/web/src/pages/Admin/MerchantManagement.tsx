@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import styled from 'styled-components';
-import { FaCheck, FaLock, FaPlus, FaStore, FaTimes, FaUnlock } from 'react-icons/fa';
+import { FaCheck, FaLock, FaPlus, FaStore, FaTimes, FaUnlock, FaTrash } from 'react-icons/fa';
 import { 
     apiGetAllRestaurants, 
     apiGetUsers, 
     apiUpdateRestaurant, 
     apiRegister, 
     apiCreateRestaurant,
+    apiDeleteRestaurant,
     type Restaurant, 
     type User 
 } from 'core';
@@ -56,7 +57,7 @@ const EmptyState = styled.div`
     text-align: center; padding: 40px; color: #999; background: white; border-radius: 8px; margin-top: 20px;
 `;
 
-// --- MODAL STYLES --- (Giữ nguyên như cũ)
+// --- MODAL STYLES --- 
 const ModalOverlay = styled.div`
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;
@@ -143,6 +144,19 @@ export default function MerchantManagement() {
         return owner ? owner.name : 'Không xác định';
     };
 
+    // HÀM XỬ LÝ XÓA
+    const handleDeleteRestaurant = async (restaurant: Restaurant) => {
+        if (confirm(`CẢNH BÁO: Bạn có chắc chắn muốn XÓA VĨNH VIỄN nhà hàng "${restaurant.name}"?\n\nHành động này không thể hoàn tác.`)) {
+            try {
+                await apiDeleteRestaurant(restaurant.id);
+                alert("Đã xóa nhà hàng thành công.");
+                loadData(); // Tải lại danh sách
+            } catch (error) {
+                alert("Không thể xóa nhà hàng. Vui lòng thử lại.");
+            }
+        }
+    };
+
     // Render nội dung bảng theo tab
     const renderTableContent = () => {
         if (loading) return <p>Đang tải...</p>;
@@ -184,9 +198,15 @@ export default function MerchantManagement() {
                                     </ActionBtn>
                                 )}
                                 {activeTab === 'suspended' && (
-                                    <ActionBtn $color="#2ecc71" onClick={() => handleStatusChange(res, 'active')}>
-                                        <FaUnlock /> Mở khóa
-                                    </ActionBtn>
+                                    <>
+                                        <ActionBtn $color="#2ecc71" onClick={() => handleStatusChange(res, 'active')}>
+                                            <FaUnlock /> Mở lại
+                                        </ActionBtn>
+                                        
+                                        <ActionBtn $color="#c0392b" onClick={() => handleDeleteRestaurant(res)}>
+                                            <FaTrash /> Xóa
+                                        </ActionBtn>
+                                    </>
                                 )}
                             </Td>
                         </tr>

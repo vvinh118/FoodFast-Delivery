@@ -429,7 +429,8 @@
       "name": "Nem Nướng Lẻ",
       "price": 35000,
       "description": "10 que nem nướng nóng giòn.",
-      "imageUrl": "https://bloganchoi.com/wp-content/uploads/2022/10/nem-nuong.jpg"
+      "imageUrl": "https://bloganchoi.com/wp-content/uploads/2022/10/nem-nuong.jpg",
+      "isAvailable": true
     },
     {
       "id": "103",
@@ -437,7 +438,8 @@
       "name": "Bún Nem Nướng Chả Giò",
       "price": 50000,
       "description": "Bún tươi, nem nướng, chả giò và rau sống.",
-      "imageUrl": "https://www.lavieasaigon.fr/wp-content/uploads/2017/05/bo-bun.jpg"
+      "imageUrl": "https://www.lavieasaigon.fr/wp-content/uploads/2017/05/bo-bun.jpg",
+      "isAvailable": true
     },
     {
       "id": "104",
@@ -445,7 +447,8 @@
       "name": "Gỏi Cuốn Nem Nướng (3 Cuốn)",
       "price": 40000,
       "description": "Gỏi cuốn nhân nem nướng, tôm, thịt.",
-      "imageUrl": "https://ticketgo.vn/photos/70/hinhanh-tintuc/5fc0b783679f9.jpg"
+      "imageUrl": "https://ticketgo.vn/photos/70/hinhanh-tintuc/5fc0b783679f9.jpg",
+      "isAvailable": true
     },
     {
       "id": "105",
@@ -453,7 +456,8 @@
       "name": "Trà Tắc Giải Nhiệt",
       "price": 18000,
       "description": "Trà tắc tươi mát, giải nhiệt.",
-      "imageUrl": "https://tse1.mm.bing.net/th/id/OIP.CHXJr9zzzMiu-Oc8oXYU2gHaE8?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3"
+      "imageUrl": "https://tse1.mm.bing.net/th/id/OIP.CHXJr9zzzMiu-Oc8oXYU2gHaE8?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+      "isAvailable": true
     },
     {
       "id": "301",
@@ -461,7 +465,8 @@
       "name": "Mì Trộn Indomie Đặc Biệt",
       "price": 39000,
       "description": "Mì trộn Indomie kèm trứng.",
-      "imageUrl": "https://i.imgur.com/sW3Xg1J.jpeg"
+      "imageUrl": "https://i.imgur.com/sW3Xg1J.jpeg",
+      "isAvailable": true
     },
     {
       "id": "302",
@@ -1008,56 +1013,6 @@
       "paymentMethod": "card",
       "status": "Delivered",
       "createdAt": "2025-11-11T00:54:43.291Z"
-    },
-    {
-      "userId": "1",
-      "userName": "Võ Minh Thư",
-      "userPhone": "0123456987",
-      "userAddress": "hcm",
-      "items": [
-        {
-          "id": "101",
-          "name": "Nem Nướng Cuốn Bánh Tráng",
-          "price": 65000,
-          "imageUrl": "https://toplist.vn/images/800px/nem-nuong-bun-thit-nuong-quan-cua-ma-1143319.jpg",
-          "restaurantId": "1",
-          "restaurantName": "Nem Nướng D'yan - Since 1968",
-          "quantity": 3
-        }
-      ],
-      "total": 215000,
-      "subtotal": 195000,
-      "deliveryFee": 20000,
-      "discount": 0,
-      "paymentMethod": "cod",
-      "status": "Delivered",
-      "createdAt": "2025-11-24T13:16:33.005Z",
-      "id": "bYwJmf3"
-    },
-    {
-      "userId": "1",
-      "userName": "Võ Minh Thư",
-      "userPhone": "0123456987",
-      "userAddress": "sg",
-      "items": [
-        {
-          "id": "102",
-          "name": "Nem Nướng Lẻ",
-          "price": 35000,
-          "imageUrl": "https://bloganchoi.com/wp-content/uploads/2022/10/nem-nuong.jpg",
-          "restaurantId": "1",
-          "restaurantName": "Nem Nướng D'yan - Since 1968",
-          "quantity": 2
-        }
-      ],
-      "total": 90000,
-      "subtotal": 70000,
-      "deliveryFee": 20000,
-      "discount": 0,
-      "paymentMethod": "cod",
-      "status": "Cancelled",
-      "createdAt": "2025-11-24T13:17:57.626Z",
-      "id": "j_20G3C"
     }
   ]
 }
