@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { FaSave, FaStore, FaClock, FaPowerOff } from 'react-icons/fa';
-import { fetchRestaurantDetail, updateRestaurant, useMerchantStore } from 'core';
+import { FaSave, FaStore, FaClock, FaPowerOff, FaListUl } from 'react-icons/fa';
+import { fetchRestaurantDetail, updateRestaurant, useMerchantStore, fetchCategories, type Category } from 'core';
 import InputField from '../../components/InputField';
 import Button from '../../components/Button';
 
@@ -54,10 +54,10 @@ const Row = styled.div`
     gap: 20px;
     margin-bottom: 15px;
     
-    > div { flex: 1; } /* InputField sẽ chiếm đều không gian */
+    > div { flex: 1; } 
 `;
 
-// Toggle Switch Style
+// Switch Style
 const SwitchContainer = styled.div`
     display: flex;
     align-items: center;
@@ -88,7 +88,7 @@ const SwitchInput = styled.input`
     outline: none;
 
     &:checked {
-        background: #28a745; /* Màu xanh khi mở */
+        background: #28a745;
     }
 
     &::before {
@@ -119,69 +119,98 @@ const StatusBadge = styled.span<{ $isOpen: boolean }>`
     margin-left: 10px;
 `;
 
+const SelectGroup = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    width: 100%;
+`;
+
+const Label = styled.label`
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+`;
+
+const StyledSelect = styled.select`
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    outline: none;
+    transition: border-color 0.2s;
+    cursor: pointer;
+
+    &:focus {
+        border-color: #f72d57;
+        background-color: white;
+    }
+`;
+
 // === COMPONENT ===
 const MerchantSettings: React.FC = () => {
     const merchant = useMerchantStore(state => state.merchant);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
 
-    // Form State
+    const [categories, setCategories] = useState<Category[]>([]);
+
     const [info, setInfo] = useState({
         name: '',
         address: '',
         imageUrl: '',
         openingTime: '07:00',
         closingTime: '22:00',
-        isAcceptingOrders: true
+        isAcceptingOrders: true,
+        category: ''
     });
 
-    // 1. Load thông tin hiện tại
+    // Load thông tin nhà hàng VÀ danh sách category
     useEffect(() => {
         if (merchant?.restaurantId) {
-            fetchRestaurantDetail(merchant.restaurantId)
-                .then(data => {
-                    setInfo({
-                        name: data.name || '',
-                        address: data.address || '',
-                        imageUrl: data.imageUrl || '',
-                        openingTime: data.openingTime || '07:00',
-                        closingTime: data.closingTime || '22:00',
-                        isAcceptingOrders: data.isAcceptingOrders !== false 
-                    });
-                })
-                .catch(err => console.error(err))
-                .finally(() => setLoading(false));
+            setLoading(true);
+            Promise.all([
+                fetchRestaurantDetail(merchant.restaurantId),
+                fetchCategories()
+            ])
+            .then(([resData, catData]) => {
+                setInfo({
+                    name: resData.name || '',
+                    address: resData.address || '',
+                    imageUrl: resData.imageUrl || '',
+                    openingTime: resData.openingTime || '07:00',
+                    closingTime: resData.closingTime || '22:00',
+                    isAcceptingOrders: resData.isAcceptingOrders !== false,
+                    category: resData.category || ''
+                });
+                
+                setCategories(catData as Category[]);
+            })
+            .catch(err => console.error(err))
+            .finally(() => setLoading(false));
         }
     }, [merchant]);
 
-    // 2. Xử lý bật/tắt trạng thái quán (GỌI API NGAY LẬP TỨC)
     const handleToggleStatus = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!merchant?.restaurantId) return;
-        
         const newStatus = e.target.checked;
-        
-        // A. Cập nhật UI ngay cho mượt (Optimistic UI)
         setInfo(prev => ({ ...prev, isAcceptingOrders: newStatus }));
 
         try {
-            // B. Gọi API cập nhật Database ngay lập tức
-            // Chỉ gửi trường isAcceptingOrders để tiết kiệm băng thông
             await updateRestaurant(merchant.restaurantId, { isAcceptingOrders: newStatus });
-            console.log("Đã cập nhật trạng thái quán thành:", newStatus);
         } catch (error) {
-            console.error("Lỗi cập nhật trạng thái:", error);
             alert("Không thể cập nhật trạng thái. Vui lòng thử lại!");
-            // C. Nếu lỗi thì hoàn tác UI
             setInfo(prev => ({ ...prev, isAcceptingOrders: !newStatus }));
         }
     };
 
-    // 3. Xử lý lưu các thông tin còn lại (Khi bấm nút Lưu)
     const handleSaveInfo = async () => {
         if (!merchant?.restaurantId) return;
         setSaving(true);
         try {
-            // Gửi toàn bộ thông tin (trừ isAcceptingOrders đã xử lý riêng, nhưng gửi đè cũng không sao)
             await updateRestaurant(merchant.restaurantId, info);
             alert("Đã lưu thông tin cửa hàng thành công!");
         } catch (error) {
@@ -201,7 +230,7 @@ const MerchantSettings: React.FC = () => {
                 <Subtitle>Quản lý thông tin hiển thị và trạng thái hoạt động.</Subtitle>
             </Header>
 
-            {/* TRẠNG THÁI HOẠT ĐỘNG (GỌI API NGAY KHI CLICK) */}
+            {/* TRẠNG THÁI HOẠT ĐỘNG */}
             <Card style={{ borderTop: `4px solid ${info.isAcceptingOrders ? '#28a745' : '#dc3545'}` }}>
                 <SectionTitle>
                     <FaPowerOff /> Trạng thái Nhà hàng
@@ -218,7 +247,7 @@ const MerchantSettings: React.FC = () => {
                     <SwitchInput 
                         type="checkbox" 
                         checked={info.isAcceptingOrders}
-                        onChange={handleToggleStatus} // <-- SỬ DỤNG HÀM MỚI TẠI ĐÂY
+                        onChange={handleToggleStatus} 
                     />
                 </SwitchContainer>
             </Card>
@@ -231,6 +260,23 @@ const MerchantSettings: React.FC = () => {
                     value={info.name} 
                     onChange={e => setInfo({...info, name: e.target.value})}
                 />
+                
+                {/* 5. Thêm Dropdown chọn Category */}
+                <SelectGroup>
+                    <Label><FaListUl style={{marginRight: 5, color: '#f72d57'}}/> Danh mục kinh doanh</Label>
+                    <StyledSelect 
+                        value={info.category} 
+                        onChange={e => setInfo({...info, category: e.target.value})}
+                    >
+                        <option value="">-- Chọn loại hình kinh doanh --</option>
+                        {categories.map(cat => (
+                            <option key={cat.id} value={cat.name}>
+                                {cat.name}
+                            </option>
+                        ))}
+                    </StyledSelect>
+                </SelectGroup>
+
                 <InputField 
                     label="Địa chỉ hiển thị" id="address" type="text" 
                     value={info.address} 
@@ -263,7 +309,6 @@ const MerchantSettings: React.FC = () => {
                 </Row>
             </Card>
 
-            {/* NÚT LƯU (CHỈ LƯU THÔNG TIN VÀ GIỜ) */}
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <Button 
                     onClick={handleSaveInfo} 
