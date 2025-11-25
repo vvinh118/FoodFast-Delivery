@@ -1,7 +1,7 @@
 // packages/core/src/services/api.ts
 import type { User, Restaurant, Category, MenuItem, Order } from '../types'; 
 
-const API_URL = 'http://localhost:3001';
+const API_URL = 'http://172.20.10.12:3001';
 
 const handleResponse = async (response: Response) => {
   if (!response.ok) {
