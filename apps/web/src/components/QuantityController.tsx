@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { useCartStore } from 'core';
 
-
 // Styled components
 const ControllerWrapper = styled.div`
     display: flex;
@@ -12,10 +11,10 @@ const ControllerWrapper = styled.div`
     border-radius: 20px;
     height: 30px;
     width: 90px;
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
+    justify-content: space-between;
+    overflow: hidden;
 `;
+
 const Button = styled.button`
     background: none;
     border: none;
@@ -31,12 +30,17 @@ const Button = styled.button`
     padding: 0;
     line-height: 1;
     user-select: none;
+    
+    &:hover {
+        background-color: #fff0f3;
+    }
 `;
+
 const QuantityDisplay = styled.span`
     font-size: 0.9rem;
     font-weight: 600;
     color: #333;
-    width: 30px;
+    flex-grow: 1;
     text-align: center;
 `;
 
@@ -80,13 +84,9 @@ const QuantityController: React.FC<QuantityControllerProps> = ({
 
     return (
         <ControllerWrapper onClick={(e) => e.stopPropagation()}> 
-            <Button onClick={handleDecrease}>
-                &minus;
-            </Button>
+            <Button onClick={handleDecrease}>&minus;</Button>
             <QuantityDisplay>{quantity}</QuantityDisplay>
-            <Button onClick={handleIncrease}>
-                +
-            </Button>
+            <Button onClick={handleIncrease}>+</Button>
         </ControllerWrapper>
     );
 };

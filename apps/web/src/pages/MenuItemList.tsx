@@ -5,70 +5,123 @@ import MenuItemCard from '../components/MenuItemCard';
 import type { Restaurant, MenuItem } from 'core';
 import { fetchRestaurantById, fetchMenuByRestaurant } from 'core';
 
-// Styled components
+
 const MenuPageContainer = styled.div`
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background-color: #f9f9f9;
+    width: 100%;
+    overflow-x: hidden; 
 `;
 
 const ContentWrapper = styled.div`
-    max-width: 1000px; 
-    margin: 0 auto;
+    max-width: 1200px; 
+    width: 100%; 
+    margin: 0 auto; 
     padding: 0 20px;
+    
     flex-grow: 1; 
-    min-height: 60vh; /* Đảm bảo Spinner/Lỗi hiển thị đẹp */
+    min-height: 60vh; 
+    
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+
+    @media (max-width: 640px) {
+        padding: 0 10px; 
+        box-sizing: border-box; 
+    }
 `;
 
 const HeaderSection = styled.div`
+    width: 100%; 
     padding: 30px 0 20px;
     border-bottom: 1px solid #ddd;
     margin-bottom: 20px;
+    
+    text-align: left; 
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    justify-content: flex-start;
+
+    @media (max-width: 768px) {
+        text-align: center;
+        align-items: center;
+        padding: 20px 0 10px; 
+    }
 `;
 
 const RestaurantName = styled.h1`
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 700;
-    color: #000;
+    color: #333;
+    margin: 10px 0;
+    line-height: 1.2;
+    
+    @media (max-width: 640px) {
+        font-size: 1.8rem;
+    }
 `;
 
 const Breadcrumb = styled.p`
     font-size: 0.9rem;
     color: #666;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
+`;
+
+const MenuLabel = styled.p`
+    color: #FFC107;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin: 0;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 8px; 
+    
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        width: 100%; 
+        height: 3px;
+        background-color: #FFC107;
+        border-radius: 2px;
+        left: 0;
+    }
 `;
 
 const MenuGrid = styled.div`
+    width: 100%; 
     display: grid;
-    /* Cố định 3 cột và dùng grid-gap để tạo khoảng cách */
+    /* trên pc: 3 cột */
     grid-template-columns: repeat(3, 1fr); 
-    gap: 20px; /* Khoảng cách giữa các món */
+    gap: 30px; 
     margin-top: 20px;
     margin-bottom: 80px;
 
-    /* Responsive: Nếu màn hình nhỏ hơn 768px, chỉ hiển thị 2 cột */
-    @media (max-width: 768px) {
+    /* Tablet: 2 cột */
+    @media (max-width: 1024px) {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    /* Responsive: Nếu màn hình nhỏ hơn 480px, chỉ hiển thị 1 cột */
-    @media (max-width: 480px) {
-        grid-template-columns: repeat(1, 1fr);
+    /* Mobile: 1 cột */
+    @media (max-width: 640px) {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        max-width: 100%;
     }
 `;
 
-
 const MenuItemList = () => {
-    // lấy ID (dạng string) của quán ăn từ URL
     const { id } = useParams<{ id: string }>(); 
 
-    // state cho API
     const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
     const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    // dùng useEffect để gọi API
     useEffect(() => {
         if (!id) {
             setError("Không tìm thấy ID nhà hàng.");
@@ -81,10 +134,9 @@ const MenuItemList = () => {
                 setLoading(true);
                 setError(null);
 
-                // gọi 2 API song song
                 const [restaurantData, menuData] = await Promise.all([
-                    fetchRestaurantById(id),    // Gọi API lấy thông tin nhà hàng
-                    fetchMenuByRestaurant(id) // Gọi API lấy menu
+                    fetchRestaurantById(id),    
+                    fetchMenuByRestaurant(id) 
                 ]);
                 
                 setRestaurant(restaurantData as Restaurant);
@@ -98,28 +150,23 @@ const MenuItemList = () => {
         };
 
         loadData();
-    }, [id]); // Chạy lại nếu ID trên URL thay đổi
+    }, [id]); 
 
-    
-    // 1. Trạng thái Đang Tải
     if (loading) {
         return (
             <MenuPageContainer>
                 <ContentWrapper>
-                    <h2 style={{ textAlign: 'center', marginTop: '50px' }}>
-                        Đang tải thực đơn...
-                    </h2>
+                    <h2 style={{ textAlign: 'center', marginTop: '50px', width: '100%' }}>Đang tải thực đơn...</h2>
                 </ContentWrapper>
             </MenuPageContainer>
         );
     }
     
-    // 2. Trạng thái Lỗi
     if (error || !restaurant) {
         return (
             <MenuPageContainer>
                 <ContentWrapper>
-                    <h1 style={{ textAlign: 'center', marginTop: '50px', color: 'red' }}>
+                    <h1 style={{ textAlign: 'center', marginTop: '50px', color: 'red', width: '100%' }}>
                         {error || "Không tìm thấy quán ăn này!"}
                     </h1>
                 </ContentWrapper>
@@ -127,14 +174,13 @@ const MenuItemList = () => {
         );
     }
 
-    // 3. trạng thái thành Công
     return (
         <MenuPageContainer>
             <ContentWrapper>
                 <HeaderSection>
                     <Breadcrumb>Trang chủ &gt; Nhà hàng &gt; {restaurant.name}</Breadcrumb>
                     <RestaurantName>{restaurant.name}</RestaurantName>
-                    <p style={{ color: '#FFC107', fontWeight: 600 }}>Thực đơn chính</p>
+                    <MenuLabel>Thực đơn chính</MenuLabel>
                 </HeaderSection>
                 
                 <MenuGrid>
@@ -144,6 +190,7 @@ const MenuItemList = () => {
                                 key={item.id}
                                 id={item.id}
                                 name={item.name}
+                                description={item.description}
                                 price={item.price}
                                 imageUrl={item.imageUrl}
                                 restaurantId={restaurant.id} 
@@ -152,7 +199,13 @@ const MenuItemList = () => {
                             />
                         ))
                     ) : (
-                        <p style={{ textAlign: 'center', gridColumn: '1 / -1', marginTop: '30px', color: '#999' }}>
+                        <p style={{ 
+                            textAlign: 'center', 
+                            gridColumn: '1 / -1', 
+                            marginTop: '30px', 
+                            color: '#999',
+                            width: '100%' 
+                        }}>
                             Quán ăn này hiện chưa có món nào trong thực đơn.
                         </p>
                     )}
