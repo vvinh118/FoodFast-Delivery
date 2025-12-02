@@ -141,14 +141,6 @@
       "tel": "0123456987",
       "birthday": "2004-08-31",
       "avatar": "https://i.pravatar.cc/150?img=11"
-    },
-    {
-      "email": "comga@foodfast.vn",
-      "password": "123",
-      "name": "Chủ quán cơm gà",
-      "role": "merchant",
-      "tel": "0123456987",
-      "id": "a3c_ZjR"
     }
   ],
   "restaurants": [
@@ -391,26 +383,6 @@
       "location": {
         "lat": 10.781161264981273,
         "lng": 106.68197590742605
-      }
-    },
-    {
-      "id": "1764635717485",
-      "ownerId": "a3c_ZjR",
-      "name": "Cơm Gà Phú Yên",
-      "address": "Nhà thờ Đức Bà - 01 Công xã Paris, P. Bến Nghé, Q.1",
-      "rating": 5,
-      "deliveryTime": 30,
-      "distance": 1,
-      "imageUrl": "https://placehold.co/600x400/png?text=New+Restaurant",
-      "category": "Cơm",
-      "isPromo": false,
-      "status": "active",
-      "openingTime": "07:00",
-      "closingTime": "22:00",
-      "isAcceptingOrders": true,
-      "location": {
-        "lat": 10.7798,
-        "lng": 106.699
       }
     }
   ],
@@ -875,15 +847,6 @@
       "price": 29500,
       "description": "Khoai Tây Chiên Vừa thơm ngon.",
       "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
-    },
-    {
-      "name": "Cơm Gà 12312",
-      "price": 45000,
-      "description": "Cơm Gà 12312 Cơm Gà 12312",
-      "imageUrl": "https://th.bing.com/th/id/OIP.CVfTRzQfhtm9d35IPsraUgHaEK?w=329&h=185&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
-      "restaurantId": "1764635717485",
-      "isAvailable": true,
-      "id": "SGBzo0b"
     }
   ],
   "orders": [
