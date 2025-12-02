@@ -33,6 +33,8 @@ import MerchantManagement from "./pages/Admin/MerchantManagement";
 import UserManagement from "./pages/Admin/UserManagement";
 import AdminLayout from "./components/Layouts/AdminLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
+import DroneManagement from "./pages/Admin/DroneManagement";
+import DroneTracking from "./pages/Admin/DroneTracking";
 
 import OrderTracking from "./pages/OrderTracking";
 
@@ -97,6 +99,8 @@ function App() {
                   <Route path="dashboard" element={<AdminDashboard />} />
                   <Route path="merchants" element={<MerchantManagement />} />
                   <Route path="users" element={<UserManagement />} />
+                  <Route path="drones" element={<DroneManagement />} />
+                  <Route path="drone-tracking/:droneId/:orderId?" element={<DroneTracking />} />
               </Route>
           </Route>
 
