@@ -1,27 +1,8 @@
+// apps/web/src/components/merchant/OrderCard.tsx
 import React from 'react';
 import styled from 'styled-components';
-import { FaUser, FaClock, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
-
-// (Interface giữ nguyên)
-export interface OrderItem {
-    id: string;
-    name: string;
-    quantity: number;
-    price: number;
-    imageUrl?: string;
-}
-
-export interface Order {
-    id: string;
-    userId: string;
-    userName: string; 
-    userPhone: string;
-    userAddress: string;
-    items: OrderItem[];
-    total: number;
-    status: 'Pending' | 'Preparing' | 'Ready' | 'Delivering' | 'Delivered' | 'Cancelled'; 
-    createdAt: string;
-}
+import { FaUser, FaClock, FaMapMarkerAlt } from 'react-icons/fa';
+import { formatCurrency, type Order } from 'core';
 
 // === STYLED COMPONENTS ===
 const CardWrapper = styled.div<{ $borderColor: string }>`
@@ -65,7 +46,6 @@ const ItemRow = styled.div`
     .item-qty { font-weight: 700; color: #f72d57; margin-right: 5px; }
 `;
 
-// STYLE MỚI CHO PHẦN TỔNG TIỀN
 const PriceSummary = styled.div`
     margin-top: 12px;
     border-top: 1px solid #ddd;
@@ -75,7 +55,7 @@ const PriceSummary = styled.div`
     .subtotal {
         font-size: 1.1rem;
         font-weight: 700;
-        color: #f72d57; /* Màu nổi bật cho tiền món */
+        color: #f72d57;
         display: flex;
         justify-content: space-between;
     }
@@ -91,18 +71,34 @@ const CardFooter = styled.div`
     display: flex; gap: 10px; margin-top: 10px;
 `;
 
-const ActionButton = styled.button<{ $primary?: boolean; $danger?: boolean }>`
-    flex-grow: 1; padding: 10px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.9rem;
-    background-color: ${props => props.$primary ? '#f72d57' : props.$danger ? '#fff' : '#e0e0e0'};
-    color: ${props => props.$primary ? 'white' : props.$danger ? '#dc3545' : '#333'};
-    border: ${props => props.$danger ? '1px solid #dc3545' : 'none'};
+const ActionButton = styled.button<{ $primary?: boolean; $danger?: boolean; disabled?: boolean }>`
+    flex-grow: 1; padding: 10px; border: none; border-radius: 6px; font-weight: 600; font-size: 0.9rem;
     transition: all 0.2s;
-    &:hover { opacity: 0.9; transform: scale(1.02); }
+    
+    /* Nếu disabled: Màu xám. Nếu không: Màu theo loại */
+    background-color: ${props => 
+        props.disabled ? '#cccccc' : 
+        (props.$primary ? '#f72d57' : props.$danger ? '#fff' : '#e0e0e0')
+    };
+    
+    color: ${props => 
+        props.disabled ? '#666666' : 
+        (props.$primary ? 'white' : props.$danger ? '#dc3545' : '#333')
+    };
+    
+    border: ${props => props.$danger && !props.disabled ? '1px solid #dc3545' : 'none'};
+    
+    /* Con trỏ chuột */
+    cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
+    
+    &:hover { 
+        opacity: ${props => props.disabled ? 1 : 0.9}; 
+        transform: ${props => props.disabled ? 'none' : 'scale(1.02)'}; 
+    }
 `;
 
 // === HELPERS ===
-const formatCurrency = (amount: number) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
-const getTimeAgo = (dateString: string) => { /* (Giữ nguyên logic cũ) */ 
+const getTimeAgo = (dateString: string) => {
     const diff = new Date().getTime() - new Date(dateString).getTime();
     const minutes = Math.floor(diff / 60000);
     if (minutes < 1) return 'Vừa xong';
@@ -118,37 +114,41 @@ interface OrderCardProps {
     onUpdateStatus: (orderId: string) => void;
     onReject?: (orderId: string) => void;
     customButtonText?: string;
+    isActionDisabled?: boolean;
 }
 
-const OrderCard: React.FC<OrderCardProps> = ({ order, onUpdateStatus, onReject, customButtonText }) => {
-    const { id, userName, userPhone, userAddress, status, items, total, createdAt } = order;
+const OrderCard: React.FC<OrderCardProps> = ({ order, onUpdateStatus, onReject, customButtonText, isActionDisabled }) => {
+    const { id, userName, userAddress, status, items, total, createdAt } = order;
 
-    // LOGIC TÍNH TOÁN MỚI
-    // Tổng tiền món (Doanh thu quán tạo ra)
     const itemTotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     
-    // Tổng khách trả (Total) thường bao gồm cả Ship.
-    // Trong db.json của bạn: total = subtotal (itemTotal) + deliveryFee
-    // => Ta hiển thị itemTotal là chính.
-
     let borderColor = '#ccc'; 
     let actions = null;
 
-    // (Logic màu sắc và nút bấm giữ nguyên như cũ)
     if (status === 'Pending') {
         borderColor = '#f0ad4e';
         actions = (
             <>
-                {onReject && <ActionButton $danger onClick={() => onReject(id)}>Từ chối</ActionButton>}
-                <ActionButton $primary onClick={() => onUpdateStatus(id)}>{customButtonText || 'Chấp nhận'}</ActionButton>
+                {onReject && <ActionButton $danger onClick={() => onReject(String(id))}>Từ chối</ActionButton>}
+                <ActionButton $primary onClick={() => onUpdateStatus(String(id))}>{customButtonText || 'Chấp nhận'}</ActionButton>
             </>
         );
     } else if (status === 'Preparing') {
         borderColor = '#337ab7';
-        actions = <ActionButton $primary onClick={() => onUpdateStatus(id)}>{customButtonText || 'Sẵn sàng giao'}</ActionButton>;
+        actions = (
+            <ActionButton 
+                $primary 
+                disabled={isActionDisabled} 
+                onClick={() => !isActionDisabled && onUpdateStatus(String(id))}
+            >
+                {customButtonText || 'Sẵn sàng giao'}
+            </ActionButton>
+        );
     } else if (status === 'Ready') {
         borderColor = '#5cb85c';
-        actions = <ActionButton $primary onClick={() => onUpdateStatus(id)}>{customButtonText || 'Drone đã lấy'}</ActionButton>;
+        actions = <ActionButton $primary onClick={() => onUpdateStatus(String(id))}>{customButtonText || 'Drone đã lấy'}</ActionButton>;
+    } else if (status === 'Delivering') {
+        borderColor = '#f72d57';
     }
 
     return (
@@ -159,7 +159,6 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, onUpdateStatus, onReject, 
                     <p><FaClock /> {getTimeAgo(createdAt)}</p>
                 </div>
                 <ContactInfo>
-                    {/* <div><FaPhone size={12} /> {userPhone}</div> */}
                     <div><FaMapMarkerAlt size={12} /> {userAddress}</div>
                 </ContactInfo>
             </CardHeader>
@@ -171,11 +170,9 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, onUpdateStatus, onReject, 
                             <span className="item-qty">{item.quantity}x</span>
                             <span className="item-name">{item.name}</span>
                         </div>
-                        {/* Ẩn giá từng món để đỡ rối mắt, chỉ hiện tổng */}
                     </ItemRow>
                 ))}
                 
-                {/* PHẦN HIỂN THỊ GIÁ MỚI */}
                 <PriceSummary>
                     <div className="subtotal">
                         <span>Tiền món:</span>

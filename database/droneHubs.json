@@ -1,0 +1,14 @@
+[
+  {
+    "id": "hub_01",
+    "name": "Trạm Drone Quận 1 (Dinh Độc Lập)",
+    "location": { "lat": 10.7769, "lng": 106.7009 },
+    "capacity": 5
+  },
+  {
+    "id": "hub_02",
+    "name": "Trạm Drone Quận 10 (ĐH Bách Khoa)",
+    "location": { "lat": 10.7721, "lng": 106.6579 },
+    "capacity": 5
+  }
+]

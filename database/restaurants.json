@@ -3,7 +3,7 @@
       "id": "1",
       "ownerId": "m01",
       "name": "Nem Nướng D'yan - Since 1968",
-      "address": "183 Nguyễn Văn Đậu",
+      "address": "38 Đ. Trương Quyền, Phường 6, Quận 3, Thành phố Hồ Chí Minh",
       "rating": 4.7,
       "distance": 2.9,
       "deliveryTime": 25,
@@ -13,175 +13,189 @@
       "isAcceptingOrders": true, 
       "openingTime": "07:00",    
       "closingTime": "22:00",
-      "status": "active"   
+      "status": "active",
+      "location": { "lat": 10.786860538474437, "lng": 106.6925139546924 }
     },
     {
       "id": "2",
       "ownerId": "m02",
       "name": "Jollibee",
-      "address": "200 Lý Chính Thắng",
+      "address": "194 Pasteur, Phường, Xuân Hòa, Thành phố Hồ Chí Minh 700000",
       "rating": 4.5,
       "distance": 2.2,
       "deliveryTime": 20,
       "imageUrl": "https://jollibeemenu.com/wordpress/wp-content/uploads/2024/07/Jollibee-Menu-Prices-Philippines.jpeg",
       "isPromo": true,
       "category": "Gà",
-      "status": "active"
+      "status": "active",
+      "location": { "lat": 10.781633345609768, "lng": 106.69481289271936 }
     },
     {
       "id": "3",
       "ownerId": "m03",
       "name": "Mì Trộn Indomie, Gà Rán",
-      "address": "155 Lê Văn Sỹ",
+      "address": "62 Phạm Ngọc Thạch, Phường 6, Quận 3, Thành phố Hồ Chí Minh",
       "rating": 4.7,
       "distance": 2.3,
       "deliveryTime": 30,
       "imageUrl": "https://tse4.mm.bing.net/th/id/OIP.g349_sKPS2INyrS8vSgLlQHaE8",
       "isPromo": false,
       "category": "Bún, Mì, Phở",
-      "status": "active"
+      "status": "active",
+      "location": { "lat": 10.786307856697906, "lng": 106.69249787889227 }
     },
     {
       "id": "4",
       "ownerId": "m04",
       "name": "Xôi Mặn - Bánh Bao Trường Sơn",
-      "address": "36 Trường Sơn, P.4, Q.TB",
+      "address": "15 Nguyễn Trung Trực, Phường Bến Thành, Quận 1, Thành phố Hồ Chí Minh",
       "rating": 4.6,
       "distance": 0.8,
       "deliveryTime": 15,
       "imageUrl": "https://tse2.mm.bing.net/th/id/OIP.WnQXS6zgCF0nFxumjcgNXgHaFT",
       "isPromo": true,
       "category": "Thức ăn nhanh",
-      "status": "active"
+      "status": "active",
+      "location": { "lat": 10.774215681166678, "lng": 106.69967429531339 }
     },
     {
       "id": "5",
       "ownerId": "m05",
       "name": "Cơm Gà Xối Mỡ - Chú Tư",
-      "address": "18 Thành Thái, P.14, Q.10",
+      "address": "19 Nguyễn Thị Minh Khai, Bến Nghé, Quận 1",
       "rating": 4.8,
       "distance": 3.5,
       "deliveryTime": 35,
       "imageUrl": "https://cdn.xanhsm.com/2025/01/735df340-com-ga-sai-gon-1.jpg",
       "isPromo": false,
       "category": "Cơm",
-      "status": "active"
+      "status": "active",
+      "location": { "lat": 10.78528216526807, "lng": 106.70148697675984 }
     },
     {
       "id": "6",
       "ownerId": "m06",
       "name": "Trà Sữa Cheese Bông - Hot Trend",
-      "address": "212 Lý Thường Kiệt, P.15, Q.11",
+      "address": "108 Võ Thị Sáu, Phường Tân Định, Quận 1, Thành phố Hồ Chí Minh 70000",
       "rating": 4.9,
       "distance": 1.1,
       "deliveryTime": 15,
       "imageUrl": "https://tse4.mm.bing.net/th/id/OIP.71cGG9HIkYC_9s-FRLkwTQHaHa",
       "isPromo": true,
       "category": "Trà Sữa",
-      "status": "active"
+      "status": "active",
+      "location": { "lat": 10.7886968840295, "lng": 106.69274866685451 }
     },
     {
       "id": "7",
       "ownerId": "m07",
       "name": "Bún Chả Hà Nội - 120 Năm",
-      "address": "118 Cống Quỳnh, P. Phạm Ngũ Lão, Q.1",
+      "address": "118 Cống Quỳnh, Phường Phạm Ngũ Lão, Quận 1, Thành phố Hồ Chí Minh",
       "rating": 4.4,
       "distance": 5.1,
       "deliveryTime": 40,
       "imageUrl": "https://bizweb.dktcdn.net/100/442/328/files/bun-cha-mon-dac-san-binh-di-cua-nguoi-ha-noi-1.jpg?v=1638938776859",
       "isPromo": false,
       "category": "Bún, Mì, Phở",
-      "status": "active"
+      "status": "active",
+      "location": { "lat": 10.76533615704561, "lng": 106.69038651099481 }
     },
     {
       "id": "8",
       "ownerId": "m08",
       "name": "Pizza & Pasta Ý - VV",
-      "address": "339 Lê Văn Sỹ, P.1, Q. TB",
+      "address": "224 Nguyễn Thị Minh Khai, Phường 6, Quận 3, Thành phố Hồ Chí Minh",
       "rating": 4.3,
       "distance": 0.5,
       "deliveryTime": 20,
       "imageUrl": "https://img1.wsimg.com/isteam/stock/2982",
       "isPromo": true,
       "category": "Thức ăn nhanh",
-      "status": "active"
+      "status": "active",
+      "location": { "lat": 10.775459363486663, "lng": 106.69077672659166 }
     },
     {
       "id": "9",
       "ownerId": "m09",
       "name": "Kem Wall's - ST F-MART 24",
-      "address": "258 Phan Đình Phùng, P.2, Q. Phú Nhuận",
+      "address": "7/12, Nguyễn Trãi, Phường Phạm Ngũ Lão, Quận 1, Thành phố Hồ Chí Minh 700000, Việt Nam",
       "rating": 4.6,
       "distance": 0.5,
       "deliveryTime": 20,
       "imageUrl": "https://bizweb.dktcdn.net/100/093/924/files/kem-hop-3-trong-1-triple-delight-vanilla-lemon-chocolate-walls-840ml-2.jpg",
       "isPromo": true,
       "category": "Kem",
-      "status": "active"
+      "status": "active",
+      "location": { "lat": 10.77082187783058, "lng": 106.69308722039655 }
     },
     {
       "id": "10",
       "ownerId": "m10",
       "name": "Thế Giới Donut",
-      "address": "124 Hai Bà Trưng, P.6, Q.3",
+      "address": "210 Hai Bà Trưng, Phường Tân Định, Quận 1, Thành phố Hồ Chí Minh",
       "rating": 4.6,
       "distance": 0.5,
       "deliveryTime": 20,
       "imageUrl": "https://tse4.mm.bing.net/th/id/OIP._RHtf6pxnrUkhaWDxrmeKQHaHa",
       "isPromo": true,
       "category": "Bánh",
-      "status": "active"
+      "status": "active",
+      "location": { "lat": 10.788251832517664, "lng": 106.69186204101429 }
     },
     {
       "id": "11",
       "ownerId": "m11",
       "name": "KFC",
-      "address": "111 Nguyễn Thái Bình",
+      "address": "14 Phạm Ngọc Thạch, Phường 6, Quận 3, Thành phố Hồ Chí Minh",
       "rating": 4.5,
       "distance": 2.2,
       "deliveryTime": 20,
       "imageUrl": "https://aeonmall-haiphong-lechan.com.vn/wp-content/uploads/2020/10/2_resize.jpg",
       "isPromo": true,
       "category": "Gà",
-      "status": "active"
+      "status": "active",
+      "location": { "lat": 10.78408068106709, "lng": 106.69581770939111 }
     },
     {
       "id": "12",
       "ownerId": "m12",
       "name": "Popyes",
-      "address": "201 Lý Chính Thắng",
+      "address": "326 An Dương Vương, Phường 4, Quận 5, Thành phố Hồ Chí Minh",
       "rating": 4.5,
       "distance": 2.2,
       "deliveryTime": 20,
       "imageUrl": "https://tb-static.uber.com/prod/image-proc/processed_images/ccd54526c695b0983481e9ce407ad5ad/719c6bd2757b08684c0faae44d43159d.jpeg",
       "isPromo": true,
       "category": "Gà",
-      "status": "active"
+      "status": "active",
+      "location": { "lat": 10.761763371042866, "lng": 106.68142885595257 }
     },
     {
       "id": "13",
       "ownerId": "m13",
       "name": "3 Râu - Gà Rán Pizza & Trà Sữa",
-      "address": "191 Nguyễn Tiểu La",
+      "address": "361A Nguyễn Đình Chiểu, Phường 5, Quận 3, Thành phố Hồ Chí Minh",
       "rating": 4.5,
       "distance": 2.2,
       "deliveryTime": 20,
       "imageUrl": "https://tse3.mm.bing.net/th/id/OIP.4o98zuIor0zIGSloJFZ_DAHaEo",
       "isPromo": true,
       "category": "Gà",
-      "status": "active"
+      "status": "active",
+      "location": { "lat": 10.772270524820858, "lng": 106.68371111879263 }
     },
     {
       "id": "14",
       "ownerId": "m14",
       "name": "Lotteria",
-      "address": "118 Lê Lợi",
+      "address": "250B Lý Chính Thắng, Phường 9, Quận 3, Thành phố Hồ Chí Minh",
       "rating": 4.5,
       "distance": 2.2,
       "deliveryTime": 20,
       "imageUrl": "https://tse4.mm.bing.net/th/id/OIP.C6XBtQjroK22AuqAjPMhsgHaHa?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
       "isPromo": true,
       "category": "Gà",
-      "status": "active"
+      "status": "active",
+      "location": { "lat": 10.781161264981273, "lng": 106.68197590742605 }
     }
 ]

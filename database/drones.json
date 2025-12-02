@@ -1,0 +1,13 @@
+[
+  { "id": "D01", "hubId": "hub_01", "status": "idle", "battery": 100, "currentLat": 10.7769, "currentLng": 106.7009 },
+  { "id": "D02", "hubId": "hub_01", "status": "idle", "battery": 100, "currentLat": 10.7769, "currentLng": 106.7009 },
+  { "id": "D03", "hubId": "hub_01", "status": "idle", "battery": 100, "currentLat": 10.7769, "currentLng": 106.7009 },
+  { "id": "D04", "hubId": "hub_01", "status": "idle", "battery": 100, "currentLat": 10.7769, "currentLng": 106.7009 },
+  { "id": "D05", "hubId": "hub_01", "status": "idle", "battery": 100, "currentLat": 10.7769, "currentLng": 106.7009 },
+  
+  { "id": "D06", "hubId": "hub_02", "status": "idle", "battery": 100, "currentLat": 10.7721, "currentLng": 106.6579 },
+  { "id": "D07", "hubId": "hub_02", "status": "idle", "battery": 100, "currentLat": 10.7721, "currentLng": 106.6579 },
+  { "id": "D08", "hubId": "hub_02", "status": "idle", "battery": 100, "currentLat": 10.7721, "currentLng": 106.6579 },
+  { "id": "D09", "hubId": "hub_02", "status": "idle", "battery": 100, "currentLat": 10.7721, "currentLng": 106.6579 },
+  { "id": "D10", "hubId": "hub_02", "status": "idle", "battery": 100, "currentLat": 10.7721, "currentLng": 106.6579 }
+]

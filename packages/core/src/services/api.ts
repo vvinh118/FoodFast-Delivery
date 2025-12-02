@@ -344,3 +344,43 @@ export const apiUpdateUserStatus = async (userId: string | number, status: 'acti
   });
   return handleResponse(response);
 };
+
+/**
+ * API (Admin): Lấy danh sách Drone Hub
+ */
+export const fetchDroneHubs = async () => {
+    console.log("GỌI API: Lấy danh sách Drone Hub");
+    const response = await fetch(`${API_URL}/droneHubs`);
+    return handleResponse(response);
+};
+
+/**
+ * API (Admin): Lấy danh sách Drone
+ */
+export const fetchDrones = async () => {
+    console.log("GỌI API: Lấy danh sách Drone");
+    const response = await fetch(`${API_URL}/drones`);
+    return handleResponse(response);
+};
+
+/**
+ * API Cập nhật thông tin Drone (Vị trí, Trạng thái, Đơn hàng đang nhận)
+ */
+export const updateDrone = async (droneId: string, data: any) => {
+    // console.log(`GỌI API: Cập nhật Drone ${droneId}`, data);
+    const response = await fetch(`${API_URL}/drones/${droneId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    });
+    return handleResponse(response);
+};
+
+/**
+ * API Lấy chi tiết 1 Đơn hàng theo ID
+ */
+export const fetchOrderById = async (orderId: string | number) => {
+    // console.log(`GỌI API: Lấy chi tiết đơn hàng ${orderId}`);
+    const response = await fetch(`${API_URL}/orders/${orderId}`);
+    return handleResponse(response);
+};

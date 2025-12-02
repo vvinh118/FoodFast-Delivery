@@ -1,7 +1,8 @@
 // packages/core/src/store/adminStore.ts
 import { create } from 'zustand';
-import { fetchOrders, apiGetUsers, fetchRestaurants } from 'core';
-import { Order, User, Restaurant } from '../types';
+// Cập nhật import: Thêm fetchDrones và đổi fetchRestaurants thành apiGetAllRestaurants
+import { fetchOrders, apiGetUsers, apiGetAllRestaurants, fetchDrones } from '../services/api';
+import { Order, User, Restaurant, Drone } from '../types';
 
 interface AdminState {
   stats: {
@@ -10,12 +11,12 @@ interface AdminState {
     totalMerchants: number;
     activeDrones: number;
   };
-  orders: Order[]; // Toàn bộ đơn
-  filteredOrders: Order[]; // Đơn sau khi lọc ngày
-  selectedDate: string; // YYYY-MM-DD
+  orders: Order[];
+  filteredOrders: Order[];
+  selectedDate: string;
   isLoading: boolean;
   
-  loadDashboardData: () => Promise<void>;
+  loadDashboardData: (isBackground?: boolean) => Promise<void>; 
   filterOrdersByDate: (date: string) => void;
 }
 
@@ -24,54 +25,58 @@ export const useAdminStore = create<AdminState>((set, get) => ({
     totalOrdersToday: 0,
     totalCustomers: 0,
     totalMerchants: 0,
-    activeDrones: 30, // Hardcode tạm: Hệ thống có 12 Drone
+    activeDrones: 0,
   },
   orders: [],
   filteredOrders: [],
-  selectedDate: new Date().toISOString().split('T')[0], // Mặc định hôm nay
+  selectedDate: new Date().toISOString().split('T')[0],
   isLoading: false,
 
-  loadDashboardData: async () => {
-    set({ isLoading: true });
+  loadDashboardData: async (isBackground = false) => {
+    if (!isBackground) set({ isLoading: true });
     try {
-      // Gọi song song các API
-      const [ordersData, usersData, restaurantsData] = await Promise.all([
+      // 1. Gọi song song 4 API (Thêm fetchDrones)
+      const [ordersData, usersData, restaurantsData, dronesData] = await Promise.all([
         fetchOrders(),
         apiGetUsers(),
-        fetchRestaurants()
+        apiGetAllRestaurants(), // Dùng hàm này để đếm cả quán chưa duyệt/bị khóa
+        fetchDrones()           // Lấy dữ liệu Drone thực tế
       ]);
 
+      // 2. Tính toán số liệu
       const customers = (usersData as User[]).filter(u => u.role === 'customer').length;
       const merchants = (restaurantsData as Restaurant[]).length;
       const orders = ordersData as Order[];
+
+      // Tính số Drone đang sẵn sàng (idle)
+      const readyDrones = (dronesData as Drone[]).filter(d => d.status === 'idle').length;
 
       // Tính số đơn hôm nay
       const today = new Date().toISOString().split('T')[0];
       const ordersToday = orders.filter(o => o.createdAt.startsWith(today)).length;
 
+      // 3. Cập nhật Store
       set({
         stats: {
           totalOrdersToday: ordersToday,
           totalCustomers: customers,
           totalMerchants: merchants,
-          activeDrones: 12 
+          activeDrones: readyDrones // Số liệu thật từ DB
         },
         orders: orders,
+        // Cập nhật luôn filteredOrders cho ngày hiện tại để bảng hiện data ngay
+        filteredOrders: orders.filter(o => o.createdAt.startsWith(today)),
         isLoading: false
       });
       
-      // Chạy filter lần đầu cho ngày hiện tại
-      get().filterOrdersByDate(today);
-
     } catch (error) {
-      console.error(error);
+      console.error("Lỗi tải Dashboard Admin:", error);
       set({ isLoading: false });
     }
   },
 
   filterOrdersByDate: (date: string) => {
     const allOrders = get().orders;
-    // So sánh chuỗi ngày (giả sử createdAt lưu dạng ISO string hoặc YYYY-MM-DD...)
     const filtered = allOrders.filter(o => o.createdAt.startsWith(date));
     set({ selectedDate: date, filteredOrders: filtered });
   }

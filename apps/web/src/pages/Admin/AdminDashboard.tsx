@@ -61,19 +61,25 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     loadDashboardData();
+
+    const intervalId = setInterval(() => {
+        loadDashboardData(true);
+    }, 5000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     filterOrdersByDate(e.target.value);
   };
 
-  if (isLoading) return <div>Đang tải dữ liệu...</div>;
+  if (isLoading && stats.totalCustomers === 0) return <div>Đang tải dữ liệu...</div>;
 
   return (
     <Container>
       <Title>Tổng quan Hệ thống</Title>
 
-      {/* 4 Cards Thống kê quan trọng */}
+      {/* 4 Cards Thống kê */}
       <StatsGrid>
         <StatCard $color="#3498db">
           <div className="icon-box"><FaShoppingBag /></div>
@@ -141,7 +147,6 @@ export default function AdminDashboard() {
               <tr key={order.id}>
                 <td>#{order.id}</td>
                 <td>{order.userName}</td>
-                {/* Giả sử createdAt là ISO string, ta cắt lấy giờ */}
                 <td>{new Date(order.createdAt).toLocaleTimeString('vi-VN')}</td>
                 <td>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order.total)}</td>
                 <td>

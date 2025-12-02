@@ -1,9 +1,12 @@
+// apps/web/src/components/merchant/MerchantSettings.tsx
+
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { FaSave, FaStore, FaClock, FaPowerOff, FaListUl } from 'react-icons/fa';
-import { fetchRestaurantDetail, updateRestaurant, useMerchantStore, fetchCategories, type Category } from 'core';
+import { FaSave, FaStore, FaClock, FaPowerOff, FaListUl, FaCheckCircle } from 'react-icons/fa';
+import { fetchRestaurantDetail, updateRestaurant, useMerchantStore, fetchCategories, type Category, type Coordinates } from 'core';
 import InputField from '../../components/InputField';
 import Button from '../../components/Button';
+import AddressAutocomplete from '../../components/AddressAutocomplete';
 
 // === STYLED COMPONENTS ===
 const Container = styled.div`
@@ -150,25 +153,43 @@ const StyledSelect = styled.select`
     }
 `;
 
+const AddressWrapper = styled.div`
+    margin-bottom: 15px;
+    label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #333; }
+`;
+const LocationSuccess = styled.div`
+    margin-top: 5px; font-size: 0.85rem; color: #28a745; display: flex; align-items: center; gap: 5px; font-style: italic;
+`;
+
 // === COMPONENT ===
 const MerchantSettings: React.FC = () => {
     const merchant = useMerchantStore(state => state.merchant);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
-
     const [categories, setCategories] = useState<Category[]>([]);
 
-    const [info, setInfo] = useState({
+    // State form (Thêm field location)
+    const [info, setInfo] = useState<{
+        name: string;
+        address: string;
+        imageUrl: string;
+        openingTime: string;
+        closingTime: string;
+        isAcceptingOrders: boolean;
+        category: string;
+        location?: Coordinates;
+    }>({
         name: '',
         address: '',
         imageUrl: '',
         openingTime: '07:00',
         closingTime: '22:00',
         isAcceptingOrders: true,
-        category: ''
+        category: '',
+        location: undefined
     });
 
-    // Load thông tin nhà hàng VÀ danh sách category
+    // Load dữ liệu
     useEffect(() => {
         if (merchant?.restaurantId) {
             setLoading(true);
@@ -184,9 +205,9 @@ const MerchantSettings: React.FC = () => {
                     openingTime: resData.openingTime || '07:00',
                     closingTime: resData.closingTime || '22:00',
                     isAcceptingOrders: resData.isAcceptingOrders !== false,
-                    category: resData.category || ''
+                    category: resData.category || '',
+                    location: resData.location 
                 });
-                
                 setCategories(catData as Category[]);
             })
             .catch(err => console.error(err))
@@ -194,11 +215,19 @@ const MerchantSettings: React.FC = () => {
         }
     }, [merchant]);
 
+    // Xử lý khi chọn địa chỉ từ Autocomplete
+    const handleAddressSelect = (address: string, lat: number, lng: number) => {
+        setInfo(prev => ({
+            ...prev,
+            address: address,
+            location: { lat, lng } // Lưu tọa độ vào state
+        }));
+    };
+
     const handleToggleStatus = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!merchant?.restaurantId) return;
         const newStatus = e.target.checked;
         setInfo(prev => ({ ...prev, isAcceptingOrders: newStatus }));
-
         try {
             await updateRestaurant(merchant.restaurantId, { isAcceptingOrders: newStatus });
         } catch (error) {
@@ -211,6 +240,7 @@ const MerchantSettings: React.FC = () => {
         if (!merchant?.restaurantId) return;
         setSaving(true);
         try {
+            // Gửi toàn bộ thông tin (bao gồm tọa độ) lên server
             await updateRestaurant(merchant.restaurantId, info);
             alert("Đã lưu thông tin cửa hàng thành công!");
         } catch (error) {
@@ -238,17 +268,12 @@ const MerchantSettings: React.FC = () => {
                         {info.isAcceptingOrders ? 'ĐANG MỞ CỬA' : 'TẠM ĐÓNG'}
                     </StatusBadge>
                 </SectionTitle>
-                
                 <SwitchContainer>
                     <SwitchLabel>
                         <strong>Nhận đơn hàng mới</strong>
                         <span>Tắt nút này nếu quán đang quá tải hoặc nghỉ đột xuất. Khách hàng sẽ thấy quán "Tạm đóng".</span>
                     </SwitchLabel>
-                    <SwitchInput 
-                        type="checkbox" 
-                        checked={info.isAcceptingOrders}
-                        onChange={handleToggleStatus} 
-                    />
+                    <SwitchInput type="checkbox" checked={info.isAcceptingOrders} onChange={handleToggleStatus} />
                 </SwitchContainer>
             </Card>
 
@@ -257,70 +282,57 @@ const MerchantSettings: React.FC = () => {
                 <SectionTitle><FaStore /> Thông tin cơ bản</SectionTitle>
                 <InputField 
                     label="Tên cửa hàng" id="name" type="text" 
-                    value={info.name} 
-                    onChange={e => setInfo({...info, name: e.target.value})}
+                    value={info.name} onChange={e => setInfo({...info, name: e.target.value})}
                 />
                 
-                {/* 5. Thêm Dropdown chọn Category */}
                 <SelectGroup>
                     <Label><FaListUl style={{marginRight: 5, color: '#f72d57'}}/> Danh mục kinh doanh</Label>
                     <StyledSelect 
-                        value={info.category} 
-                        onChange={e => setInfo({...info, category: e.target.value})}
+                        value={info.category} onChange={e => setInfo({...info, category: e.target.value})}
                     >
                         <option value="">-- Chọn loại hình kinh doanh --</option>
                         {categories.map(cat => (
-                            <option key={cat.id} value={cat.name}>
-                                {cat.name}
-                            </option>
+                            <option key={cat.id} value={cat.name}>{cat.name}</option>
                         ))}
                     </StyledSelect>
                 </SelectGroup>
 
-                <InputField 
-                    label="Địa chỉ hiển thị" id="address" type="text" 
-                    value={info.address} 
-                    onChange={e => setInfo({...info, address: e.target.value})}
-                />
+                {/* THAY INPUT THƯỜNG BẰNG AUTOCOMPLETE */}
+                <AddressWrapper>
+                    <Label>Địa chỉ hiển thị (Chọn từ danh sách để gán vị trí)</Label>
+                    <AddressAutocomplete 
+                        defaultValue={info.address}
+                        onSelect={handleAddressSelect}
+                    />
+                    {/* Hiển thị tọa độ đã gán */}
+                    {info.location && (
+                        <LocationSuccess>
+                            <FaCheckCircle /> Đã gán vị trí bản đồ: {info.location.lat.toFixed(4)}, {info.location.lng.toFixed(4)}
+                        </LocationSuccess>
+                    )}
+                </AddressWrapper>
+
                 <InputField 
                     label="Link ảnh bìa / Logo" id="imageUrl" type="text" 
-                    value={info.imageUrl} 
-                    onChange={e => setInfo({...info, imageUrl: e.target.value})}
+                    value={info.imageUrl} onChange={e => setInfo({...info, imageUrl: e.target.value})}
                 />
             </Card>
 
             {/* GIỜ HOẠT ĐỘNG */}
             <Card>
                 <SectionTitle><FaClock /> Giờ hoạt động (Tự động)</SectionTitle>
-                <p style={{color: '#666', fontSize: '0.9rem', marginBottom: '20px'}}>
-                    Hệ thống sẽ tự động từ chối đơn hàng nếu khách đặt ngoài khung giờ này.
-                </p>
                 <Row>
-                    <InputField 
-                        label="Giờ mở cửa" id="openTime" type="time" 
-                        value={info.openingTime} 
-                        onChange={e => setInfo({...info, openingTime: e.target.value})}
-                    />
-                    <InputField 
-                        label="Giờ đóng cửa" id="closeTime" type="time" 
-                        value={info.closingTime} 
-                        onChange={e => setInfo({...info, closingTime: e.target.value})}
-                    />
+                    <InputField label="Giờ mở cửa" id="openTime" type="time" value={info.openingTime} onChange={e => setInfo({...info, openingTime: e.target.value})} />
+                    <InputField label="Giờ đóng cửa" id="closeTime" type="time" value={info.closingTime} onChange={e => setInfo({...info, closingTime: e.target.value})} />
                 </Row>
             </Card>
 
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <Button 
-                    onClick={handleSaveInfo} 
-                    disabled={saving}
-                    $padding="15px 40px"
-                    $fontSize="1.1rem"
-                >
+                <Button onClick={handleSaveInfo} disabled={saving} $padding="15px 40px" $fontSize="1.1rem">
                     <FaSave style={{marginRight: 8}} />
                     {saving ? 'Đang lưu...' : 'Lưu thay đổi'}
                 </Button>
             </div>
-
         </Container>
     );
 };

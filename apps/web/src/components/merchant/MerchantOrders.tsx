@@ -1,13 +1,12 @@
-// 1. Thêm 'useRef' vào dòng import từ 'react'
+// apps/web/src/components/merchant/MerchantOrders.tsx
 import React, { useState, useMemo, useEffect, useRef } from 'react';
-
 import styled from 'styled-components';
-import OrderCard, { type Order } from '../../components/merchant/OrderCard'; 
-import { fetchOrders, updateOrderStatus, useMerchantStore } from 'core'; 
-
-// 2. Thêm dòng import cho 'toast' và CSS của nó
+import OrderCard from '../../components/merchant/OrderCard'; 
+import { fetchOrders, updateOrderStatus, useMerchantStore, fetchRestaurantById, type Restaurant, type Order } from 'core'; 
+import { useDroneStore } from 'core'; 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useDroneSimulation } from '../../hooks/useDroneSimulation'; 
 
 // === STYLED COMPONENTS ===
 const Header = styled.div` margin-bottom: 30px; `;
@@ -27,127 +26,91 @@ const ColumnTitle = styled.h2`
 const ColumnContent = styled.div`
     display: flex; flex-direction: column; gap: 15px; flex-grow: 1; min-height: 200px;
 `;
-
-// Overlay chặn thao tác khi Drone đang giao
 const DeliveringOverlay = styled.div`
     position: absolute; top:0; left:0; right:0; bottom:0;
-    background: rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.8);
     display: flex; justify-content: center; align-items: center;
-    font-weight: bold; color: #f72d57;
-    z-index: 10; border-radius: 8px;
+    font-weight: bold; color: #f72d57; z-index: 10; border-radius: 8px; flex-direction: column; gap: 10px;
 `;
 
 const MerchantOrders: React.FC = () => {
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
-    // State để theo dõi đơn nào đang được Drone giao (để hiện loading/chặn thao tác)
-    const [deliveringIds, setDeliveringIds] = useState<string[]>([]);
-    
     const { merchant } = useMerchantStore();
-    const currentRestaurantId = merchant?.restaurantId;
+    
+    const [restaurantInfo, setRestaurantInfo] = useState<Restaurant | null>(null);
+    const prevPendingCountRef = useRef(0);
 
-    // Ref để lưu số lượng đơn chờ cũ (dùng để so sánh)
-    const prevPendingCountRef = useRef(0); 
+    const { drones, assignDroneToOrder, startDeliveryToCustomer, initDroneSystem } = useDroneStore();
 
-    // ... (Phần loadOrders cũ chuyển thành hàm tái sử dụng) ...
+    useDroneSimulation(); 
+
     const loadOrders = async (isFirstLoad = false) => {
-        if (!currentRestaurantId) return;
+        if (!merchant?.restaurantId) return;
         try {
             if (isFirstLoad) setLoading(true);
             const allOrders = await fetchOrders();
             const myOrders = allOrders.filter((order: any) => 
-                order.items.some((item: any) => String(item.restaurantId) === String(currentRestaurantId))
+                order.items.some((item: any) => String(item.restaurantId) === String(merchant.restaurantId))
             );
             
-            // === LOGIC PHÁT HIỆN ĐƠN MỚI ===
-            // Đếm số đơn Pending hiện tại
             const currentPendingCount = myOrders.filter((o: any) => o.status === 'Pending').length;
-            
-            // Debug: Mở F12 -> Console để xem dòng này có chạy mỗi 5 giây không
-            // console.log(`Polling: Mới ${currentPendingCount} - Cũ ${prevPendingCountRef.current}`);
-
             if (!isFirstLoad && currentPendingCount > prevPendingCountRef.current) {
-                // PLAY SOUND (Tùy chọn: Nếu muốn có tiếng ting ting)
-                // const audio = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
-                // audio.play().catch(e => console.log("Audio blocked"));
-
-                toast.success(
-                    <div>
-                        <h4>🔔 Có đơn hàng mới!</h4>
-                        <p>Bạn vừa nhận được đơn hàng mới. Kiểm tra ngay!</p>
-                    </div>, 
-                    {
-                        position: "top-right",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        theme: "colored"
-                    }
-                );
+                toast.success("🔔 Có đơn hàng mới!");
             }
-                // Có thể thêm âm thanh ở đây: new Audio('/sound/ding.mp3').play();
-            
-
-            // Cập nhật ref
             prevPendingCountRef.current = currentPendingCount;
-            
-            setOrders(myOrders.reverse());
+            setOrders(myOrders.reverse() as Order[]);
         } catch (err) { console.error(err); } 
         finally { if (isFirstLoad) setLoading(false); }
     };
 
-    // === EFFECT POLLING (Chạy mỗi 5 giây) ===
     useEffect(() => {
-        // 1. Load lần đầu ngay lập tức
         loadOrders(true);
+        initDroneSystem(); 
+        
+        if (merchant?.restaurantId) {
+            fetchRestaurantById(merchant.restaurantId).then(data => setRestaurantInfo(data));
+        }
 
-        // 2. Thiết lập interval
         const intervalId = setInterval(() => {
-            loadOrders(false); // Load ngầm (không hiện loading spinner)
-        }, 5000); // 5000ms = 5 giây
+            loadOrders(false);
+            initDroneSystem();
+        }, 3000);
 
-        // 3. Dọn dẹp khi component unmount
         return () => clearInterval(intervalId);
-    }, [currentRestaurantId]);
+    }, [merchant?.restaurantId]);
 
-    // Hàm update status cơ bản
     const handleUpdateStatus = async (orderId: string, newStatus: string) => {
-        // Optimistic update
-        setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: newStatus as any } : o));
-        try { 
-            await updateOrderStatus(orderId, newStatus); 
-        } catch (err) { 
-            console.error(err);
-            // Revert nếu lỗi (cần logic phức tạp hơn ở đây nếu muốn hoàn hảo, tạm thời alert)
-            alert("Lỗi kết nối!"); 
+        setOrders(prev => prev.map(o => String(o.id) === orderId ? { ...o, status: newStatus as any } : o));
+        try { await updateOrderStatus(orderId, newStatus); } catch (err) { alert("Lỗi kết nối!"); }
+    };
+
+    const handleAcceptOrder = (order: Order) => {
+        if (!restaurantInfo?.location) {
+            alert("Lỗi: Quán chưa có tọa độ. Vui lòng vào Cài đặt cửa hàng để cập nhật vị trí trên bản đồ.");
+            return;
+        }
+        handleUpdateStatus(String(order.id), 'Preparing');
+        const customerLoc = order.deliveryLocation || { lat: 10.7769, lng: 106.7009 };
+        assignDroneToOrder(String(order.id), restaurantInfo.location, customerLoc);
+        toast.info("🚁 Đã điều phối Drone đến lấy hàng!");
+    };
+
+    const handleHandoverToDrone = async (order: Order) => {
+        const drone = drones.find(d => d.currentOrderId === String(order.id));
+        if (drone && drone.status === 'at_store') {
+            await handleUpdateStatus(String(order.id), 'Delivering');
+            if (order.deliveryLocation) {
+                 startDeliveryToCustomer(drone.id, order.deliveryLocation); 
+                 toast.success("📦 Drone đã nhận hàng và đang bay đi giao!");
+            } else {
+                alert("Đơn hàng này thiếu tọa độ giao, Drone không thể bay!");
+            }
         }
     };
 
-    // LOGIC MỚI: DRONE DELIVERY FLOW
-    const handleDroneDelivery = async (orderId: string, orderCode: string) => {
-        // 1. Chuyển sang Delivering & Thêm vào danh sách đang giao
-        setDeliveringIds(prev => [...prev, orderId]);
-        await handleUpdateStatus(orderId, 'Delivering');
-
-        // 2. Delay 5 giây (Mô phỏng Drone đang bay)
-        setTimeout(async () => {
-            // 3. Tự động chuyển sang Delivered
-            await handleUpdateStatus(orderId, 'Delivered');
-            
-            // 4. Xóa khỏi danh sách đang giao
-            setDeliveringIds(prev => prev.filter(id => id !== orderId));
-            
-            // 5. Thông báo thành công
-            alert(`✅ Đơn hàng #${orderCode.substring(0,6)} đã được Drone giao thành công!`);
-        }, 5000);
-    };
-
-    // Phân loại đơn hàng
     const pendingOrders = useMemo(() => orders.filter(o => o.status === 'Pending'), [orders]);
     const preparingOrders = useMemo(() => orders.filter(o => o.status === 'Preparing'), [orders]);
-    // Cột 3: Ready (Chờ Drone) và Delivering (Drone đang bay)
     const shippingOrders = useMemo(() => orders.filter(o => o.status === 'Ready' || o.status === 'Delivering'), [orders]);
 
     if (!merchant) return <p>Vui lòng đăng nhập.</p>;
@@ -161,61 +124,58 @@ const MerchantOrders: React.FC = () => {
 
             {loading ? <p>Đang tải...</p> : (
                 <KanbanBoard>
-                    {/* Cột 1: Mới */}
                     <OrderColumn>
                         <ColumnTitle>Mới ({pendingOrders.length})</ColumnTitle>
                         <ColumnContent>
                             {pendingOrders.map(order => (
                                 <OrderCard 
                                     key={order.id} order={order}
-                                    onUpdateStatus={(id) => handleUpdateStatus(id, 'Preparing')} 
+                                    onUpdateStatus={() => handleAcceptOrder(order)} 
                                     onReject={(id) => handleUpdateStatus(id, 'Cancelled')}
+                                    customButtonText="Chấp nhận & Gọi Drone"
                                 />
                             ))}
                         </ColumnContent>
                     </OrderColumn>
                     
-                    {/* Cột 2: Đang nấu */}
                     <OrderColumn>
                         <ColumnTitle>Đang nấu ({preparingOrders.length})</ColumnTitle>
                         <ColumnContent>
-                            {preparingOrders.map(order => (
-                                <OrderCard 
-                                    key={order.id} order={order}
-                                    onUpdateStatus={(id) => handleUpdateStatus(id, 'Ready')} 
-                                />
-                            ))}
+                            {preparingOrders.map(order => {
+                                const drone = drones.find(d => d.currentOrderId === String(order.id));
+                                const isDroneArrived = drone?.status === 'at_store';
+                                const isDroneMoving = drone?.status === 'moving_to_store';
+
+                                return (
+                                    <div key={order.id}>
+                                        <div style={{fontSize: '0.8rem', color: isDroneArrived ? 'green' : '#f39c12', marginBottom: 5, fontWeight: 'bold'}}>
+                                            {isDroneArrived ? "✅ Drone đã đến cửa hàng" : 
+                                             isDroneMoving ? "🚀 Drone đang bay đến quán..." : "⏳ Đang tìm Drone..."}
+                                        </div>
+                                        <OrderCard 
+                                            order={order}
+                                            customButtonText={isDroneArrived ? "Giao cho Drone" : "Đợi Drone..."}
+                                            isActionDisabled={!isDroneArrived}
+                                            onUpdateStatus={() => isDroneArrived && handleHandoverToDrone(order)} 
+                                        />
+                                    </div>
+                                )
+                            })}
                         </ColumnContent>
                     </OrderColumn>
 
-                    {/* Cột 3: Giao hàng (Drone) */}
                     <OrderColumn>
-                        <ColumnTitle>Chờ giao ({shippingOrders.length})</ColumnTitle>
+                        <ColumnTitle>Đang giao ({shippingOrders.length})</ColumnTitle>
                         <ColumnContent>
-                            {shippingOrders.map(order => {
-                                const isDelivering = deliveringIds.includes(order.id) || order.status === 'Delivering';
-                                return (
-                                    <div key={order.id} style={{position: 'relative'}}>
-                                        {/* Nếu đang giao thì hiện overlay chặn thao tác */}
-                                        {isDelivering && (
-                                            <DeliveringOverlay>
-                                                Drone đang giao hàng...
-                                            </DeliveringOverlay>
-                                        )}
-                                        
-                                        <OrderCard 
-                                            order={order}
-                                            // Override text nút bấm dựa trên trạng thái
-                                            customButtonText={order.status === 'Ready' ? 'Drone đã lấy hàng' : 'Đang giao...'}
-                                            onUpdateStatus={(id) => {
-                                                if (order.status === 'Ready') {
-                                                    handleDroneDelivery(id, order.id);
-                                                }
-                                            }} 
-                                        />
-                                    </div>
-                                );
-                            })}
+                            {shippingOrders.map(order => (
+                                <div key={order.id} style={{position: 'relative'}}>
+                                    <DeliveringOverlay>
+                                        <span>🚁 Drone đang bay đến khách...</span>
+                                        <span style={{fontSize:'0.8rem', color:'#555'}}>Mã đơn: #{order.id}</span>
+                                    </DeliveringOverlay>
+                                    <OrderCard order={order} onUpdateStatus={() => {}} />
+                                </div>
+                            ))}
                         </ColumnContent>
                     </OrderColumn>
                 </KanbanBoard>

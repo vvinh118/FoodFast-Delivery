@@ -1,4 +1,5 @@
 // packages/core/src/types/order.ts
+import { Coordinates } from './common';
 
 export interface CartItem {
     id: string | number;
@@ -11,20 +12,27 @@ export interface CartItem {
 }
 
 export interface OrderItem {
-  id: number;
+  id: string | number;
   name: string;
   price: number;
   quantity: number;
   imageUrl?: string;
+  restaurantId?: string | number; 
 }
 
 export interface Order {
-  id: number;
-  userId: number;
+  id: string | number;
+  userId: string | number;
   userName: string;
+  userPhone?: string;
+  userAddress?: string;
   items: OrderItem[];
   total: number;
-  status: string; // 'Pending' | 'Delivered' | 'Cancelled'
+  subtotal?: number;
+  deliveryFee?: number;
+  discount?: number;
+  paymentMethod?: string;
+  status: 'Pending' | 'Preparing' | 'Ready' | 'Delivering' | 'Delivered' | 'Cancelled'; 
   createdAt: string;
+  deliveryLocation?: Coordinates;
 }
-

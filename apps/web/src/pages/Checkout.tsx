@@ -6,7 +6,7 @@ import Button from '../components/Button';
 import { FaMapMarkerAlt, FaCreditCard, FaTicketAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { apiSubmitOrder, useCartStore, useAuthStore, APP_CONSTANTS, formatCurrency } from 'core';
-
+import AddressAutocomplete from '../components/AddressAutocomplete';
 const { DELIVERY_FEE } = APP_CONSTANTS;
 
 // Styled components
@@ -128,7 +128,6 @@ export default function Checkout() {
     const user = useAuthStore(state => state.user);
     const isLoggedIn = useAuthStore(state => state.isLoggedIn);
 
-    // const { items: cartItems, totalAmount, clearCart } = useCart(); 
     const cartItems = useCartStore(state => state.items);
     const totalAmount = useCartStore(state => state.totalAmount);
     const clearCart = useCartStore(state => state.clearCart);
@@ -136,6 +135,8 @@ export default function Checkout() {
 
     // STATES
     const [customerInfo, setCustomerInfo] = useState({ name: '', phone: '', address: '' });
+    const [deliveryCoords, setDeliveryCoords] = useState<{lat: number, lng: number} | null>(null);
+
     useEffect(() => {
       if (isLoggedIn && user) {
         setCustomerInfo({
@@ -145,6 +146,7 @@ export default function Checkout() {
         });
       }
     }, [isLoggedIn, user]); 
+
     const [coupon, setCoupon] = useState('');
     const [discount, setDiscount] = useState(0); 
     const [paymentMethod, setPaymentMethod] = useState('cod');
@@ -152,6 +154,12 @@ export default function Checkout() {
     const [loading, setLoading] = useState(false);
     const [apiError, setApiError] = useState<string | null>(null);
 
+    // HÀM XỬ LÝ KHI CHỌN ĐỊA CHỈ TỪ AUTOCOMPLETE
+    const handleAddressSelect = (address: string, lat: number, lng: number) => {
+        setCustomerInfo(prev => ({ ...prev, address: address }));
+        setDeliveryCoords({ lat, lng });
+        setValidationErrors(prev => ({ ...prev, address: undefined }));
+    };
     
     // HANDLE SUBMIT ĐƠN HÀNg
     const handleSubmit = async (e: React.FormEvent) => {
@@ -160,7 +168,6 @@ export default function Checkout() {
         setApiError(null);
 
         // Kiểm tra user có tồn tại
-        // Nếu không có user, dừng hàm ngay lập tức để TypeScript không báo lỗi user.id
         if (!isLoggedIn || !user) { 
             alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
             navigate('/login');
@@ -171,7 +178,12 @@ export default function Checkout() {
         const errors: CustomerInfoErrors = {};
         if (!customerInfo.name.trim()) { errors.name = 'Vui lòng nhập tên người nhận.'; }
         if (!customerInfo.phone.trim()) { errors.phone = 'Vui lòng nhập số điện thoại.'; }
-        if (!customerInfo.address.trim()) { errors.address = 'Vui lòng nhập địa chỉ.'; }
+        if (!customerInfo.address.trim()) { 
+            errors.address = 'Vui lòng nhập địa chỉ.'; 
+        } else if (!deliveryCoords) {
+            // Nếu khách nhập tay mà không chọn từ gợi ý -> Không có tọa độ -> Drone không bay được
+            errors.address = 'Vui lòng chọn địa chỉ từ danh sách gợi ý để Drone có thể định vị.';
+        }
         
         if (Object.keys(errors).length > 0) {
             setValidationErrors(errors);
@@ -197,6 +209,7 @@ export default function Checkout() {
           paymentMethod: paymentMethod, 
           status: 'Pending', 
           createdAt: new Date().toISOString(),
+          deliveryLocation: deliveryCoords,
         };
 
         try {
@@ -223,6 +236,7 @@ export default function Checkout() {
     const finalDiscount = discount > 0 ? totalAmount * discount : 0;
     const finalSubtotal = totalAmount - finalDiscount;
     const finalTotal = finalSubtotal + DELIVERY_FEE;
+    
     const handleCouponApply = () => {
         if (coupon.toLowerCase() === 'foodfast10') {
             alert('Áp dụng mã khuyến mãi thành công!');
@@ -264,16 +278,20 @@ export default function Checkout() {
                             {validationErrors.phone && <p style={{color: '#F72D57', fontSize: '0.8rem', marginTop: '5px'}}>{validationErrors.phone}</p>}
                         </InputGroup>
                         <InputGroup>
-                            <label style={{ marginBottom: '5px', display: 'block' }}>Địa chỉ nhận hàng</label>
-                            <Input 
-                                placeholder="Nhập địa chỉ" 
-                                value={customerInfo.address} 
-                                onChange={e => setCustomerInfo({...customerInfo, address: e.target.value})} 
-                                $error={validationErrors.address ? 'true' : undefined}
-                                disabled={loading}
+                            <label style={{ marginBottom: '5px', display: 'block', fontWeight: 'bold' }}>
+                                Địa chỉ nhận hàng (Google Maps)
+                            </label>
+                            <AddressAutocomplete 
+                                onSelect={handleAddressSelect} 
+                                defaultValue={customerInfo.address}
                             />
-                            {validationErrors.address && <p style={{color: '#F72D57', fontSize: '0.8rem', marginTop: '5px'}}>{validationErrors.address}</p>}
+                            {validationErrors.address && (
+                                <p style={{color: '#F72D57', fontSize: '0.8rem', marginTop: '5px'}}>
+                                    {validationErrors.address}
+                                </p>
+                            )}
                         </InputGroup>
+                        
                        </SectionCard>
                     <SectionCard>
                         <Heading><FaTicketAlt color="#F72D57" /> Mã khuyến mãi</Heading>

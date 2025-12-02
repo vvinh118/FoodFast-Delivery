@@ -1,4 +1,5 @@
 // packages/core/src/types/product.ts
+import { Coordinates } from './common';
 
 export interface Restaurant {
   id: string | number;
@@ -15,6 +16,7 @@ export interface Restaurant {
   isAcceptingOrders?: boolean; // Trạng thái đóng/mở cửa của Merchant
   openingTime?: string;
   closingTime?: string;
+  location?: Coordinates;
 }
 
 export interface Category {
@@ -30,6 +32,5 @@ export interface MenuItem {
     price: number;
     description: string;
     imageUrl: string;
-    category: string;
     isAvailable?: boolean;
 }

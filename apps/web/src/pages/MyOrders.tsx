@@ -32,7 +32,6 @@ const MyOrders: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    // Gọi API bằng useEffect
     useEffect(() => {
       if (!isLoggedIn || !user) {
         setError("Vui lòng đăng nhập để xem lịch sử đơn hàng.");
@@ -40,20 +39,29 @@ const MyOrders: React.FC = () => {
         return;
       }
 
-      const loadOrders = async () => {
+      const loadOrders = async (isBackground = false) => {
         try {
-          setLoading(true);
+          // Chỉ hiện loading xoay xoay ở lần đầu
+          if (!isBackground) setLoading(true);
           setError(null);
+          
           const data = await fetchMyOrders(user.id);
           setOrders(data as Order[]);
         } catch (err: any) {
-          setError(err.message || "Không thể tải lịch sử đơn hàng.");
+          console.error(err);
+          if (!isBackground) setError(err.message || "Không thể tải lịch sử đơn hàng.");
         } finally {
-          setLoading(false);
+          if (!isBackground) setLoading(false);
         }
       };
 
       loadOrders();
+
+      const intervalId = setInterval(() => {
+          loadOrders(true);
+      }, 5000);
+      return () => clearInterval(intervalId);
+
     }, [user, isLoggedIn]); // Chạy lại nếu user thay đổi
 
 

@@ -1,20 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
-import { fetchMerchantMenu, addMenuItem, updateMenuItem, deleteMenuItem, useMerchantStore } from 'core';
+import { fetchMerchantMenu, addMenuItem, updateMenuItem, deleteMenuItem, useMerchantStore, type MenuItem } from 'core';
 import Button from '../../components/Button';
 import InputField from '../../components/InputField';
-
-// === TYPES ===
-interface MenuItem {
-    id: string;
-    restaurantId: string;
-    name: string;
-    price: number;
-    description: string;
-    imageUrl: string;
-    isAvailable?: boolean; // Trạng thái còn hàng/hết hàng
-}
 
 // === STYLED COMPONENTS ===
 const Container = styled.div``;
@@ -234,7 +223,7 @@ const MerchantMenu: React.FC = () => {
     // Xử lý mở form sửa
     const handleOpenEdit = (item: MenuItem) => {
         setFormData({
-            id: item.id,
+            id: String(item.id),
             name: item.name,
             price: item.price.toString(),
             description: item.description,
@@ -255,7 +244,7 @@ const MerchantMenu: React.FC = () => {
             price: Number(formData.price),
             description: formData.description,
             imageUrl: formData.imageUrl,
-            restaurantId: merchant.restaurantId, // ID quán
+            restaurantId: merchant.restaurantId,
             isAvailable: formData.isAvailable
         };
 
@@ -265,7 +254,7 @@ const MerchantMenu: React.FC = () => {
             } else {
                 await addMenuItem(itemData);
             }
-            await loadMenu(); // Reload lại danh sách
+            await loadMenu();
             setIsModalOpen(false);
         } catch (error) {
             alert("Có lỗi xảy ra!");
@@ -288,13 +277,11 @@ const MerchantMenu: React.FC = () => {
     const handleToggleStatus = async (item: MenuItem) => {
         const newStatus = !item.isAvailable;
         try {
-            // Cập nhật state UI ngay lập tức cho mượt
             setMenuItems(prev => prev.map(i => i.id === item.id ? { ...i, isAvailable: newStatus } : i));
-            // Gọi API
             await updateMenuItem(item.id, { isAvailable: newStatus });
         } catch (error) {
             console.error("Lỗi cập nhật trạng thái");
-            loadMenu(); // Revert nếu lỗi
+            loadMenu();
         }
     };
 
@@ -338,7 +325,7 @@ const MerchantMenu: React.FC = () => {
                                     </ActionBtn>
                                     
                                     {/* Nút Xóa */}
-                                    <ActionBtn $danger onClick={() => handleDelete(item.id)}>
+                                    <ActionBtn $danger onClick={() => handleDelete(String(item.id))}>
                                         <FaTrash />
                                     </ActionBtn>
                                 </CardActions>

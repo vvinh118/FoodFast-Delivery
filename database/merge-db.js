@@ -17,6 +17,8 @@ try {
         categories: require(path.join(sourceFolder, 'categories.json')),
         menuItems: require(path.join(sourceFolder, 'menuItems.json')),
         orders: require(path.join(sourceFolder, 'orders.json')),
+        drones: require(path.join(sourceFolder, 'drones.json')),
+        droneHubs: require(path.join(sourceFolder, 'droneHubs.json')),
     };
 
     // 3. KIỂM TRA THƯ MỤC ĐÍCH

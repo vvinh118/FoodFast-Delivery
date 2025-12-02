@@ -1,32 +1,8 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import styled from 'styled-components';
-import { FaSearch, FaEye, FaFileDownload } from 'react-icons/fa';
-import { fetchOrders, useMerchantStore } from 'core';
-
-// Import Modal chi tiết
+import { FaSearch, FaEye } from 'react-icons/fa';
+import { fetchOrders, useMerchantStore, type Order } from 'core';
 import OrderDetailModal from '../../components/merchant/OrderDetailModal';
-
-// === TYPES ===
-export interface OrderItem {
-    id: string;
-    name: string;
-    quantity: number;
-    price: number;
-    restaurantId?: string;
-}
-
-export interface Order {
-    id: string;
-    userId: string;
-    userName: string; 
-    userPhone: string;
-    userAddress: string;
-    items: OrderItem[];
-    total: number;
-    paymentMethod: string;
-    status: 'Pending' | 'Preparing' | 'Ready' | 'Delivering' | 'Delivered' | 'Cancelled'; 
-    createdAt: string;
-}
 
 // === STYLED COMPONENTS ===
 const Container = styled.div``;
@@ -47,19 +23,15 @@ const MerchantHistory: React.FC = () => {
     const merchant = useMerchantStore(state => state.merchant);
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
-    
-    // State cho bộ lọc
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('ALL'); 
-
-    // State cho Modal chi tiết
     const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
     useEffect(() => {
         if (merchant?.restaurantId) {
             setLoading(true);
             fetchOrders()
-                .then((allData: any[]) => {
+                .then((allData: Order[]) => {
                     const historyOrders = allData.filter(o => 
                         o.items.some((i: any) => String(i.restaurantId) === String(merchant.restaurantId)) &&
                         (o.status === 'Delivered' || o.status === 'Cancelled')
@@ -76,7 +48,7 @@ const MerchantHistory: React.FC = () => {
             if (statusFilter !== 'ALL' && order.status !== statusFilter) return false;
             const searchLower = searchTerm.toLowerCase();
             return (
-                order.id.toLowerCase().includes(searchLower) ||
+                String(order.id).toLowerCase().includes(searchLower) ||
                 order.userName.toLowerCase().includes(searchLower)
             );
         });
@@ -90,17 +62,11 @@ const MerchantHistory: React.FC = () => {
         return `${d.toLocaleDateString('vi-VN')} ${d.toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'})}`;
     };
 
-    // Helper tính toán
     const calculateMetrics = (order: Order) => {
         const totalQuantity = order.items.reduce((sum, item) => sum + item.quantity, 0);
-        
-        // CÔNG THỨC MỚI: 
-        // 1. Doanh thu món = Tổng thanh toán - Ship (20k)
-        // 2. Thực nhận = Doanh thu món * 80% (trừ 20% sàn)
         const SHIPPING_FEE = 20000;
         const revenue = order.total - SHIPPING_FEE;
         const netIncome = revenue > 0 ? revenue * 0.8 : 0;
-
         return { totalQuantity, netIncome };
     };
 
@@ -113,9 +79,6 @@ const MerchantHistory: React.FC = () => {
                     <Title>Lịch sử Đơn hàng</Title>
                     <Subtitle>Xem lại các đơn hàng đã hoàn thành hoặc đã hủy.</Subtitle>
                 </div>
-                <ActionButton onClick={() => alert('Tính năng xuất Excel đang phát triển!')}>
-                    <FaFileDownload /> Xuất báo cáo
-                </ActionButton>
             </Header>
 
             <Toolbar>
@@ -129,10 +92,7 @@ const MerchantHistory: React.FC = () => {
                     />
                 </SearchBox>
                 
-                <FilterSelect 
-                    value={statusFilter} 
-                    onChange={(e) => setStatusFilter(e.target.value)}
-                >
+                <FilterSelect value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
                     <option value="ALL">Tất cả trạng thái</option>
                     <option value="Delivered">Đã giao thành công</option>
                     <option value="Cancelled">Đã hủy / Từ chối</option>
@@ -149,7 +109,7 @@ const MerchantHistory: React.FC = () => {
                                 <th>Mã Đơn</th>
                                 <th>Khách hàng</th>
                                 <th>Thời gian</th>
-                                <th>Món ăn (Tổng SL)</th>
+                                <th>Món ăn</th>
                                 <th>Tổng thanh toán</th>
                                 <th style={{color: '#f72d57'}}>Thực nhận</th>
                                 <th>Trạng thái</th>
@@ -161,7 +121,7 @@ const MerchantHistory: React.FC = () => {
                                 const { totalQuantity, netIncome } = calculateMetrics(order);
                                 return (
                                     <tr key={order.id}>
-                                        <td><strong>#{order.id.substring(0, 6)}</strong></td>
+                                        <td><strong>#{String(order.id).substring(0, 6)}</strong></td>
                                         <td>
                                             <div style={{fontWeight: 'bold'}}>{order.userName}</div>
                                             <div style={{fontSize: '0.8rem', color: '#888'}}>{order.userPhone}</div>
@@ -169,13 +129,8 @@ const MerchantHistory: React.FC = () => {
                                         <td>{formatDate(order.createdAt)}</td>
                                         <td>
                                             <div style={{fontWeight: 'bold'}}>{totalQuantity} món</div>
-                                            <div style={{fontSize: '0.8rem', color: '#888', maxWidth: '200px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>
-                                                {order.items.map(i => `${i.quantity} ${i.name}`).join(', ')}
-                                            </div>
                                         </td>
-                                        <td style={{fontWeight: 'bold'}}>
-                                            {formatCurrency(order.total)}
-                                        </td>
+                                        <td style={{fontWeight: 'bold'}}>{formatCurrency(order.total)}</td>
                                         <td style={{fontWeight: 'bold', color: '#f72d57'}}>
                                             {order.status === 'Delivered' ? formatCurrency(netIncome) : '0 ₫'}
                                         </td>
@@ -195,19 +150,11 @@ const MerchantHistory: React.FC = () => {
                         </tbody>
                     </Table>
                 ) : (
-                    <EmptyState>
-                        Không tìm thấy đơn hàng nào phù hợp.
-                    </EmptyState>
+                    <EmptyState>Không tìm thấy đơn hàng nào.</EmptyState>
                 )}
             </TableWrapper>
 
-            {/* HIỂN THỊ MODAL NẾU CÓ SELECTED ORDER */}
-            {selectedOrder && (
-                <OrderDetailModal 
-                    order={selectedOrder} 
-                    onClose={() => setSelectedOrder(null)} 
-                />
-            )}
+            {selectedOrder && <OrderDetailModal order={selectedOrder} onClose={() => setSelectedOrder(null)} />}
         </Container>
     );
 };

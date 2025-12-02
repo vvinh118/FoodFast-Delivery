@@ -96,8 +96,8 @@ export default function OrderSuccess() {
             Cảm ơn đã tin tưởng FoodFast!
         </SubText>
         
-            <Button to="/home" $width='100%' $margin='30px 0 30px 0'>
-                <FaHome /> Về trang chủ
+            <Button to="/my-orders" $width='100%' $margin='30px 0 30px 0'>
+                <FaHome /> Xem Đơn Hàng
             </Button>
 
 

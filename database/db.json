@@ -143,40 +143,12 @@
       "avatar": "https://i.pravatar.cc/150?img=11"
     },
     {
-      "id": "48d9",
-      "email": "test2@foodfast.vn",
-      "password": "1182004",
-      "role": "customer",
-      "name": "Viết Vinh",
-      "tel": "123213312",
-      "birthday": "2004-11-08"
-    },
-    {
-      "id": "a686",
-      "name": "Phạm Văn A",
-      "tel": "123213123",
-      "birthday": "2004-08-31",
-      "email": "test3@foodfast.vn",
-      "password": "1182004",
-      "role": "customer"
-    },
-    {
-      "id": "ef54",
-      "name": "Nguyễn Văn B",
-      "tel": "0913625400",
-      "birthday": "2000-01-01",
-      "email": "test4@foodfast.vn",
-      "password": "123456",
-      "role": "customer"
-    },
-    {
-      "id": "46ab",
-      "name": "Võ Minh Thư",
-      "tel": "0923625408",
-      "birthday": "2004-08-31",
-      "email": "testtest@foodfast.vn",
-      "password": "123456",
-      "role": "customer"
+      "email": "comga@foodfast.vn",
+      "password": "123",
+      "name": "Chủ quán cơm gà",
+      "role": "merchant",
+      "tel": "0123456987",
+      "id": "a3c_ZjR"
     }
   ],
   "restaurants": [
@@ -184,7 +156,7 @@
       "id": "1",
       "ownerId": "m01",
       "name": "Nem Nướng D'yan - Since 1968",
-      "address": "183 Nguyễn Văn Đậu",
+      "address": "38 Đ. Trương Quyền, Phường 6, Quận 3, Thành phố Hồ Chí Minh",
       "rating": 4.7,
       "distance": 2.9,
       "deliveryTime": 25,
@@ -194,176 +166,252 @@
       "isAcceptingOrders": true,
       "openingTime": "07:00",
       "closingTime": "22:00",
-      "status": "active"
+      "status": "active",
+      "location": {
+        "lat": 10.786860538474437,
+        "lng": 106.6925139546924
+      }
     },
     {
       "id": "2",
       "ownerId": "m02",
       "name": "Jollibee",
-      "address": "200 Lý Chính Thắng",
+      "address": "194 Pasteur, Phường, Xuân Hòa, Thành phố Hồ Chí Minh 700000",
       "rating": 4.5,
       "distance": 2.2,
       "deliveryTime": 20,
       "imageUrl": "https://jollibeemenu.com/wordpress/wp-content/uploads/2024/07/Jollibee-Menu-Prices-Philippines.jpeg",
       "isPromo": true,
       "category": "Gà",
-      "status": "active"
+      "status": "active",
+      "location": {
+        "lat": 10.781633345609768,
+        "lng": 106.69481289271936
+      }
     },
     {
       "id": "3",
       "ownerId": "m03",
       "name": "Mì Trộn Indomie, Gà Rán",
-      "address": "155 Lê Văn Sỹ",
+      "address": "62 Phạm Ngọc Thạch, Phường 6, Quận 3, Thành phố Hồ Chí Minh",
       "rating": 4.7,
       "distance": 2.3,
       "deliveryTime": 30,
       "imageUrl": "https://tse4.mm.bing.net/th/id/OIP.g349_sKPS2INyrS8vSgLlQHaE8",
       "isPromo": false,
       "category": "Bún, Mì, Phở",
-      "status": "active"
+      "status": "active",
+      "location": {
+        "lat": 10.786307856697906,
+        "lng": 106.69249787889227
+      }
     },
     {
       "id": "4",
       "ownerId": "m04",
       "name": "Xôi Mặn - Bánh Bao Trường Sơn",
-      "address": "36 Trường Sơn, P.4, Q.TB",
+      "address": "15 Nguyễn Trung Trực, Phường Bến Thành, Quận 1, Thành phố Hồ Chí Minh",
       "rating": 4.6,
       "distance": 0.8,
       "deliveryTime": 15,
       "imageUrl": "https://tse2.mm.bing.net/th/id/OIP.WnQXS6zgCF0nFxumjcgNXgHaFT",
       "isPromo": true,
       "category": "Thức ăn nhanh",
-      "status": "active"
+      "status": "active",
+      "location": {
+        "lat": 10.774215681166678,
+        "lng": 106.69967429531339
+      }
     },
     {
       "id": "5",
       "ownerId": "m05",
       "name": "Cơm Gà Xối Mỡ - Chú Tư",
-      "address": "18 Thành Thái, P.14, Q.10",
+      "address": "19 Nguyễn Thị Minh Khai, Bến Nghé, Quận 1",
       "rating": 4.8,
       "distance": 3.5,
       "deliveryTime": 35,
       "imageUrl": "https://cdn.xanhsm.com/2025/01/735df340-com-ga-sai-gon-1.jpg",
       "isPromo": false,
       "category": "Cơm",
-      "status": "active"
+      "status": "active",
+      "location": {
+        "lat": 10.78528216526807,
+        "lng": 106.70148697675984
+      }
     },
     {
       "id": "6",
       "ownerId": "m06",
       "name": "Trà Sữa Cheese Bông - Hot Trend",
-      "address": "212 Lý Thường Kiệt, P.15, Q.11",
+      "address": "108 Võ Thị Sáu, Phường Tân Định, Quận 1, Thành phố Hồ Chí Minh 70000",
       "rating": 4.9,
       "distance": 1.1,
       "deliveryTime": 15,
       "imageUrl": "https://tse4.mm.bing.net/th/id/OIP.71cGG9HIkYC_9s-FRLkwTQHaHa",
       "isPromo": true,
       "category": "Trà Sữa",
-      "status": "active"
+      "status": "active",
+      "location": {
+        "lat": 10.7886968840295,
+        "lng": 106.69274866685451
+      }
     },
     {
       "id": "7",
       "ownerId": "m07",
       "name": "Bún Chả Hà Nội - 120 Năm",
-      "address": "118 Cống Quỳnh, P. Phạm Ngũ Lão, Q.1",
+      "address": "118 Cống Quỳnh, Phường Phạm Ngũ Lão, Quận 1, Thành phố Hồ Chí Minh",
       "rating": 4.4,
       "distance": 5.1,
       "deliveryTime": 40,
       "imageUrl": "https://bizweb.dktcdn.net/100/442/328/files/bun-cha-mon-dac-san-binh-di-cua-nguoi-ha-noi-1.jpg?v=1638938776859",
       "isPromo": false,
       "category": "Bún, Mì, Phở",
-      "status": "active"
+      "status": "active",
+      "location": {
+        "lat": 10.76533615704561,
+        "lng": 106.69038651099481
+      }
     },
     {
       "id": "8",
       "ownerId": "m08",
       "name": "Pizza & Pasta Ý - VV",
-      "address": "339 Lê Văn Sỹ, P.1, Q. TB",
+      "address": "224 Nguyễn Thị Minh Khai, Phường 6, Quận 3, Thành phố Hồ Chí Minh",
       "rating": 4.3,
       "distance": 0.5,
       "deliveryTime": 20,
       "imageUrl": "https://img1.wsimg.com/isteam/stock/2982",
       "isPromo": true,
       "category": "Thức ăn nhanh",
-      "status": "active"
+      "status": "active",
+      "location": {
+        "lat": 10.775459363486663,
+        "lng": 106.69077672659166
+      }
     },
     {
       "id": "9",
       "ownerId": "m09",
       "name": "Kem Wall's - ST F-MART 24",
-      "address": "258 Phan Đình Phùng, P.2, Q. Phú Nhuận",
+      "address": "7/12, Nguyễn Trãi, Phường Phạm Ngũ Lão, Quận 1, Thành phố Hồ Chí Minh 700000, Việt Nam",
       "rating": 4.6,
       "distance": 0.5,
       "deliveryTime": 20,
       "imageUrl": "https://bizweb.dktcdn.net/100/093/924/files/kem-hop-3-trong-1-triple-delight-vanilla-lemon-chocolate-walls-840ml-2.jpg",
       "isPromo": true,
       "category": "Kem",
-      "status": "active"
+      "status": "active",
+      "location": {
+        "lat": 10.77082187783058,
+        "lng": 106.69308722039655
+      }
     },
     {
       "id": "10",
       "ownerId": "m10",
       "name": "Thế Giới Donut",
-      "address": "124 Hai Bà Trưng, P.6, Q.3",
+      "address": "210 Hai Bà Trưng, Phường Tân Định, Quận 1, Thành phố Hồ Chí Minh",
       "rating": 4.6,
       "distance": 0.5,
       "deliveryTime": 20,
       "imageUrl": "https://tse4.mm.bing.net/th/id/OIP._RHtf6pxnrUkhaWDxrmeKQHaHa",
       "isPromo": true,
       "category": "Bánh",
-      "status": "active"
+      "status": "active",
+      "location": {
+        "lat": 10.788251832517664,
+        "lng": 106.69186204101429
+      }
     },
     {
       "id": "11",
       "ownerId": "m11",
       "name": "KFC",
-      "address": "111 Nguyễn Thái Bình",
+      "address": "14 Phạm Ngọc Thạch, Phường 6, Quận 3, Thành phố Hồ Chí Minh",
       "rating": 4.5,
       "distance": 2.2,
       "deliveryTime": 20,
       "imageUrl": "https://aeonmall-haiphong-lechan.com.vn/wp-content/uploads/2020/10/2_resize.jpg",
       "isPromo": true,
       "category": "Gà",
-      "status": "active"
+      "status": "active",
+      "location": {
+        "lat": 10.78408068106709,
+        "lng": 106.69581770939111
+      }
     },
     {
       "id": "12",
       "ownerId": "m12",
       "name": "Popyes",
-      "address": "201 Lý Chính Thắng",
+      "address": "326 An Dương Vương, Phường 4, Quận 5, Thành phố Hồ Chí Minh",
       "rating": 4.5,
       "distance": 2.2,
       "deliveryTime": 20,
       "imageUrl": "https://tb-static.uber.com/prod/image-proc/processed_images/ccd54526c695b0983481e9ce407ad5ad/719c6bd2757b08684c0faae44d43159d.jpeg",
       "isPromo": true,
       "category": "Gà",
-      "status": "active"
+      "status": "active",
+      "location": {
+        "lat": 10.761763371042866,
+        "lng": 106.68142885595257
+      }
     },
     {
       "id": "13",
       "ownerId": "m13",
       "name": "3 Râu - Gà Rán Pizza & Trà Sữa",
-      "address": "191 Nguyễn Tiểu La",
+      "address": "361A Nguyễn Đình Chiểu, Phường 5, Quận 3, Thành phố Hồ Chí Minh",
       "rating": 4.5,
       "distance": 2.2,
       "deliveryTime": 20,
       "imageUrl": "https://tse3.mm.bing.net/th/id/OIP.4o98zuIor0zIGSloJFZ_DAHaEo",
       "isPromo": true,
       "category": "Gà",
-      "status": "active"
+      "status": "active",
+      "location": {
+        "lat": 10.772270524820858,
+        "lng": 106.68371111879263
+      }
     },
     {
       "id": "14",
       "ownerId": "m14",
       "name": "Lotteria",
-      "address": "118 Lê Lợi",
+      "address": "250B Lý Chính Thắng, Phường 9, Quận 3, Thành phố Hồ Chí Minh",
       "rating": 4.5,
       "distance": 2.2,
       "deliveryTime": 20,
       "imageUrl": "https://tse4.mm.bing.net/th/id/OIP.C6XBtQjroK22AuqAjPMhsgHaHa?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
       "isPromo": true,
       "category": "Gà",
-      "status": "active"
+      "status": "active",
+      "location": {
+        "lat": 10.781161264981273,
+        "lng": 106.68197590742605
+      }
+    },
+    {
+      "id": "1764635717485",
+      "ownerId": "a3c_ZjR",
+      "name": "Cơm Gà Phú Yên",
+      "address": "Nhà thờ Đức Bà - 01 Công xã Paris, P. Bến Nghé, Q.1",
+      "rating": 5,
+      "deliveryTime": 30,
+      "distance": 1,
+      "imageUrl": "https://placehold.co/600x400/png?text=New+Restaurant",
+      "category": "Cơm",
+      "isPromo": false,
+      "status": "active",
+      "openingTime": "07:00",
+      "closingTime": "22:00",
+      "isAcceptingOrders": true,
+      "location": {
+        "lat": 10.7798,
+        "lng": 106.699
+      }
     }
   ],
   "categories": [
@@ -827,65 +875,23 @@
       "price": 29500,
       "description": "Khoai Tây Chiên Vừa thơm ngon.",
       "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg"
+    },
+    {
+      "name": "Cơm Gà 12312",
+      "price": 45000,
+      "description": "Cơm Gà 12312 Cơm Gà 12312",
+      "imageUrl": "https://th.bing.com/th/id/OIP.CVfTRzQfhtm9d35IPsraUgHaEK?w=329&h=185&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+      "restaurantId": "1764635717485",
+      "isAvailable": true,
+      "id": "SGBzo0b"
     }
   ],
   "orders": [
     {
-      "id": "f89f",
-      "userId": "48d9",
-      "userName": "vinhdeptrai",
-      "userPhone": "091473212",
-      "userAddress": "77 dang huy ta",
-      "items": [
-        {
-          "id": "101",
-          "name": "Nem Nướng Cuốn Bánh Tráng",
-          "price": 65000,
-          "imageUrl": "https://toplist.vn/images/800px/nem-nuong-bun-thit-nuong-quan-cua-ma-1143319.jpg",
-          "restaurantId": "1",
-          "restaurantName": "Nem Nướng D'yan - Since 1968",
-          "quantity": 3
-        }
-      ],
-      "total": 195500,
-      "subtotal": 195000,
-      "deliveryFee": 20000,
-      "discount": 19500,
-      "paymentMethod": "card",
-      "status": "Delivered",
-      "createdAt": "2025-11-10T20:55:58.528Z"
-    },
-    {
-      "id": "84f0",
-      "userId": "48d9",
-      "userName": "vinhdeptrai",
-      "userPhone": "123213312",
-      "userAddress": "hcm",
-      "items": [
-        {
-          "id": "1301",
-          "name": "Combo Gà Rán 2 Miếng + Pepsi",
-          "price": 59000,
-          "imageUrl": "https://i.imgur.com/7gK5xQf.jpeg",
-          "restaurantId": "13",
-          "restaurantName": "3 Râu - Gà Rán Pizza & Trà Sữa",
-          "quantity": 2
-        }
-      ],
-      "total": 138000,
-      "subtotal": 118000,
-      "deliveryFee": 20000,
-      "discount": 0,
-      "paymentMethod": "cod",
-      "status": "Delivered",
-      "createdAt": "2025-11-10T21:35:57.199Z"
-    },
-    {
-      "id": "c438",
-      "userId": "48d9",
-      "userName": "vinhdeptrai",
-      "userPhone": "123213312",
-      "userAddress": "hcm",
+      "userId": "1",
+      "userName": "Võ Minh Thư",
+      "userPhone": "0123456987",
+      "userAddress": "Landmark 81 - 720A Điện Biên Phủ, P. 22, Bình Thạnh",
       "items": [
         {
           "id": "101",
@@ -902,15 +908,19 @@
       "deliveryFee": 20000,
       "discount": 0,
       "paymentMethod": "cod",
-      "status": "Cancelled",
-      "createdAt": "2025-11-10T21:42:48.289Z"
+      "status": "Delivered",
+      "createdAt": "2025-11-29T19:10:30.556Z",
+      "deliveryLocation": {
+        "lat": 10.7958,
+        "lng": 106.7219
+      },
+      "id": "HAvrvqO"
     },
     {
-      "id": "e4ce",
-      "userId": "48d9",
-      "userName": "vinhdeptrai",
-      "userPhone": "123213312",
-      "userAddress": "gv hcm",
+      "userId": "1",
+      "userName": "Võ Minh Thư",
+      "userPhone": "0123456987",
+      "userAddress": "Sân bay Tân Sơn Nhất - Đường Trường Sơn, P. 2, Tân Bình",
       "items": [
         {
           "id": "101",
@@ -925,26 +935,30 @@
           "id": "102",
           "name": "Nem Nướng Lẻ",
           "price": 35000,
-          "imageUrl": "https://i.imgur.com/i9O3L6F.jpeg",
+          "imageUrl": "https://bloganchoi.com/wp-content/uploads/2022/10/nem-nuong.jpg",
           "restaurantId": "1",
           "restaurantName": "Nem Nướng D'yan - Since 1968",
-          "quantity": 3
+          "quantity": 1
         }
       ],
-      "total": 255000,
-      "subtotal": 235000,
+      "total": 185000,
+      "subtotal": 165000,
       "deliveryFee": 20000,
       "discount": 0,
       "paymentMethod": "cod",
       "status": "Delivered",
-      "createdAt": "2025-11-10T21:54:43.437Z"
+      "createdAt": "2025-12-01T16:06:25.315Z",
+      "deliveryLocation": {
+        "lat": 10.8185,
+        "lng": 106.6588
+      },
+      "id": "EcvxDCa"
     },
     {
-      "id": "ef9b",
       "userId": "1",
       "userName": "Võ Minh Thư",
-      "userPhone": "111",
-      "userAddress": "hcm",
+      "userPhone": "0123456987",
+      "userAddress": "Chợ Bến Thành - Đường Lê Lợi, P. Bến Thành, Quận 1",
       "items": [
         {
           "id": "101",
@@ -953,23 +967,150 @@
           "imageUrl": "https://toplist.vn/images/800px/nem-nuong-bun-thit-nuong-quan-cua-ma-1143319.jpg",
           "restaurantId": "1",
           "restaurantName": "Nem Nướng D'yan - Since 1968",
+          "quantity": 3
+        },
+        {
+          "id": "103",
+          "name": "Bún Nem Nướng Chả Giò",
+          "price": 50000,
+          "imageUrl": "https://www.lavieasaigon.fr/wp-content/uploads/2017/05/bo-bun.jpg",
+          "restaurantId": "1",
+          "restaurantName": "Nem Nướng D'yan - Since 1968",
+          "quantity": 1
+        },
+        {
+          "id": "105",
+          "name": "Trà Tắc Giải Nhiệt",
+          "price": 18000,
+          "imageUrl": "https://tse1.mm.bing.net/th/id/OIP.CHXJr9zzzMiu-Oc8oXYU2gHaE8?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+          "restaurantId": "1",
+          "restaurantName": "Nem Nướng D'yan - Since 1968",
           "quantity": 1
         }
       ],
-      "total": 85000,
-      "subtotal": 65000,
+      "total": 283000,
+      "subtotal": 263000,
+      "deliveryFee": 20000,
+      "discount": 0,
+      "paymentMethod": "cod",
+      "status": "Delivered",
+      "createdAt": "2025-12-01T17:55:08.651Z",
+      "deliveryLocation": {
+        "lat": 10.7725,
+        "lng": 106.698
+      },
+      "id": "DVvlkCv"
+    },
+    {
+      "userId": "1",
+      "userName": "Võ Minh Thư",
+      "userPhone": "0123456987",
+      "userAddress": "Chợ Bến Thành - Đường Lê Lợi, P. Bến Thành, Quận 1",
+      "items": [
+        {
+          "id": "101",
+          "name": "Nem Nướng Cuốn Bánh Tráng",
+          "price": 65000,
+          "imageUrl": "https://toplist.vn/images/800px/nem-nuong-bun-thit-nuong-quan-cua-ma-1143319.jpg",
+          "restaurantId": "1",
+          "restaurantName": "Nem Nướng D'yan - Since 1968",
+          "quantity": 2
+        }
+      ],
+      "total": 150000,
+      "subtotal": 130000,
+      "deliveryFee": 20000,
+      "discount": 0,
+      "paymentMethod": "cod",
+      "status": "Delivered",
+      "createdAt": "2025-12-01T18:01:29.694Z",
+      "deliveryLocation": {
+        "lat": 10.7725,
+        "lng": 106.698
+      },
+      "id": "p29xdPO"
+    },
+    {
+      "userId": "1",
+      "userName": "Võ Minh Thư",
+      "userPhone": "0123456987",
+      "userAddress": "Chợ Bến Thành - Đường Lê Lợi, P. Bến Thành, Quận 1",
+      "items": [
+        {
+          "id": "101",
+          "name": "Nem Nướng Cuốn Bánh Tráng",
+          "price": 65000,
+          "imageUrl": "https://toplist.vn/images/800px/nem-nuong-bun-thit-nuong-quan-cua-ma-1143319.jpg",
+          "restaurantId": "1",
+          "restaurantName": "Nem Nướng D'yan - Since 1968",
+          "quantity": 2
+        },
+        {
+          "id": "105",
+          "name": "Trà Tắc Giải Nhiệt",
+          "price": 18000,
+          "imageUrl": "https://tse1.mm.bing.net/th/id/OIP.CHXJr9zzzMiu-Oc8oXYU2gHaE8?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+          "restaurantId": "1",
+          "restaurantName": "Nem Nướng D'yan - Since 1968",
+          "quantity": 1
+        }
+      ],
+      "total": 168000,
+      "subtotal": 148000,
       "deliveryFee": 20000,
       "discount": 0,
       "paymentMethod": "cod",
       "status": "Cancelled",
-      "createdAt": "2025-11-10T22:09:10.657Z"
+      "createdAt": "2025-12-02T00:30:25.575Z",
+      "deliveryLocation": {
+        "lat": 10.7725,
+        "lng": 106.698
+      },
+      "id": "2NkjKhb"
     },
     {
-      "id": "9713",
       "userId": "1",
       "userName": "Võ Minh Thư",
-      "userPhone": "123",
-      "userAddress": "hcm",
+      "userPhone": "0123456987",
+      "userAddress": "Chợ Bến Thành - Đường Lê Lợi, P. Bến Thành, Quận 1",
+      "items": [
+        {
+          "id": "102",
+          "name": "Nem Nướng Lẻ",
+          "price": 35000,
+          "imageUrl": "https://bloganchoi.com/wp-content/uploads/2022/10/nem-nuong.jpg",
+          "restaurantId": "1",
+          "restaurantName": "Nem Nướng D'yan - Since 1968",
+          "quantity": 1
+        },
+        {
+          "id": "104",
+          "name": "Gỏi Cuốn Nem Nướng (3 Cuốn)",
+          "price": 40000,
+          "imageUrl": "https://ticketgo.vn/photos/70/hinhanh-tintuc/5fc0b783679f9.jpg",
+          "restaurantId": "1",
+          "restaurantName": "Nem Nướng D'yan - Since 1968",
+          "quantity": 1
+        }
+      ],
+      "total": 95000,
+      "subtotal": 75000,
+      "deliveryFee": 20000,
+      "discount": 0,
+      "paymentMethod": "cod",
+      "status": "Delivered",
+      "createdAt": "2025-12-02T00:31:25.372Z",
+      "deliveryLocation": {
+        "lat": 10.7725,
+        "lng": 106.698
+      },
+      "id": "3dECvmn"
+    },
+    {
+      "userId": "1",
+      "userName": "Võ Minh Thư",
+      "userPhone": "0123456987",
+      "userAddress": "Dinh Độc Lập - 135 Nam Kỳ Khởi Nghĩa, P. Bến Thành, Quận 1",
       "items": [
         {
           "id": "101",
@@ -978,41 +1119,237 @@
           "imageUrl": "https://toplist.vn/images/800px/nem-nuong-bun-thit-nuong-quan-cua-ma-1143319.jpg",
           "restaurantId": "1",
           "restaurantName": "Nem Nướng D'yan - Since 1968",
-          "quantity": 3
-        }
-      ],
-      "total": 215000,
-      "subtotal": 195000,
-      "deliveryFee": 20000,
-      "discount": 0,
-      "paymentMethod": "card",
-      "status": "Delivered",
-      "createdAt": "2025-11-10T22:09:59.986Z"
-    },
-    {
-      "id": "8abe",
-      "userId": "1",
-      "userName": "Võ Minh Thư",
-      "userPhone": "1232",
-      "userAddress": "hcm",
-      "items": [
+          "quantity": 1
+        },
         {
-          "id": "302",
-          "name": "Mì Xào Giòn Hải Sản",
-          "price": 69000,
-          "imageUrl": "https://i.imgur.com/k2H5yRz.jpeg",
-          "restaurantId": "3",
-          "restaurantName": "Mì Trộn Indomie, Gà Rán",
+          "id": "102",
+          "name": "Nem Nướng Lẻ",
+          "price": 35000,
+          "imageUrl": "https://bloganchoi.com/wp-content/uploads/2022/10/nem-nuong.jpg",
+          "restaurantId": "1",
+          "restaurantName": "Nem Nướng D'yan - Since 1968",
           "quantity": 1
         }
       ],
-      "total": 89000,
-      "subtotal": 69000,
+      "total": 120000,
+      "subtotal": 100000,
       "deliveryFee": 20000,
       "discount": 0,
-      "paymentMethod": "card",
+      "paymentMethod": "cod",
       "status": "Delivered",
-      "createdAt": "2025-11-11T00:54:43.291Z"
+      "createdAt": "2025-12-02T00:32:08.838Z",
+      "deliveryLocation": {
+        "lat": 10.7769,
+        "lng": 106.6953
+      },
+      "id": "z9U_JDc"
+    },
+    {
+      "userId": "1",
+      "userName": "Võ Minh Thư",
+      "userPhone": "0123456987",
+      "userAddress": "Chợ Bến Thành - Đường Lê Lợi, P. Bến Thành, Quận 1",
+      "items": [
+        {
+          "id": "SGBzo0b",
+          "name": "Cơm Gà 12312",
+          "price": 45000,
+          "imageUrl": "https://th.bing.com/th/id/OIP.CVfTRzQfhtm9d35IPsraUgHaEK?w=329&h=185&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+          "restaurantId": "1764635717485",
+          "restaurantName": "Cơm Gà Phú Yên",
+          "quantity": 3
+        }
+      ],
+      "total": 155000,
+      "subtotal": 135000,
+      "deliveryFee": 20000,
+      "discount": 0,
+      "paymentMethod": "cod",
+      "status": "Delivered",
+      "createdAt": "2025-12-02T00:39:56.512Z",
+      "deliveryLocation": {
+        "lat": 10.7725,
+        "lng": 106.698
+      },
+      "id": "YTxl19T"
+    },
+    {
+      "userId": "1",
+      "userName": "Võ Minh Thư",
+      "userPhone": "0123456987",
+      "userAddress": "Bitexco Financial Tower - 2 Hải Triều, Q.1",
+      "items": [
+        {
+          "id": "SGBzo0b",
+          "name": "Cơm Gà 12312",
+          "price": 45000,
+          "imageUrl": "https://th.bing.com/th/id/OIP.CVfTRzQfhtm9d35IPsraUgHaEK?w=329&h=185&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+          "restaurantId": "1764635717485",
+          "restaurantName": "Cơm Gà Phú Yên",
+          "quantity": 2
+        }
+      ],
+      "total": 110000,
+      "subtotal": 90000,
+      "deliveryFee": 20000,
+      "discount": 0,
+      "paymentMethod": "cod",
+      "status": "Delivered",
+      "createdAt": "2025-12-02T01:05:05.512Z",
+      "deliveryLocation": {
+        "lat": 10.7716,
+        "lng": 106.7044
+      },
+      "id": "VDT3xKv"
+    },
+    {
+      "userId": "1",
+      "userName": "Võ Minh Thư",
+      "userPhone": "0123456987",
+      "userAddress": "Phố đi bộ Nguyễn Huệ - Nguyễn Huệ, P. Bến Nghé, Q.1",
+      "items": [
+        {
+          "id": "SGBzo0b",
+          "name": "Cơm Gà 12312",
+          "price": 45000,
+          "imageUrl": "https://th.bing.com/th/id/OIP.CVfTRzQfhtm9d35IPsraUgHaEK?w=329&h=185&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+          "restaurantId": "1764635717485",
+          "restaurantName": "Cơm Gà Phú Yên",
+          "quantity": 2
+        }
+      ],
+      "total": 110000,
+      "subtotal": 90000,
+      "deliveryFee": 20000,
+      "discount": 0,
+      "paymentMethod": "cod",
+      "status": "Cancelled",
+      "createdAt": "2025-12-02T01:06:09.631Z",
+      "deliveryLocation": {
+        "lat": 10.7744,
+        "lng": 106.7035
+      },
+      "id": "Gc8MbkC"
+    }
+  ],
+  "drones": [
+    {
+      "id": "D01",
+      "hubId": "hub_01",
+      "status": "idle",
+      "battery": 100,
+      "currentLat": 10.7769,
+      "currentLng": 106.7009,
+      "currentOrderId": null,
+      "origin": {
+        "lat": 10.7798,
+        "lng": 106.699
+      },
+      "destination": {
+        "lat": 10.7716,
+        "lng": 106.7044
+      }
+    },
+    {
+      "id": "D02",
+      "hubId": "hub_01",
+      "status": "idle",
+      "battery": 100,
+      "currentLat": 10.7769,
+      "currentLng": 106.7009,
+      "currentOrderId": null,
+      "origin": {
+        "lat": 10.786860538474437,
+        "lng": 106.6925139546924
+      },
+      "destination": {
+        "lat": 10.7769,
+        "lng": 106.6953
+      }
+    },
+    {
+      "id": "D03",
+      "hubId": "hub_01",
+      "status": "idle",
+      "battery": 100,
+      "currentLat": 10.7769,
+      "currentLng": 106.7009
+    },
+    {
+      "id": "D04",
+      "hubId": "hub_01",
+      "status": "idle",
+      "battery": 100,
+      "currentLat": 10.7769,
+      "currentLng": 106.7009
+    },
+    {
+      "id": "D05",
+      "hubId": "hub_01",
+      "status": "idle",
+      "battery": 100,
+      "currentLat": 10.7769,
+      "currentLng": 106.7009
+    },
+    {
+      "id": "D06",
+      "hubId": "hub_02",
+      "status": "idle",
+      "battery": 100,
+      "currentLat": 10.7721,
+      "currentLng": 106.6579
+    },
+    {
+      "id": "D07",
+      "hubId": "hub_02",
+      "status": "idle",
+      "battery": 100,
+      "currentLat": 10.7721,
+      "currentLng": 106.6579
+    },
+    {
+      "id": "D08",
+      "hubId": "hub_02",
+      "status": "idle",
+      "battery": 100,
+      "currentLat": 10.7721,
+      "currentLng": 106.6579
+    },
+    {
+      "id": "D09",
+      "hubId": "hub_02",
+      "status": "idle",
+      "battery": 100,
+      "currentLat": 10.7721,
+      "currentLng": 106.6579
+    },
+    {
+      "id": "D10",
+      "hubId": "hub_02",
+      "status": "idle",
+      "battery": 100,
+      "currentLat": 10.7721,
+      "currentLng": 106.6579
+    }
+  ],
+  "droneHubs": [
+    {
+      "id": "hub_01",
+      "name": "Trạm Drone Quận 1 (Dinh Độc Lập)",
+      "location": {
+        "lat": 10.7769,
+        "lng": 106.7009
+      },
+      "capacity": 5
+    },
+    {
+      "id": "hub_02",
+      "name": "Trạm Drone Quận 10 (ĐH Bách Khoa)",
+      "location": {
+        "lat": 10.7721,
+        "lng": 106.6579
+      },
+      "capacity": 5
     }
   ]
 }

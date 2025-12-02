@@ -34,6 +34,8 @@ import UserManagement from "./pages/Admin/UserManagement";
 import AdminLayout from "./components/Layouts/AdminLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 
+import OrderTracking from "./pages/OrderTracking";
+
 function App() {
   const isLoggedIn = useAuthStore(state => state.isLoggedIn);
   const clearCart = useCartStore(state => state.clearCart);
@@ -58,6 +60,7 @@ function App() {
             <Route path="/restaurant/:id" element={<MenuItemList />} />
             <Route path="/my-orders" element={<MyOrders />} />
             <Route path="/support" element={<Support />} />
+            <Route path="/tracking/:id" element={<OrderTracking />} />
             
             <Route path="/userProfile" element={<UserProfile />}>
                 <Route index element={<GeneralInfo />} /> 
